@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "asabil.meson",
+    "editorconfig.editorconfig",
+    "ms-vscode.cpptools",
+    "notskm.clang-tidy",
+    "redhat.vscode-yaml",
+    "vscode-icons-team.vscode-icons",
+    "wayou.vscode-todo-highlight",
+  ]
+}

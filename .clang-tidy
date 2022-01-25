@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: ISC
+---
+Checks: >-
+  -*,
+  bugprone-*,
+  -bugprone-branch-clone,
+  -bugprone-easily-swappable-parameters,
+  cert-*,
+  -cert-err34-c,
+  cppcoreguidelines-*,
+  -cppcoreguidelines-avoid-non-const-global-variables,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -cppcoreguidelines-pro-type-cstyle-cast,
+  -cppcoreguidelines-pro-type-union-access,
+  -cppcoreguidelines-special-member-functions,
+  misc-*,
+  -misc-no-recursion,
+  -misc-non-private-member-variables-in-classes,
+  performance-*,
+  portability-*,
+  readability-*,
+  -readability-implicit-bool-conversion,
+FormatStyle: none
+HeaderFilterRegex: ""
+WarningsAsErrors: ""

@@ -1,0 +1,28 @@
+# SPDX-License-Identifier: ISC
+
+# Ignore everything
+*
+
+# Include these specific files
+!LICENSE
+
+# Allow traversing specific subdirectories
+!src/
+
+# Include '*.cpp' and '.hpp' files from included directories.
+!**/*.[ch]pp
+
+# Include these files from any included directory.
+!**/.clang-format
+!**/.clang-tidy
+!**/.clangd
+!**/.editorconfig
+!**/.gitignore
+!**/*.md
+!**/meson.build
+
+# Include our VS Code configuration
+!.vscode/
+!.vscode/extensions.json
+!.vscode/README.md
+!.vscode/settings.json
