@@ -1,8 +1,23 @@
 {
+  "C_Cpp.clang_format_style": "file",
   "C_Cpp.default.cppStandard": "c++20",
+  "editorconfig.generateAuto": false,
   "files.associations": {
     ".clangd": "yaml",
     ".clang-format": "yaml",
     ".clang-tidy": "yaml",
-  }
+  },
+  "files.exclude": {
+    "**/builddir/**": true,
+  },
+  "files.watcherExclude": {
+    "**/builddir/**": true,
+  },
+  "search.exclude": {
+    "**/builddir/**": true,
+  },
+  "[cpp]": {
+    "editor.tabSize": 8,
+    "editor.useTabStops": false
+  },
 }
