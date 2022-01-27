@@ -412,9 +412,19 @@ read_keyword(char **input)
 	auto *cursor = *input;
 	auto position = 0;
 
-	while (*cursor && !strchr(" )", *cursor)) {
+	while (*cursor) {
+		switch (*cursor) {
+		case ' ':
+		case ')':
+			break;
+
+		default:
 		++cursor;
 		++position;
+			continue;
+		}
+
+		break;
 	}
 
 	auto *obj = object_new_keyword(strndup(*input, position));
@@ -454,9 +464,19 @@ read_number(char **input)
 	auto *cursor = *input;
 	auto position = 0;
 
-	while (*cursor && !strchr(" )", *cursor)) {
+	while (*cursor) {
+		switch (*cursor) {
+		case ' ':
+		case ')':
+			break;
+
+		default:
 		++cursor;
 		++position;
+			continue;
+		}
+
+		break;
 	}
 
 	auto *obj = object_new_number(atoi(strndup(*input, position)));
@@ -471,9 +491,19 @@ read_quote(char **input)
 	auto *cursor = *input;
 	auto position = 0;
 
-	while (*cursor && !strchr(" )", *cursor)) {
+	while (*cursor) {
+		switch (*cursor) {
+		case ' ':
+		case ')':
+			break;
+
+		default:
 		++cursor;
 		++position;
+			continue;
+		}
+
+		break;
 	}
 
 	auto *obj = object_new_symbol(strndup(*input, position));
@@ -511,9 +541,19 @@ read_symbol(char **input)
 	auto *cursor = *input;
 	auto position = 0;
 
-	while (*cursor && !strchr(" )", *cursor)) {
+	while (*cursor) {
+		switch (*cursor) {
+		case ' ':
+		case ')':
+			break;
+
+		default:
 		++cursor;
 		++position;
+			continue;
+		}
+
+		break;
 	}
 
 	auto *obj = object_new_symbol(strndup(*input, position));
