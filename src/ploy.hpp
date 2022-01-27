@@ -4,6 +4,19 @@
 
 #include <cstdint>
 
+struct Object;
+
+struct Lambda {
+	struct Object *env;
+	struct Object *args;
+	struct Object *body;
+};
+
+struct List {
+	struct Object *car;
+	struct Object *cdr;
+};
+
 struct Object {
 	enum class Type {
 		Nil = 0,
@@ -18,23 +31,16 @@ struct Object {
 		Type,
 	} type;
 
-	union Data {
+	union {
 		bool boolean;
 		char *error;
 		char *keyword;
-		struct Lambda {
-			Object *env;
-			Object *args;
-			Object *body;
-		} * lambda;
-		struct List {
-			Object *car;
-			Object *cdr;
-		} * list;
+		struct Lambda *lambda;
+		struct List *list;
 		std::int32_t number;
 		char *string;
 		char *symbol;
-	} data;
+	};
 };
 
 static Object Nil = { .type = Object::Type::Nil };

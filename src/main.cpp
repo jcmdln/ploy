@@ -53,8 +53,8 @@ env_get(Object *env, Object *symbol, Object *result)
 	auto *parent = fn_cdr(env);
 
 	while (bs->type != Object::Type::Nil) {
-		Object *b = bs->data.list->car;
-		if (fn_car(b)->data.symbol == symbol->data.symbol) {
+		Object *b = bs->list->car;
+		if (fn_car(b)->symbol == symbol->symbol) {
 			result = fn_cdr(b);
 			return &Nil;
 		}
@@ -77,12 +77,11 @@ env_set(Object **env, char *symbol, Object *value)
 
 	while (env_p->type != Object::Type::Nil) {
 		auto *p = fn_car(env_p);
-		if (p->type == Object::Type::Symbol &&
-		    p->data.symbol == symbol) {
-			p->data.list->cdr = value;
+		if (p->type == Object::Type::Symbol && p->symbol == symbol) {
+			p->list->cdr = value;
 			return;
 		}
-		env_p = env_p->data.list->cdr;
+		env_p = fn_cdr(env_p);
 	}
 
 	auto *car = object_new_list(object_new_symbol(symbol), value);
@@ -99,8 +98,8 @@ fn_add(Object *obj)
 			std::cerr << "error: '+': invalid argument(s)\n";
 		}
 
-		sum += obj->data.number;
-		obj = obj->data.list->cdr;
+		sum += obj->number;
+		obj = obj->list->cdr;
 	}
 
 	return object_new_number(sum);
@@ -109,13 +108,13 @@ fn_add(Object *obj)
 Object *
 fn_car(Object *obj)
 {
-	return obj->data.list->car;
+	return obj->list->car;
 }
 
 Object *
 fn_cdr(Object *obj)
 {
-	return obj->data.list->cdr;
+	return obj->list->cdr;
 }
 
 Object *
@@ -157,7 +156,7 @@ object_new_keyword(char *value)
 {
 	auto *obj = object_new(Object::Type::Keyword);
 
-	obj->data.keyword = value;
+	obj->keyword = value;
 
 	return obj;
 }
@@ -167,11 +166,10 @@ object_new_lambda(Object *env, Object *args, Object *body)
 {
 	auto *obj = object_new(Object::Type::Lambda);
 
-	obj->data.lambda =
-	    (Object::Data::Lambda *)GC_MALLOC(sizeof(Object) * 3);
-	obj->data.lambda->env = env;
-	obj->data.lambda->args = args;
-	obj->data.lambda->body = body;
+	obj->lambda = (struct Lambda *)GC_MALLOC(sizeof(*obj->lambda) * 3);
+	obj->lambda->env = env;
+	obj->lambda->args = args;
+	obj->lambda->body = body;
 
 	return obj;
 }
@@ -181,9 +179,9 @@ object_new_list(Object *car, Object *cdr)
 {
 	auto *obj = object_new(Object::Type::List);
 
-	obj->data.list = (Object::Data::List *)GC_MALLOC(sizeof(Object) * 2);
-	obj->data.list->car = car;
-	obj->data.list->cdr = cdr;
+	obj->list = (struct List *)GC_MALLOC(sizeof(*obj->list) * 2);
+	obj->list->car = car;
+	obj->list->cdr = cdr;
 
 	return obj;
 }
@@ -193,7 +191,7 @@ object_new_number(std::int32_t number)
 {
 	auto *obj = object_new(Object::Type::Number);
 
-	obj->data.number = number;
+	obj->number = number;
 
 	return obj;
 }
@@ -203,7 +201,7 @@ object_new_string(char *value)
 {
 	auto *obj = object_new(Object::Type::String);
 
-	obj->data.string = value;
+	obj->string = value;
 
 	return obj;
 }
@@ -213,7 +211,7 @@ object_new_symbol(char *value)
 {
 	auto *obj = object_new(Object::Type::Symbol);
 
-	obj->data.symbol = value;
+	obj->symbol = value;
 
 	return obj;
 }
@@ -260,15 +258,15 @@ printer(Object *obj)
 		break;
 
 	case Object::Type::Boolean:
-		std::cout << (obj->data.boolean ? "true" : "false");
+		std::cout << (obj->boolean ? "true" : "false");
 		break;
 
 	case Object::Type::Error:
-		std::cout << obj->data.error;
+		std::cout << obj->error;
 		break;
 
 	case Object::Type::Keyword:
-		std::cout << ":" << obj->data.keyword;
+		std::cout << ":" << obj->keyword;
 		break;
 
 	case Object::Type::Lambda:
@@ -279,19 +277,19 @@ printer(Object *obj)
 		std::cout << '(';
 
 		while (obj && obj->type != Object::Type::Nil) {
-			if (!(obj->data.list->car)) {
+			if (!(obj->list->car)) {
 				std::cerr << "error: car is NULL\n";
 				exit(1);
 			}
 
-			printer(obj->data.list->car);
+			printer(obj->list->car);
 			if (obj->type != Object::Type::List) {
 				std::cout << " . ";
 				printer(obj);
 				break;
 			}
 
-			Object *cdr = obj->data.list->cdr;
+			Object *cdr = obj->list->cdr;
 			if (cdr && cdr->type != Object::Type::Nil) {
 				std::cout << ' ';
 			}
@@ -302,15 +300,15 @@ printer(Object *obj)
 		break;
 
 	case Object::Type::Number:
-		std::cout << obj->data.number;
+		std::cout << obj->number;
 		break;
 
 	case Object::Type::String:
-		std::cout << '"' << obj->data.string << '"';
+		std::cout << '"' << obj->string << '"';
 		break;
 
 	case Object::Type::Symbol:
-		std::cout << obj->data.symbol;
+		std::cout << obj->symbol;
 		break;
 
 	default:
