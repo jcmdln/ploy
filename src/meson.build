@@ -2,5 +2,12 @@
 
 ploy_sources += files(
     'main.cpp',
-    'ploy.hpp',
+    'builtins.cpp',
+    'builtins.hpp',
+    'printer.cpp',
+    'printer.hpp',
+    'reader.cpp',
+    'reader.hpp',
+    'types.cpp',
+    'types.hpp',
 )
