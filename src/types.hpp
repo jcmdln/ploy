@@ -35,11 +35,8 @@ public:
 	Boolean(bool value) : value{ value } {};
 	virtual ~Boolean() = default;
 
+	Type type() const override { return Type::Boolean; }
 	bool value;
-	Type type() const override
-	{
-		return Type::Boolean;
-	}
 };
 
 class Error : public Object {
@@ -47,11 +44,8 @@ public:
 	Error(char *value) : value{ value } {};
 	virtual ~Error() = default;
 
+	Type type() const override { return Type::Error; }
 	char *value{ (char *)GC_MALLOC(sizeof(*value)) };
-	Type type() const override
-	{
-		return Type::Error;
-	}
 };
 
 class Keyword : public Object {
@@ -59,11 +53,8 @@ public:
 	Keyword(char *value) : value{ value } {};
 	virtual ~Keyword() = default;
 
+	Type type() const override { return Type::Keyword; }
 	char *value{ (char *)GC_MALLOC(sizeof(*value)) };
-	Type type() const override
-	{
-		return Type::Keyword;
-	}
 };
 
 class Lambda : public Object {
@@ -72,13 +63,10 @@ public:
 	    : env{ env }, args{ args }, body{ body } {};
 	virtual ~Lambda() = default;
 
+	Type type() const override { return Type::Lambda; }
 	Object *env{ (Object *)GC_MALLOC(sizeof(*env)) };
 	Object *args{ (Object *)GC_MALLOC(sizeof(*args)) };
 	Object *body{ (Object *)GC_MALLOC(sizeof(*body)) };
-	Type type() const override
-	{
-		return Type::Lambda;
-	}
 };
 
 class List : public Object {
@@ -86,12 +74,9 @@ public:
 	List(Object *car, Object *cdr) : car{ car }, cdr{ cdr } {};
 	virtual ~List() = default;
 
+	Type type() const override { return Type::List; }
 	Object *car{ (Object *)GC_MALLOC(sizeof(*car)) };
 	Object *cdr{ (Object *)GC_MALLOC(sizeof(*cdr)) };
-	Type type() const override
-	{
-		return Type::List;
-	}
 };
 
 class Number : public Object {
@@ -99,11 +84,8 @@ public:
 	Number(std::int32_t value) : value{ value } {};
 	virtual ~Number() = default;
 
+	Type type() const override { return Type::Number; }
 	std::int32_t value;
-	Type type() const override
-	{
-		return Type::Number;
-	}
 };
 
 class String : public Object {
@@ -111,23 +93,17 @@ public:
 	String(char *value) : value{ value } {};
 	virtual ~String() = default;
 
+	Type type() const override { return Type::String; }
 	char *value{ (char *)GC_MALLOC(sizeof(*value)) };
-	Type type() const override
-	{
-		return Type::String;
-	}
 };
 
 class Symbol : public Object {
 public:
-	char *value{ (char *)GC_MALLOC(sizeof(*value)) };
-
 	Symbol(char *value) : value{ value } {};
 	virtual ~Symbol() = default;
-	Type type() const override
-	{
-		return Type::Symbol;
-	}
+
+	Type type() const override { return Type::Symbol; }
+	char *value{ (char *)GC_MALLOC(sizeof(*value)) };
 };
 
 char *object_typename(Object::Type);

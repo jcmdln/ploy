@@ -10,6 +10,7 @@ BasedOnStyle: none
 
 AccessModifierOffset: -8
 AlignAfterOpenBracket: false
+AlignArrayOfStructures: Right
 AlignConsecutiveAssignments: false # 1
 AlignConsecutiveBitFields: false
 AlignConsecutiveDeclarations: false # 1
@@ -22,14 +23,17 @@ AllowAllParametersOfDeclarationOnNextLine: false
 AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortEnumsOnASingleLine: true
-AllowShortFunctionsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: true
 AllowShortIfStatementsOnASingleLine: false
+AllowShortLambdasOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: false
 AlwaysBreakAfterReturnType: TopLevelDefinitions
 AlwaysBreakBeforeMultilineStrings: false
+AlwaysBreakTemplateDeclarations: true
 BinPackArguments: true
 BinPackParameters: true
+BitFieldColonSpacing: Both
 
 BraceWrapping:
   AfterCaseLabel: false
@@ -47,26 +51,39 @@ BraceWrapping:
 
 BreakBeforeBinaryOperators: false
 BreakBeforeBraces: Custom
+BreakBeforeConceptDeclarations: false
 BreakBeforeTernaryOperators: false
-BreakConstructorInitializersBeforeComma: false
+BreakConstructorInitializers: BeforeColon
+BreakInheritanceList: BeforeColon
 BreakStringLiterals: false
 ColumnLimit: 80
+CompactNamespaces: false
+ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
 Cpp11BracedListStyle: false
 DeriveLineEnding: false
 DerivePointerAlignment: false
 DisableFormat: false
 ExperimentalAutoDetectBinPacking: false
+FixNamespaceComments: true
 ForEachMacros: []
+IncludeBlocks: Preserve
 IndentAccessModifiers: false
+IndentCaseBlocks: true
 IndentCaseLabels: false
+IndentExternBlock: NoIndent
+IndentGotoLabels: false
+IndentPPDirectives: None
+IndentRequires: false
 IndentWidth: 8
 IndentWrappedFunctionNames: false
 KeepEmptyLinesAtTheStartOfBlocks: false
+LambdaBodyIndentation: OuterScope
 MacroBlockBegin: ""
 MacroBlockEnd: ""
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: None
+PackConstructorInitializers:
 PointerAlignment: Right # 1
 SortIncludes: true
 SpaceAfterCStyleCast: false
