@@ -13,9 +13,6 @@
   "files.watcherExclude": {
     "**/builddir/**": true,
   },
-  "search.exclude": {
-    "**/builddir/**": true,
-  },
   "[cpp]": {
     "editor.tabSize": 8,
     "editor.useTabStops": false
