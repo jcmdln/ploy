@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "asabil.meson",
+    "cschlosser.doxdocgen",
     "editorconfig.editorconfig",
     "ms-vscode.cpptools",
     "notskm.clang-tidy",
