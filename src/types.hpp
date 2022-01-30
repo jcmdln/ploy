@@ -71,7 +71,8 @@ public:
 
 class List : public Object {
 public:
-	List(Object *car, Object *cdr) : car{ car }, cdr{ cdr } {};
+	List(Object *car = nullptr, Object *cdr = nullptr)
+	    : car{ car }, cdr{ cdr } {};
 	virtual ~List() = default;
 
 	Type type() const override { return Type::List; }
