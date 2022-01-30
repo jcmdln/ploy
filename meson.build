@@ -12,6 +12,7 @@ project(
         'buildtype=release',
         'c_std=c18',
         'cpp_eh=none',
+        'cpp_rtti=false',
         'cpp_std=c++20',
         'default_library=shared',
         'optimization=2',
