@@ -6,7 +6,7 @@ Usage
 The following examples show how to build and run `ploy` on Fedora.
 
 ```sh
-# Release build (Default)
+# Release build using system compiler (Default)
 $ sudo dnf install -y gc-devel meson readline-devel
 $ meson builddir
 
