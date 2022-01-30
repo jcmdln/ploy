@@ -81,6 +81,14 @@ public:
 	Object *cdr{ (Object *)GC_MALLOC(sizeof(*cdr)) };
 };
 
+class Nil : public Object {
+public:
+	Nil(){};
+	virtual ~Nil() = default;
+
+	Type type() const override { return Type::Nil; }
+};
+
 class Number : public Object {
 public:
 	Number(std::int32_t value) : value{ value } {};
