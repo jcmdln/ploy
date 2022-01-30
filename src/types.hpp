@@ -59,7 +59,8 @@ public:
 
 class Lambda : public Object {
 public:
-	Lambda(Object *env, Object *args, Object *body)
+	Lambda(Object *env = nullptr, Object *args = nullptr,
+	    Object *body = nullptr)
 	    : env{ env }, args{ args }, body{ body } {};
 	virtual ~Lambda() = default;
 
