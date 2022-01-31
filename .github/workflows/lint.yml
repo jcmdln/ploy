@@ -12,8 +12,8 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          sudo apt update
-          sudo apt install clang-format-12
+          sudo apt-get update
+          sudo apt-get install clang-format-12
 
       - name: Run clang-format
         run: |
