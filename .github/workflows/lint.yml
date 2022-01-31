@@ -1,0 +1,35 @@
+---
+name: Lint
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  clang-format:
+    runs-on: "ubuntu-20.04"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install clang-format-12
+
+      - name: Run clang-format
+        run: |
+          clang-format --dry-run --style=file --Werror src/*
+
+  clang-tidy:
+    runs-on: "ubuntu-20.04"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install clang-tidy-12
+
+      - name: Run clang-tidy
+        run: |
+          clang-tidy --config-file=${{ github.workspace }}/.clang-tidy src/*

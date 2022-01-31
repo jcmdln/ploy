@@ -1,4 +1,9 @@
 {
+  "[cpp]": {
+    "editor.insertSpaces": false,
+    "editor.tabSize": 8,
+    "editor.useTabStops": false
+  },
   "C_Cpp.clang_format_style": "file",
   "C_Cpp.default.cppStandard": "c++20",
   "editorconfig.generateAuto": false,
@@ -13,9 +18,9 @@
   "files.watcherExclude": {
     "**/builddir/**": true,
   },
-  "[cpp]": {
-    "editor.insertSpaces": false,
-    "editor.tabSize": 8,
-    "editor.useTabStops": false
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": [
+      "${workspaceFolder}/.github/**/*.yml",
+    ],
   },
 }

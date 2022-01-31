@@ -1,0 +1,21 @@
+---
+name: Build
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  meson:
+    runs-on: "ubuntu-20.04"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install clang-12 libgc-dev libreadline-dev meson
+
+      - name: Build Ploy
+        run: |
+          meson builddir
+          meson compile -C builddir

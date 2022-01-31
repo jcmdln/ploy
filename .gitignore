@@ -21,8 +21,13 @@
 !**/*.md
 !**/meson.build
 
+# Include our GitHub Actions pipeline configuration
+!.github/
+!.github/workflows/
+!.github/workflows/*.yml
+
 # Include our VS Code configuration
 !.vscode/
-!.vscode/extensions.json
 !.vscode/README.md
+!.vscode/extensions.json
 !.vscode/settings.json
