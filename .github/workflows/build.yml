@@ -15,6 +15,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install clang-12 libgc-dev libreadline-dev
 
+      - name: Install meson via pip
+        run: |
+          pip install "meson>=0.57"
+
       - name: Build Ploy
         run: |
           meson builddir
