@@ -28,7 +28,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt update
-          sudo apt install clang-tidy-12
+          sudo apt install clang-tidy-12 libgc-dev libreadline-dev
 
       - name: Run clang-tidy
         run: |
