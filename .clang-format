@@ -51,7 +51,7 @@ BraceWrapping:
 
 BreakBeforeBinaryOperators: false
 BreakBeforeBraces: Custom
-BreakBeforeConceptDeclarations: false
+#BreakBeforeConceptDeclarations: false # clang-format 13
 BreakBeforeTernaryOperators: false
 BreakConstructorInitializers: BeforeColon
 BreakInheritanceList: BeforeColon
