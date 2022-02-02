@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: ISC
 
-#include <cstdlib>
-#include <iostream>
-
 extern "C" {
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <getopt.h>
 
 #include <readline/history.h>
@@ -18,8 +18,7 @@ extern "C" {
 void
 usage()
 {
-	std::cout << "usage: ploy [-h]\n\n"
-		  << "-h      Show help output\n";
+	printf("usage: ploy [-h]\n\n%s", "-h      Show help output\n");
 }
 
 int
@@ -35,7 +34,7 @@ main(int argc, char **argv)
 		}
 	}
 
-	std::cout << "ploy v0.0.0\n\n";
+	puts("ploy v0.0.0\n");
 
 	while (true) {
 		char *input{ readline("λ ") };
@@ -50,7 +49,7 @@ main(int argc, char **argv)
 			printer(fn_car(obj));
 		}
 
-		std::cout << '\n';
+		putchar('\n');
 	}
 
 	return EXIT_SUCCESS;

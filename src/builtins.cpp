@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: ISC
 
-#include <cstdlib>
-#include <iostream>
+extern "C" {
+#include <stdio.h>
+#include <stdlib.h>
+}
 
 #include "builtins.hpp"
 
@@ -12,7 +14,7 @@ fn_add(Object *obj)
 
 	while (obj && obj->type() != Object::Type::Nil) {
 		if (obj->type() != Object::Type::Number) {
-			std::cerr << "error: '+': invalid argument(s)\n";
+			fputs("error: '+': invalid argument(s)", stderr);
 			exit(1);
 		}
 

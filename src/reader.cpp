@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: ISC
 
-#include <cstdlib>
-#include <cstring>
-#include <iostream>
+extern "C" {
+#include <string.h>
+}
 
 #include "reader.hpp"
 
@@ -133,8 +133,7 @@ read_list(char **input)
 	while (*cursor) {
 		switch (*cursor) {
 		case '\0':
-			std::cerr << "error: read_list: "
-				  << "unexpected end of input stream";
+			fputs("error: reader: no matching ')'", stderr);
 			exit(1);
 
 		case '(':
@@ -215,8 +214,7 @@ read_string(char **input)
 	}
 
 	if (*cursor != '\"') {
-		std::cerr << "error: reader: string: "
-			  << "no matching delimiter '\"'\n";
+		fputs("error: reader: no matching '\"'", stderr);
 		exit(1);
 	}
 
