@@ -11,7 +11,7 @@ printer(Object *obj)
 {
 	switch (obj->type()) {
 	case Object::Type::Nil:
-		printf("wnil");
+		printf("nil");
 		break;
 
 	case Object::Type::Boolean:
