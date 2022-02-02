@@ -56,7 +56,7 @@ printer(Object *obj)
 Object *
 print_list(Object *obj)
 {
-	printf("(");
+	putchar('(');
 
 	while (obj && obj->type() != Object::Type::Nil) {
 		if (obj->type() == Object::Type::List) {
@@ -75,13 +75,13 @@ print_list(Object *obj)
 
 		Object *cdr = ((List *)obj)->cdr;
 		if (cdr && ((List *)cdr)->type() != Object::Type::Nil) {
-			printf(" ");
+			putchar(' ');
 		}
 
 		obj = cdr;
 	}
 
-	printf(")");
+	putchar(')');
 
 	return obj;
 }
