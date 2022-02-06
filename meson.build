@@ -2,7 +2,7 @@
 
 project(
     'ploy',
-    'c', 'cpp',
+    'cpp',
     default_options: [
         'b_colorout=always',
         'b_lto=false',
