@@ -1,13 +1,6 @@
 // SPDX-License-Identifier: ISC
 
-#include <cstdint>
-
-#include <string>
-#include <string_view>
-
-extern "C" {
-#include <gc.h>
-}
+#pragma once
 
 #include "types.hpp"
 

@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: ISC
 
+#pragma once
+
 #include "types.hpp"
 
 Object *fn_add(Object *);		    // '+'
