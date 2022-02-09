@@ -1,4 +1,8 @@
 {
+  "clangd.arguments": [
+    "--compile-commands-dir=${workspaceFolder}/builddir"
+  ],
+  "clang-tidy.buildPath": "${workspaceFolder}/builddir",
   "editor.wordWrapColumn": 99,
   "editorconfig.generateAuto": false,
   "files.associations": {
@@ -12,6 +16,7 @@
   "files.watcherExclude": {
     "**/builddir/**": true,
   },
+  "mesonbuild.buildFolder": "${workspaceFolder}/builddir",
   "yaml.schemas": {
     "https://json.schemastore.org/github-workflow.json": [
       "${workspaceFolder}/.github/**/*.yml",
