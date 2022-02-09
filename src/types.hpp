@@ -27,7 +27,7 @@ public:
 		String,
 		Symbol,
 	};
-	virtual Type type() const = 0;
+	virtual Type type() const { return Type::Nil; };
 };
 
 class Boolean : public Object {
@@ -79,14 +79,6 @@ public:
 	Type type() const override { return Type::List; }
 	Object *car{ (Object *)GC_MALLOC(sizeof(*car)) };
 	Object *cdr{ (Object *)GC_MALLOC(sizeof(*cdr)) };
-};
-
-class Nil : public Object {
-public:
-	Nil(){};
-	virtual ~Nil() = default;
-
-	Type type() const override { return Type::Nil; }
 };
 
 class Number : public Object {
