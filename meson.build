@@ -68,21 +68,14 @@ foreach opt : ploy_opts
     endif
 endforeach
 
+ploy_sources = []
+subdir('src')
+
 executable(
     'ploy',
     dependencies: [
         dependency('bdw-gc', required: true),
         dependency('readline', required: true),
     ],
-    sources: files(
-        'src/builtins.cpp',
-        'src/builtins.hpp',
-        'src/main.cpp',
-        'src/printer.cpp',
-        'src/printer.hpp',
-        'src/reader.cpp',
-        'src/reader.hpp',
-        'src/types.cpp',
-        'src/types.hpp',
-    ),
+    sources: ploy_sources,
 )
