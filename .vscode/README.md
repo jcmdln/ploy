@@ -8,23 +8,23 @@ editors.
   "configurations": [
     {
       "name": "linux-clang-x64",
+      "compileCommands": "${workspaceFolder}/builddir/compile_commands.json",
+      "compilerPath": "/bin/clang++",
+      "defines": [],
       "includePath": [
         "${workspaceFolder}/**"
       ],
-      "defines": [],
-      "compilerPath": "/bin/clang++",
-      "intelliSenseMode": "linux-clang-x64",
-      "compileCommands": "${workspaceFolder}/builddir/compile_commands.json"
+      "intelliSenseMode": "linux-clang-x64"
     },
     {
       "name": "linux-gcc-x64",
+      "compileCommands": "${workspaceFolder}/builddir/compile_commands.json",
+      "compilerPath": "/bin/g++",
+      "defines": [],
       "includePath": [
         "${workspaceFolder}/**"
       ],
-      "defines": [],
-      "compilerPath": "/bin/g++",
-      "intelliSenseMode": "linux-gcc-x64",
-      "compileCommands": "${workspaceFolder}/builddir/compile_commands.json"
+      "intelliSenseMode": "linux-gcc-x64"
     }
   ],
   "version": 4
