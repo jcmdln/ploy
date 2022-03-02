@@ -1,6 +1,6 @@
-This project ships with a default vscode configuration so that it can be
-somewhat usable on https://github.dev out of the box, and serve as a reference
-for configuring other editors.
+This project ships with a default vscode configuration so that it can be somewhat usable on
+https://github.dev/jcmdln/ploy out of the box, and serve as a reference for configuring other
+editors.
 
 ## c_cpp_properties.json
 ```jsonc
