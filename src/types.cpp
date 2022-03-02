@@ -1,47 +1,30 @@
 // SPDX-License-Identifier: ISC
 
-extern "C" {
-#include <gc.h>
-}
-
 #include "types.hpp"
 
 char *
 object_typename(Object::Type type)
 {
-	char *str{ (char *)GC_MALLOC(sizeof(*str)) };
-
 	switch (type) {
 	case Object::Type::Nil:
-		str = "nil";
-		break;
+		return "nil";
 	case Object::Type::Boolean:
-		str = "boolean";
-		break;
+		return "boolean";
 	case Object::Type::Error:
-		str = "error";
-		break;
+		return "error";
 	case Object::Type::Keyword:
-		str = "keyword";
-		break;
+		return "keyword";
 	case Object::Type::Lambda:
-		str = "lambda";
-		break;
+		return "lambda";
 	case Object::Type::List:
-		str = "list";
-		break;
+		return "list";
 	case Object::Type::Number:
-		str = "number";
-		break;
+		return "number";
 	case Object::Type::String:
-		str = "string";
-		break;
+		return "string";
 	case Object::Type::Symbol:
-		str = "symbol";
-		break;
-	default:
-		str = "unknown";
+		return "symbol";
 	}
 
-	return str;
+	return "unknown";
 }
