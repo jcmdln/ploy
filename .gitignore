@@ -10,24 +10,20 @@
 !.editorconfig
 !.gitignore
 !LICENSE
+!meson.build
 
-# Allow traversing specific subdirectories
-!src/
-
-# Include '*.cpp' and '.hpp' files from included directories.
-!**/*.[ch]pp
-
-# Include these files from any included directory.
-!**/*.md
-!**/meson.build
-
-# Include our GitHub Actions pipeline configuration
+# Include specific files from specific directories
 !.github/
-!.github/workflows/
-!.github/workflows/*.yml
+!.github/**/
+!.github/**/*.md
+!.github/**/*.y*ml
 
-# Include our VS Code configuration
 !.vscode/
-!.vscode/README.md
-!.vscode/extensions.json
-!.vscode/settings.json
+!.vscode/**/
+!.vscode/**/*.json
+!.vscode/**/*.md
+
+!src/
+!src/**/
+!src/**/*.[ch]pp
+!src/**/meson.build
