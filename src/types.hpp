@@ -2,12 +2,9 @@
 
 #pragma once
 
-#include <cstdint>
-
-#include <string>
-#include <string_view>
-
 extern "C" {
+#include <stdint.h>
+
 #include <gc.h>
 }
 
@@ -81,11 +78,11 @@ public:
 
 class Number : public Object {
 public:
-	Number(std::int32_t value) : value{ value } {};
+	Number(int32_t value) : value{ value } {};
 	virtual ~Number() = default;
 
 	Type type() const override { return Type::Number; }
-	std::int32_t value;
+	int32_t value;
 };
 
 class String : public Object {
