@@ -48,8 +48,7 @@ printer(Object *obj)
 		break;
 
 	default:
-		fprintf(stderr, "error: printer: unknown type '%s'",
-		    object_typename(obj->type()));
+		fprintf(stderr, "error: printer: unknown type '%s'", object_typename(obj->type()));
 		break;
 	}
 }

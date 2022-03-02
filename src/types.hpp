@@ -59,8 +59,7 @@ public:
 
 class Lambda : public Object {
 public:
-	Lambda(Object *env = nullptr, Object *args = nullptr,
-	    Object *body = nullptr)
+	Lambda(Object *env = nullptr, Object *args = nullptr, Object *body = nullptr)
 	    : env{ env }, args{ args }, body{ body } {};
 	virtual ~Lambda() = default;
 
@@ -72,8 +71,7 @@ public:
 
 class List : public Object {
 public:
-	List(Object *car = nullptr, Object *cdr = nullptr)
-	    : car{ car }, cdr{ cdr } {};
+	List(Object *car = nullptr, Object *cdr = nullptr) : car{ car }, cdr{ cdr } {};
 	virtual ~List() = default;
 
 	Type type() const override { return Type::List; }
