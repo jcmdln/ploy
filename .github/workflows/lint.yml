@@ -16,7 +16,7 @@ jobs:
           sudo apt-get install clang-format-12
 
       - name: Run clang-format
-        run: clang-format-12 --dry-run --style=file --Werror src/*
+        run: clang-format-12 --dry-run --style=file --Werror src/*.{c,h}pp
 
   clang-tidy:
     runs-on: "ubuntu-20.04"
@@ -30,4 +30,4 @@ jobs:
           sudo apt install clang-tidy-12 libgc-dev libreadline-dev
 
       - name: Run clang-tidy
-        run: clang-tidy-12 --config-file=${{ github.workspace }}/.clang-tidy src/*
+        run: clang-tidy-12 --config-file=${{ github.workspace }}/.clang-tidy src/*.{c,h}pp
