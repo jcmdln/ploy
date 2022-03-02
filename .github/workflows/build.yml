@@ -17,8 +17,7 @@ jobs:
             ccache clang-12 libasan5 libgc-dev libreadline-dev libubsan1
 
       - name: Install meson and ninja via pip
-        run: |
-          pip install "meson>=0.57" "ninja>=1.10"
+        run: pip install "meson>=0.57" "ninja>=1.10"
 
       - name: Prepare build
         run: |
@@ -41,8 +40,7 @@ jobs:
             ccache g++-10 libasan5 libgc-dev libreadline-dev libubsan1
 
       - name: Install meson and ninja via pip
-        run: |
-          pip install "meson>=0.57" "ninja>=1.10"
+        run: pip install "meson>=0.57" "ninja>=1.10"
 
       - name: Prepare build
         run: |
