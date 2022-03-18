@@ -27,10 +27,13 @@ jobs:
           - name: clang-12
             deps: ccache clang-12 libasan5 libgc-dev libreadline-dev libubsan1
             cmd: clang++-12
+            compiler: clang++-12
+            linker: lld
 
           - name: gcc-10
             deps: ccache g++-10 libasan5 libgc-dev libreadline-dev libubsan1
-            cmd: g++-10
+            compiler: g++-10
+            linker: bfd
 
     steps:
       - uses: actions/checkout@v3
@@ -46,8 +49,8 @@ jobs:
 
       - name: Prepare build
         env:
-          CXX: "ccache ${{matrix.cmd}}"
-          CXX_LD: lld
+          CXX: "ccache ${{ matrix.compiler }}"
+          CXX_LD: "${{ matrix.linker }}"
         run: >-
           meson builddir -Dbuildtype=debug -Dwerror=true -Doptimization=g
           -Db_sanitize=address,undefined
