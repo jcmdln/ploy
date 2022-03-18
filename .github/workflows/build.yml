@@ -21,48 +21,39 @@ on:
   workflow_dispatch:
 
 jobs:
-  clang-12:
-    runs-on: "ubuntu-20.04"
+  test:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        include:
+          - name: clang-12
+            deps: ccache clang-12 libasan5 libgc-dev libreadline-dev libubsan1
+            cmd: clang++-12
+
+          - name: gcc-10
+            deps: ccache g++-10 libasan5 libgc-dev libreadline-dev libubsan1
+            cmd: g++-10
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+          cache: "pip"
 
       - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install \
-            ccache clang-12 libasan5 libgc-dev libreadline-dev libubsan1
+        run: sudo apt-get update && sudo apt-get install -y ${{ matrix.deps }}
 
       - name: Install meson and ninja via pip
         run: pip install "meson>=0.57" "ninja>=1.10"
 
       - name: Prepare build
-        run: |
-          CXX="ccache clang++" CXX_LD="lld" meson builddir -Dbuildtype=debug \
-            -Dwerror=true -Doptimization=g -Db_sanitize=address,undefined
-
-      - name: Build Ploy
-        run: meson compile -C builddir
-
-  gcc-10:
-    runs-on: "ubuntu-20.04"
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install \
-            ccache g++-10 libasan5 libgc-dev libreadline-dev libubsan1
-
-      - name: Install meson and ninja via pip
-        run: pip install "meson>=0.57" "ninja>=1.10"
-
-      - name: Prepare build
-        run: |
-          CXX="ccache g++" meson builddir -Dbuildtype=debug -Dwerror=true \
-            -Doptimization=g -Db_sanitize=address,undefined
+        env:
+          CXX: "ccache ${{matrix.cmd}}"
+          CXX_LD: lld
+        run: >-
+          meson builddir -Dbuildtype=debug -Dwerror=true -Doptimization=g
+          -Db_sanitize=address,undefined
 
       - name: Build Ploy
         run: meson compile -C builddir
