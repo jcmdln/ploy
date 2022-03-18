@@ -1,7 +1,24 @@
 ---
 name: Lint
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  pull_request:
+    paths:
+      - .github/**/*.yml
+      - .github/**/*.yaml
+      - meson.build
+      - src/**/*.cpp
+      - src/**/*.hpp
+      - src/**/meson.build
+  push:
+    paths:
+      - .github/**/*.yml
+      - .github/**/*.yaml
+      - meson.build
+      - src/**/*.cpp
+      - src/**/*.hpp
+      - src/**/meson.build
+  workflow_dispatch:
 
 jobs:
   clang-format:
