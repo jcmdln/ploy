@@ -22,9 +22,4 @@
       "${workspaceFolder}/.github/**/*.yml",
     ],
   },
-  "[cpp]": {
-    "editor.insertSpaces": false,
-    "editor.tabSize": 8,
-    "editor.useTabStops": false,
-  },
 }
