@@ -33,7 +33,7 @@ jobs:
 
           - name: clang-tidy-12
             deps: clang-tidy-12 libgc-dev libreadline-dev
-            args: --config-file=${{ github.workspace }}/.clang-tidy
+            args: --config-file=.clang-tidy
             targ: src/*.{c,h}pp
 
     steps:
