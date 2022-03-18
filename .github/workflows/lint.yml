@@ -4,16 +4,14 @@ name: Lint
 on:
   pull_request:
     paths:
-      - .github/**/*.yml
-      - .github/**/*.yaml
+      - .github/workflows/lint.yml
       - meson.build
       - src/**/*.cpp
       - src/**/*.hpp
       - src/**/meson.build
   push:
     paths:
-      - .github/**/*.yml
-      - .github/**/*.yaml
+      - .github/workflows/lint.yml
       - meson.build
       - src/**/*.cpp
       - src/**/*.hpp
