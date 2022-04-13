@@ -1,19 +1,16 @@
 # SPDX-License-Identifier: ISC
-#
-## Issues as of clang-format v13.0.0
-#
-# 1. Right-aligned pointers are misaligned when using AlignConsecutive options
-#
 ---
+# clang-format version 14.0.0 or later
 Language: Cpp
+Standard: c++20
 BasedOnStyle: none
 
-AccessModifierOffset: -8
+AccessModifierOffset: -4
 AlignAfterOpenBracket: false
-#AlignArrayOfStructures: Right # clang-format 13
-AlignConsecutiveAssignments: false # 1
+AlignArrayOfStructures: Right
+AlignConsecutiveAssignments: true
 AlignConsecutiveBitFields: false
-AlignConsecutiveDeclarations: false # 1
+AlignConsecutiveDeclarations: true
 AlignConsecutiveMacros: false
 AlignEscapedNewlines: true
 AlignOperands: true
@@ -51,7 +48,7 @@ BraceWrapping:
 
 BreakBeforeBinaryOperators: false
 BreakBeforeBraces: Custom
-#BreakBeforeConceptDeclarations: false # clang-format 13
+BreakBeforeConceptDeclarations: false
 BreakBeforeTernaryOperators: false
 BreakConstructorInitializers: BeforeColon
 BreakInheritanceList: BeforeColon
@@ -68,22 +65,22 @@ ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
 ForEachMacros: []
 IncludeBlocks: Preserve
-#IndentAccessModifiers: false # clang-format 13
+IndentAccessModifiers: false
 IndentCaseBlocks: true
 IndentCaseLabels: false
 IndentExternBlock: NoIndent
 IndentGotoLabels: false
 IndentPPDirectives: None
 IndentRequires: false
-IndentWidth: 8
+IndentWidth: 4
 IndentWrappedFunctionNames: false
 KeepEmptyLinesAtTheStartOfBlocks: false
-# LambdaBodyIndentation: OuterScope # clang-format 13
+LambdaBodyIndentation: OuterScope
 MacroBlockBegin: ""
 MacroBlockEnd: ""
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: None
-PointerAlignment: Right # 1
+PointerAlignment: Right
 SortIncludes: true
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
@@ -102,6 +99,6 @@ SpacesInConditionalStatement: false
 SpacesInContainerLiterals: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-TabWidth: 8
+TabWidth: 4
 UseCRLF: false
 UseTab: true

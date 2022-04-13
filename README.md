@@ -6,14 +6,14 @@ Usage
 The following examples show how to build and run `ploy` on Fedora.
 
 ```sh
-# Release build using system compiler (Default)
+# Release build using default compiler (Default)
 $ sudo dnf install -y gc-devel meson readline-devel
 $ meson builddir
 
-# Debug build /w ccache and clang++
-$ sudo dnf install -y ccache clang-tools-extra libasan libubsan
-$ CXX="ccache clang++" CXX_LD="lld" meson builddir -Dbuildtype=debug \
-    -Dwerror=true -Doptimization=g -Db_sanitize=address,undefined
+# Debug build using ccache, clang++, clangd, asan, ubsan, mold
+$ sudo dnf install -y ccache clang-tools-extra libasan libubsan mold
+$ CXX="ccache clang++" CXX_LD="mold" meson builddir \
+    -Dbuildtype=debug -Dwerror=true -Doptimization=g -Db_sanitize=address,undefined
 
 # Compile
 $ meson compile -C builddir

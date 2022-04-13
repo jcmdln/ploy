@@ -4,5 +4,5 @@
 
 #include "types.hpp"
 
-void printer(Object *obj);
+void	printer(Object *obj);
 Object *print_list(Object *);

@@ -41,7 +41,7 @@ public:
 	Error(char *value) : value{ value } {};
 	virtual ~Error() = default;
 
-	Type type() const override { return Type::Error; }
+	Type  type() const override { return Type::Error; }
 	char *value{ (char *)GC_MALLOC(sizeof(*value)) };
 };
 
@@ -50,17 +50,17 @@ public:
 	Keyword(char *value) : value{ value } {};
 	virtual ~Keyword() = default;
 
-	Type type() const override { return Type::Keyword; }
+	Type  type() const override { return Type::Keyword; }
 	char *value{ (char *)GC_MALLOC(sizeof(*value)) };
 };
 
 class Lambda : public Object {
 public:
 	Lambda(Object *env = nullptr, Object *args = nullptr, Object *body = nullptr)
-	    : env{ env }, args{ args }, body{ body } {};
+		: env{ env }, args{ args }, body{ body } {};
 	virtual ~Lambda() = default;
 
-	Type type() const override { return Type::Lambda; }
+	Type	type() const override { return Type::Lambda; }
 	Object *env{ (Object *)GC_MALLOC(sizeof(*env)) };
 	Object *args{ (Object *)GC_MALLOC(sizeof(*args)) };
 	Object *body{ (Object *)GC_MALLOC(sizeof(*body)) };
@@ -71,7 +71,7 @@ public:
 	List(Object *car = nullptr, Object *cdr = nullptr) : car{ car }, cdr{ cdr } {};
 	virtual ~List() = default;
 
-	Type type() const override { return Type::List; }
+	Type	type() const override { return Type::List; }
 	Object *car{ (Object *)GC_MALLOC(sizeof(*car)) };
 	Object *cdr{ (Object *)GC_MALLOC(sizeof(*cdr)) };
 };
@@ -81,7 +81,7 @@ public:
 	Number(int32_t value) : value{ value } {};
 	virtual ~Number() = default;
 
-	Type type() const override { return Type::Number; }
+	Type	type() const override { return Type::Number; }
 	int32_t value;
 };
 
@@ -90,7 +90,7 @@ public:
 	String(char *value) : value{ value } {};
 	virtual ~String() = default;
 
-	Type type() const override { return Type::String; }
+	Type  type() const override { return Type::String; }
 	char *value{ (char *)GC_MALLOC(sizeof(*value)) };
 };
 
@@ -99,7 +99,7 @@ public:
 	Symbol(char *value) : value{ value } {};
 	virtual ~Symbol() = default;
 
-	Type type() const override { return Type::Symbol; }
+	Type  type() const override { return Type::Symbol; }
 	char *value{ (char *)GC_MALLOC(sizeof(*value)) };
 };
 

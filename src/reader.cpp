@@ -13,7 +13,7 @@ extern "C" {
 Object *
 reader(char **input)
 {
-	auto *cursor{ *input };
+	auto   *cursor{ *input };
 	Object *obj{ nullptr };
 
 	while (*cursor) {
@@ -105,7 +105,7 @@ Object *
 read_keyword(char **input)
 {
 	auto *cursor{ *input };
-	auto position{ 0 };
+	auto  position{ 0 };
 
 	while (*cursor) {
 		switch (*cursor) {
@@ -131,7 +131,7 @@ read_keyword(char **input)
 Object *
 read_list(char **input)
 {
-	auto *cursor{ *input };
+	auto   *cursor{ *input };
 	Object *obj{ nullptr };
 
 	while (*cursor) {
@@ -156,7 +156,7 @@ Object *
 read_number(char **input)
 {
 	auto *cursor{ *input };
-	auto position{ 0 };
+	auto  position{ 0 };
 
 	while (*cursor) {
 		switch (*cursor) {
@@ -183,7 +183,7 @@ Object *
 read_quote(char **input)
 {
 	auto *cursor{ *input };
-	auto position{ 0 };
+	auto  position{ 0 };
 
 	while (*cursor) {
 		switch (*cursor) {
@@ -210,7 +210,7 @@ Object *
 read_string(char **input)
 {
 	auto *cursor{ *input };
-	auto position{ 0 };
+	auto  position{ 0 };
 
 	while (*cursor && *cursor != '\"') {
 		++cursor;
@@ -232,7 +232,7 @@ Object *
 read_symbol(char **input)
 {
 	auto *cursor{ *input };
-	auto position{ 0 };
+	auto  position{ 0 };
 
 	while (*cursor) {
 		switch (*cursor) {
