@@ -2,7 +2,7 @@
 
 project(
     'ploy',
-    'cpp',
+    'c',
     default_options: [
         'b_colorout=always',
         'b_lto=false',
@@ -11,9 +11,6 @@ project(
         'b_sanitize=none',
         'buildtype=release',
         'c_std=c18',
-        'cpp_eh=none',
-        'cpp_rtti=false',
-        'cpp_std=c++20',
         'default_library=shared',
         'optimization=2',
         'strip=false',
@@ -25,7 +22,7 @@ project(
     version: '0.0.0',
 )
 
-cpp = meson.get_compiler('cpp', native: true)
+cc = meson.get_compiler('c', native: true)
 
 ploy_opts = [
     '-fno-omit-frame-pointer',
@@ -38,13 +35,13 @@ ploy_opts = [
     '-Wno-error=unused-variable',
 ]
 
-if cpp.get_id().startswith('clang')
+if cc.get_id().startswith('clang')
     ploy_opts += [
         '-Werror=unreachable-code-break',
         '-Werror=unreachable-code-return',
         '-Wno-writable-strings',
     ]
-elif cpp.get_id().startswith('gcc')
+elif cc.get_id().startswith('gcc')
     ploy_opts += [
         '-Werror=switch-unreachable',
         '-Wno-missing-field-initializers',
@@ -63,8 +60,8 @@ if get_option('buildtype').startswith('debug')
 endif
 
 foreach opt : ploy_opts
-    if cpp.has_argument(opt)
-        add_project_arguments(opt, language: 'cpp')
+    if cc.has_argument(opt)
+        add_project_arguments(opt, language: 'c')
     endif
 endforeach
 

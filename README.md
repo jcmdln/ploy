@@ -10,9 +10,9 @@ The following examples show how to build and run `ploy` on Fedora.
 $ sudo dnf install -y gc-devel meson readline-devel
 $ meson builddir
 
-# Debug build using ccache, clang++, clangd, asan, ubsan, mold
+# Debug build using ccache, clang, clangd, asan, ubsan, mold
 $ sudo dnf install -y ccache clang-tools-extra libasan libubsan mold
-$ CXX="ccache clang++" CXX_LD="mold" meson builddir \
+$ CC="ccache clang" CC_LD="mold" meson builddir \
     -Dbuildtype=debug -Dwerror=true -Doptimization=g -Db_sanitize=address,undefined
 
 # Compile

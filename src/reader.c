@@ -1,20 +1,18 @@
 // SPDX-License-Identifier: ISC
 
-extern "C" {
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include <string.h>
-}
 
-#include "reader.hpp"
+#include "reader.h"
 
-Object *
+struct object *
 reader(char **input)
 {
-	auto   *cursor{ *input };
-	Object *obj{ nullptr };
+	char *cursor = *input;
+	struct object *obj = NULL;
 
 	while (*cursor) {
 		switch (*cursor) {
@@ -41,12 +39,12 @@ reader(char **input)
 		// keyword
 		case ':':
 			++cursor;
-			obj = new List(read_keyword(&cursor), obj);
+			obj = object_new_list(read_keyword(&cursor), obj);
 			break;
 
 		// list
 		case '(':
-			obj = new List(read_list(&cursor), obj);
+			obj = object_new_list(read_list(&cursor), obj);
 			break;
 		case ')':
 			++cursor;
@@ -72,7 +70,7 @@ reader(char **input)
 		case '7':
 		case '8':
 		case '9':
-			obj = new List(read_number(&cursor), obj);
+			obj = object_new_list(read_number(&cursor), obj);
 			break;
 
 		// quote
@@ -80,18 +78,18 @@ reader(char **input)
 		// quasiquote
 		case '`':
 			++cursor;
-			obj = new List(read_quote(&cursor), obj);
+			obj = object_new_list(read_quote(&cursor), obj);
 			break;
 
 		// string
 		case '"':
 			++cursor;
-			obj = new List(read_string(&cursor), obj);
+			obj = object_new_list(read_string(&cursor), obj);
 			break;
 
 		// symbol
 		default:
-			obj = new List(read_symbol(&cursor), obj);
+			obj = object_new_list(read_symbol(&cursor), obj);
 			break;
 		}
 	};
@@ -101,11 +99,11 @@ reader(char **input)
 	return obj;
 }
 
-Object *
+struct object *
 read_keyword(char **input)
 {
-	auto *cursor{ *input };
-	auto  position{ 0 };
+	char *cursor = *input;
+	int64_t position = 0;
 
 	while (*cursor) {
 		switch (*cursor) {
@@ -122,17 +120,17 @@ read_keyword(char **input)
 		break;
 	}
 
-	Object *obj{ new Keyword(strndup(*input, position)) };
+	struct object *obj = object_new_keyword(strndup(*input, position));
 	*input = cursor;
 
 	return obj;
 }
 
-Object *
+struct object *
 read_list(char **input)
 {
-	auto   *cursor{ *input };
-	Object *obj{ nullptr };
+	char *cursor = *input;
+	struct object *obj = NULL;
 
 	while (*cursor) {
 		switch (*cursor) {
@@ -152,11 +150,11 @@ read_list(char **input)
 	return obj;
 }
 
-Object *
+struct object *
 read_number(char **input)
 {
-	auto *cursor{ *input };
-	auto  position{ 0 };
+	char *cursor = *input;
+	int64_t position = 0;
 
 	while (*cursor) {
 		switch (*cursor) {
@@ -173,17 +171,17 @@ read_number(char **input)
 		break;
 	}
 
-	Object *obj{ new Number(atoi(strndup(*input, position))) };
+	struct object *obj = object_new_number(atoi(strndup(*input, position)));
 	*input = cursor;
 
 	return obj;
 }
 
-Object *
+struct object *
 read_quote(char **input)
 {
-	auto *cursor{ *input };
-	auto  position{ 0 };
+	char *cursor = *input;
+	int64_t position = 0;
 
 	while (*cursor) {
 		switch (*cursor) {
@@ -200,17 +198,17 @@ read_quote(char **input)
 		break;
 	}
 
-	Object *obj{ new Symbol(strndup(*input, position)) };
+	struct object *obj = object_new_symbol(strndup(*input, position));
 	*input = cursor;
 
 	return obj;
 }
 
-Object *
+struct object *
 read_string(char **input)
 {
-	auto *cursor{ *input };
-	auto  position{ 0 };
+	char *cursor = *input;
+	int64_t position = 0;
 
 	while (*cursor && *cursor != '\"') {
 		++cursor;
@@ -222,17 +220,17 @@ read_string(char **input)
 		exit(1);
 	}
 
-	Object *obj{ new String(strndup(*input, position)) };
+	struct object *obj = object_new_string(strndup(*input, position));
 	*input = ++cursor;
 
 	return obj;
 }
 
-Object *
+struct object *
 read_symbol(char **input)
 {
-	auto *cursor{ *input };
-	auto  position{ 0 };
+	char *cursor = *input;
+	int64_t position = 0;
 
 	while (*cursor) {
 		switch (*cursor) {
@@ -249,7 +247,7 @@ read_symbol(char **input)
 		break;
 	}
 
-	Object *obj{ new Symbol(strndup(*input, position)) };
+	struct object *obj = object_new_symbol(strndup(*input, position));
 	*input = cursor;
 
 	return obj;

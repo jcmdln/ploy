@@ -1,14 +1,14 @@
 # SPDX-License-Identifier: ISC
 
 ploy_sources += files(
-    'main.cpp',
+    'main.c',
 
-    'builtins.cpp',
-    'builtins.hpp',
-    'printer.cpp',
-    'printer.hpp',
-    'reader.cpp',
-    'reader.hpp',
-    'types.cpp',
-    'types.hpp',
+    'builtins.c',
+    'builtins.h',
+    'printer.c',
+    'printer.h',
+    'reader.c',
+    'reader.h',
+    'types.c',
+    'types.h',
 )

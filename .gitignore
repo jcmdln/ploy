@@ -25,5 +25,5 @@
 
 !src/
 !src/**/
-!src/**/*.[ch]pp
+!src/**/*.[ch]
 !src/**/meson.build

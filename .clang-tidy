@@ -3,25 +3,13 @@
 Checks: >-
   -*,
   bugprone-*,
-  -bugprone-branch-clone,
   -bugprone-easily-swappable-parameters,
-  cert-*,
-  -cert-err33-c,
-  -cert-err34-c,
-  cppcoreguidelines-*,
-  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
-  -cppcoreguidelines-pro-type-cstyle-cast,
-  -cppcoreguidelines-pro-type-vararg,
-  -cppcoreguidelines-explicit-virtual-functions,
-  -cppcoreguidelines-special-member-functions,
+  cert-*-c,
   misc-*,
   -misc-no-recursion,
-  -misc-non-private-member-variables-in-classes,
   performance-*,
   portability-*,
   readability-*,
-  -readability-implicit-bool-conversion,
-  -readability-named-parameter,
 FormatStyle: none
 HeaderFilterRegex: ""
 WarningsAsErrors: ""

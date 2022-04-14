@@ -15,8 +15,10 @@ trim_trailing_whitespace = true
 indent_size = 2
 tab_width = 2
 
-[*.{c,h}pp]
+[*.{c,h}]
+indent_size = 8
 indent_style = tab
+tab_width = 8
 
 [*.json{,c}]
 indent_size = 2
