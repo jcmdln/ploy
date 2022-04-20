@@ -1,19 +1,18 @@
-`ploy` is a lisp-like programming language for fun and learning.
+`ploy` is a simple lisp/scheme implementation for my own fun and learning.
 
 
 Usage
 ---
-The following examples show how to build and run `ploy` on Fedora.
+The following example shows how to build and run `ploy` on Fedora.
 
 ```sh
-# Release build using default compiler (Default)
+# Release build (Default)
 $ sudo dnf install -y gc-devel meson readline-devel
 $ meson builddir
 
-# Debug build using ccache, clang, clangd, asan, ubsan, mold
-$ sudo dnf install -y ccache clang-tools-extra libasan libubsan mold
-$ CC="ccache clang" CC_LD="mold" meson builddir \
-    -Dbuildtype=debug -Dwerror=true -Doptimization=g -Db_sanitize=address,undefined
+# Debug build
+$ sudo dnf install -y libasan libubsan
+$ meson builddir -Dbuildtype=debug -Dwerror=true -Doptimization=g -Db_sanitize=address,undefined
 
 # Compile
 $ meson compile -C builddir
@@ -34,4 +33,3 @@ Special Thanks
 * https://github.com/krig/LISP
 * https://github.com/rui314/minilisp
 * https://github.com/kanaka/mal
-* https://github.com/seven1m/mal-cpp
