@@ -1,35 +1,13 @@
 // SPDX-License-Identifier: ISC
 
-#include "types.h"
+#include "object.h"
+#include "lambda.h"
+#include "list.h"
+
+#include <stdbool.h>
+#include <stdint.h>
 
 #include <gc.h>
-
-char *
-object_typename(enum object_t type)
-{
-	switch (type) {
-	case nil_t:
-		return "nil";
-	case boolean_t:
-		return "boolean";
-	case error_t:
-		return "error";
-	case keyword_t:
-		return "keyword";
-	case lambda_t:
-		return "lambda";
-	case list_t:
-		return "list";
-	case number_t:
-		return "number";
-	case string_t:
-		return "string";
-	case symbol_t:
-		return "symbol";
-	}
-
-	return "unknown";
-}
 
 struct object *
 object_new(enum object_t type)
@@ -85,13 +63,11 @@ object_new_lambda(struct object *env, struct object *args, struct object *body)
 }
 
 struct object *
-object_new_list(struct object *car, struct object *cdr)
+object_new_list(struct list *list)
 {
 	struct object *obj = object_new(list_t);
 
-	obj->list = (struct list *)GC_MALLOC(sizeof(*obj->list));
-	obj->list->car = car;
-	obj->list->cdr = cdr;
+	obj->list = list;
 
 	return obj;
 }
@@ -122,4 +98,31 @@ object_new_symbol(char *symbol)
 	obj->symbol = symbol;
 
 	return obj;
+}
+
+char *
+object_typename(enum object_t type)
+{
+	switch (type) {
+	case nil_t:
+		return "nil";
+	case boolean_t:
+		return "boolean";
+	case error_t:
+		return "error";
+	case keyword_t:
+		return "keyword";
+	case lambda_t:
+		return "lambda";
+	case list_t:
+		return "list";
+	case number_t:
+		return "number";
+	case string_t:
+		return "string";
+	case symbol_t:
+		return "symbol";
+	}
+
+	return "unknown";
 }

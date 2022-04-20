@@ -4,12 +4,19 @@ Checks: >-
   -*,
   bugprone-*,
   -bugprone-easily-swappable-parameters,
+  -bugprone-narrowing-conversions,
   cert-*-c,
+  -cert-err33-c,
+  -cert-err34-c,
   misc-*,
   -misc-no-recursion,
   performance-*,
   portability-*,
   readability-*,
+  -readability-duplicate-include,
+  -readability-implicit-bool-conversion,
+  -readability-magic-numbers,
+  -readability-non-const-parameter,
 FormatStyle: none
 HeaderFilterRegex: ""
 WarningsAsErrors: ""

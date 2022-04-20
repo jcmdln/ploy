@@ -12,7 +12,7 @@ struct object *
 reader(char **input)
 {
 	char *cursor = *input;
-	struct object *obj = NULL;
+	struct list *list = list_new(NULL, NULL);
 
 	while (*cursor) {
 		switch (*cursor) {
@@ -39,12 +39,12 @@ reader(char **input)
 		// keyword
 		case ':':
 			++cursor;
-			obj = object_new_list(read_keyword(&cursor), obj);
+			list_append(list, read_keyword(&cursor));
 			break;
 
 		// list
 		case '(':
-			obj = object_new_list(read_list(&cursor), obj);
+			list_append(list, read_list(&cursor));
 			break;
 		case ')':
 			++cursor;
@@ -70,7 +70,7 @@ reader(char **input)
 		case '7':
 		case '8':
 		case '9':
-			obj = object_new_list(read_number(&cursor), obj);
+			list_append(list, read_number(&cursor));
 			break;
 
 		// quote
@@ -78,25 +78,25 @@ reader(char **input)
 		// quasiquote
 		case '`':
 			++cursor;
-			obj = object_new_list(read_quote(&cursor), obj);
+			list_append(list, read_quote(&cursor));
 			break;
 
 		// string
 		case '"':
 			++cursor;
-			obj = object_new_list(read_string(&cursor), obj);
+			list_append(list, read_string(&cursor));
 			break;
 
 		// symbol
 		default:
-			obj = object_new_list(read_symbol(&cursor), obj);
+			list_append(list, read_symbol(&cursor));
 			break;
 		}
 	};
 
 	*input = cursor;
 
-	return obj;
+	return object_new_list(list);
 }
 
 struct object *

@@ -39,7 +39,7 @@ fn_cdr(struct object *obj)
 struct object *
 fn_cons(struct object *obj)
 {
-	return object_new_list(fn_car(obj), fn_cdr(fn_car(obj)));
+	return object_new_list(list_new(fn_car(obj), fn_cdr(fn_car(obj))));
 }
 
 struct object *

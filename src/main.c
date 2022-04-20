@@ -5,6 +5,8 @@
 
 #include <getopt.h>
 
+#include <gc.h>
+
 #include <readline/history.h>
 #include <readline/readline.h>
 
@@ -43,7 +45,7 @@ main(int argc, char **argv)
 		add_history(input);
 
 		struct object *obj = reader(&input);
-		if (obj) {
+		if (obj && obj->type == list_t) {
 			printer(fn_car(obj));
 		}
 

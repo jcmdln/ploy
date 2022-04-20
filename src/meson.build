@@ -9,6 +9,7 @@ ploy_sources += files(
     'printer.h',
     'reader.c',
     'reader.h',
-    'types.c',
     'types.h',
 )
+
+subdir('types')

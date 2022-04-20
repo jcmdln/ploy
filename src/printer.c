@@ -59,7 +59,7 @@ print_list(struct object *obj)
 	while (obj && obj->type != nil_t) {
 		if (obj->type == list_t) {
 			if (!(obj->list->car)) {
-				fputs("error: car is NULL\n", stderr);
+				fputs("error: printer: print_list: car is NULL\n", stderr);
 				exit(1);
 			}
 

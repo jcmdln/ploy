@@ -1,58 +1,12 @@
 // SPDX-License-Identifier: ISC
 
-#ifndef PLOY_H
+#ifndef TYPES_H
 #pragma once
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "types/lambda.h"
+#include "types/list.h"
+#include "types/number.h"
+#include "types/object.h"
+#include "types/string.h"
 
-enum object_t {
-	nil_t = 0,
-	boolean_t,
-	error_t,
-	keyword_t,
-	lambda_t,
-	list_t,
-	number_t,
-	string_t,
-	symbol_t,
-};
-
-struct lambda {
-	struct object *env;
-	struct object *args;
-	struct object *body;
-};
-
-struct list {
-	struct object *car;
-	struct object *cdr;
-};
-
-struct object {
-	enum object_t type;
-	struct {
-		bool boolean;
-		char *error;
-		char *keyword;
-		struct lambda *lambda;
-		struct list *list;
-		int64_t number;
-		char *string;
-		char *symbol;
-	};
-};
-
-struct object *object_new(enum object_t);
-struct object *object_new_boolean(bool);
-struct object *object_new_error(char *);
-struct object *object_new_keyword(char *);
-struct object *object_new_lambda(struct object *, struct object *, struct object *);
-struct object *object_new_list(struct object *, struct object *);
-struct object *object_new_number(int64_t);
-struct object *object_new_string(char *);
-struct object *object_new_symbol(char *);
-
-char *object_typename(enum object_t);
-
-#endif // PLOY_H
+#endif // TYPES_H
