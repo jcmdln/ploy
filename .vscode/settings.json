@@ -2,6 +2,7 @@
 {
   "clangd.arguments": [
     "--compile-commands-dir=${workspaceFolder}/builddir",
+    "-header-insertion=never",
   ],
   "clang-tidy.buildPath": "${workspaceFolder}/builddir",
   "clang-tidy.checks": [
