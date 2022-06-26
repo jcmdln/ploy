@@ -1,0 +1,53 @@
+---
+name: Build
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/build.yml
+      - meson.build
+      - src/**/*.c
+      - src/**/*.h
+      - src/**/meson.build
+  push:
+    paths:
+      - .github/workflows/build.yml
+      - meson.build
+      - src/**/*.c
+      - src/**/*.h
+      - src/**/meson.build
+  workflow_dispatch:
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        compiler:
+          - name: clang
+          - name: gcc
+        linker:
+          - name: bfd
+          - name: lld
+        os:
+          - name: ubuntu-20.04
+            deps: sudo apt update && sudo apt-get install -y libasan5 libgc-dev libreadline-dev libubsan1 meson
+          - name: ubuntu-22.04
+            deps: sudo apt update && sudo apt-get install -y libasan5 libgc-dev libreadline-dev libubsan1 meson
+
+    name: ${{ matrix.compiler.name }}-${{ matrix.linker.name }}-${{ matrix.os.name }}
+    runs-on: ${{ matrix.os.name }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install system dependencies
+        run: ${{ matrix.os.deps }}
+
+      - name: Prepare build
+        env:
+          CC: "${{ matrix.compiler.name }}"
+          CC_LD: "${{ matrix.linker.name }}"
+        run: meson builddir -Dbuildtype=debug -Dwerror=true -Doptimization=g -Db_sanitize=address,undefined
+
+      - name: Build Ploy
+        run: meson compile -C builddir

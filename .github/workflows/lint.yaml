@@ -1,0 +1,46 @@
+---
+name: Lint
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/lint.yml
+      - meson.build
+      - src/**/*.c
+      - src/**/*.h
+      - src/**/meson.build
+  push:
+    paths:
+      - .github/workflows/lint.yml
+      - meson.build
+      - src/**/*.c
+      - src/**/*.h
+      - src/**/meson.build
+  workflow_dispatch:
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        linter:
+          - name: clang-format
+            cmd: clang-format --dry-run --style=file:.clang-format --Werror
+          - name: clang-tidy
+            cmd: clang-tidy --config-file=.clang-tidy
+        os:
+          - name: ubuntu-20.04
+            deps: sudo apt update && sudo apt-get install -y libgc-dev libreadline-dev
+          - name: ubuntu-22.04
+            deps: sudo apt update && sudo apt-get install -y libgc-dev libreadline-dev
+
+    name: ${{ matrix.linter.name }}-${{ matrix.os.name }}
+    runs-on: ${{ matrix.os.name }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install OS dependencies
+        run: ${{ matrix.os.deps }}
+
+      - name: Run ${{ matrix.linter.name }}
+        run: ${{ matrix.linter.cmd }} src/**/*.{c,h}
