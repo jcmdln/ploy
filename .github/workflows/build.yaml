@@ -24,18 +24,21 @@ jobs:
       fail-fast: false
       matrix:
         compiler:
-          - name: clang
-          - name: gcc
+          - clang
+          - gcc
         linker:
-          - name: bfd
-          - name: lld
+          - bfd
+          - lld
         os:
-          - name: ubuntu-20.04
-            deps: sudo apt update && sudo apt-get install -y libasan5 libgc-dev libreadline-dev libubsan1 meson
-          - name: ubuntu-22.04
+          - name: ubuntu-latest
             deps: sudo apt update && sudo apt-get install -y libasan5 libgc-dev libreadline-dev libubsan1 meson
 
-    name: ${{ matrix.compiler.name }}-${{ matrix.linker.name }} (${{ matrix.os.name }})
+        exclude:
+          # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=83243
+          - compiler: gcc
+            linker: lld
+
+    name: ${{ matrix.compiler }}-${{ matrix.linker }} (${{ matrix.os.name }})
     runs-on: ${{ matrix.os.name }}
 
     steps:
@@ -46,8 +49,8 @@ jobs:
 
       - name: Prepare build
         env:
-          CC: "${{ matrix.compiler.name }}"
-          CC_LD: "${{ matrix.linker.name }}"
+          CC: "${{ matrix.compiler }}"
+          CC_LD: "${{ matrix.linker }}"
         run: meson builddir -Dbuildtype=debug -Dwerror=true -Doptimization=g -Db_sanitize=address,undefined
 
       - name: Build Ploy
