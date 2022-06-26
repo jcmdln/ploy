@@ -3,8 +3,9 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include <gc.h>
 #include <string.h>
+
+#include <gc.h>
 
 #include "string.h"
 

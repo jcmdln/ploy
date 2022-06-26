@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: ISC
 
-#include "object.h"
-#include "lambda.h"
-#include "list.h"
-
 #include <stdbool.h>
 #include <stdint.h>
 
 #include <gc.h>
+
+#include "lambda.h"
+#include "list.h"
+#include "object.h"
 
 struct object *
 object_new(enum object_t type)

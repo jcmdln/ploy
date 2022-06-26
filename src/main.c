@@ -6,7 +6,6 @@
 #include <getopt.h>
 
 #include <gc.h>
-
 #include <readline/history.h>
 #include <readline/readline.h>
 
