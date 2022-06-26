@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: ISC
 
-#ifndef TYPES_H
+#ifndef PLOY_TYPES_H
 #pragma once
 
 #include "types/lambda.h"
@@ -9,4 +9,4 @@
 #include "types/object.h"
 #include "types/string.h"
 
-#endif // TYPES_H
+#endif // PLOY_TYPES_H

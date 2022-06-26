@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: ISC
 
-#ifndef TYPES_STRING_H
+#ifndef PLOY_TYPES_STRING_H
 #pragma once
 
 #include <stdbool.h>
@@ -20,4 +20,4 @@ struct string *string_slice(struct string *, int64_t, int64_t);
 struct string *string_sort(struct string *);
 struct number *string_to_number(struct string *);
 
-#endif // TYPES_STRING_H
+#endif // PLOY_TYPES_STRING_H

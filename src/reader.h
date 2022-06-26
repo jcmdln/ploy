@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: ISC
 
-#ifndef READER_H
+#ifndef PLOY_READER_H
 #pragma once
 
 #include "types.h"
@@ -14,4 +14,4 @@ struct object *read_quote(char **);
 struct object *read_string(char **);
 struct object *read_symbol(char **);
 
-#endif // READER_H
+#endif // PLOY_READER_H

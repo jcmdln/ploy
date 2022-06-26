@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: ISC
 
-#ifndef TYPES_NUMBER_H
+#ifndef PLOY_TYPES_NUMBER_H
 #pragma once
 
 #include <stdint.h>
@@ -11,4 +11,4 @@ struct number {
 	uint8_t data[99];
 };
 
-#endif // TYPES_NUMBER_H
+#endif // PLOY_TYPES_NUMBER_H

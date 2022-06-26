@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: ISC
 
-#ifndef TYPES_LAMBDA_H
+#ifndef PLOY_TYPES_LAMBDA_H
 #pragma once
 
 struct lambda {
@@ -9,4 +9,4 @@ struct lambda {
 	struct object *body;
 };
 
-#endif // TYPES_LAMBDA_H
+#endif // PLOY_TYPES_LAMBDA_H

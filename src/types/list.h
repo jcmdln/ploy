@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: ISC
 
-#ifndef TYPES_LIST_H
+#ifndef PLOY_TYPES_LIST_H
 #pragma once
 
 #include <stdint.h>
@@ -27,4 +27,4 @@ struct list *list_reverse(struct list *);		  // FIXME: implement this
 struct list *list_slice(struct list *, int64_t, int64_t); // FIXME: implement this
 struct list *list_sort(struct list *);			  // FIXME: implement this
 
-#endif // TYPES_LIST_H
+#endif // PLOY_TYPES_LIST_H

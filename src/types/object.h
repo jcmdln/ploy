@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: ISC
 
-#ifndef TYPES_OBJECT_H
+#ifndef PLOY_TYPES_OBJECT_H
 #pragma once
 
 #include <stdbool.h>
@@ -43,4 +43,4 @@ struct object *object_new_string(char *);
 struct object *object_new_symbol(char *);
 char *object_typename(enum object_t);
 
-#endif // TYPES_OBJECT_H
+#endif // PLOY_TYPES_OBJECT_H

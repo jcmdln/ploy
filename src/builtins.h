@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: ISC
 
-#ifndef BUILTINS_H
+#ifndef PLOY_BUILTINS_H
 #pragma once
 
 #include "types.h"
@@ -36,4 +36,4 @@ struct object *fn_read(struct object *);		  // 'read'
 struct object *fn_subtract(struct object *);		  // '-'
 struct object *fn_typeof(struct object *);		  // 'typeof'
 
-#endif // BUILTINS_H
+#endif // PLOY_BUILTINS_H
