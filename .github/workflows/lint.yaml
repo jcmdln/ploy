@@ -24,16 +24,16 @@ jobs:
       matrix:
         linter:
           - name: clang-format
-            cmd: clang-format --dry-run --style=file:.clang-format --Werror
+            cmd: clang-format --dry-run --Werror src/**/*.{c,h}
           - name: clang-tidy
-            cmd: clang-tidy --config-file=.clang-tidy
+            cmd: clang-tidy src/**/*.{c,h}
         os:
           - name: ubuntu-20.04
             deps: sudo apt update && sudo apt-get install -y libgc-dev libreadline-dev
           - name: ubuntu-22.04
             deps: sudo apt update && sudo apt-get install -y libgc-dev libreadline-dev
 
-    name: ${{ matrix.linter.name }}-${{ matrix.os.name }}
+    name: ${{ matrix.linter.name }} (${{ matrix.os.name }})
     runs-on: ${{ matrix.os.name }}
 
     steps:
@@ -43,4 +43,4 @@ jobs:
         run: ${{ matrix.os.deps }}
 
       - name: Run ${{ matrix.linter.name }}
-        run: ${{ matrix.linter.cmd }} src/**/*.{c,h}
+        run: ${{ matrix.linter.cmd }}
