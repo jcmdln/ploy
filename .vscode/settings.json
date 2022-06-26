@@ -1,30 +1,34 @@
 // SPDX-License-Identifier: ISC
 {
-  "clangd.arguments": [
-    "--compile-commands-dir=${workspaceFolder}/builddir",
-    "-header-insertion=never",
-  ],
+  "clangd.arguments": ["--compile-commands-dir=${workspaceFolder}/builddir", "-header-insertion=never"],
   "clang-tidy.buildPath": "${workspaceFolder}/builddir",
-  "clang-tidy.checks": [
-    "-clang-diagnostic-writable-strings",
-  ],
-  "editor.wordWrapColumn": 99,
+  "editor.wordWrapColumn": 120,
   "editorconfig.generateAuto": false,
   "files.associations": {
     ".clangd": "yaml",
     ".clang-format": "yaml",
-    ".clang-tidy": "yaml",
+    ".clang-tidy": "yaml"
   },
   "files.exclude": {
-    "**/builddir/**": true,
+    "**/builddir/**": true
   },
   "files.watcherExclude": {
-    "**/builddir/**": true,
+    "**/builddir/**": true
   },
-  "mesonbuild.buildFolder": "${workspaceFolder}/builddir",
+  "mesonbuild.buildFolder": "builddir",
   "yaml.schemas": {
-    "https://json.schemastore.org/github-workflow.json": [
-      "${workspaceFolder}/.github/**/*.yml",
-    ],
+    "https://json.schemastore.org/github-workflow.json": ["${workspaceFolder}/.github/workflows/*.yaml"]
   },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
