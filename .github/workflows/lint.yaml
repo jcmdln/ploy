@@ -35,9 +35,7 @@ jobs:
           - name: clang-tidy
             cmd: clang-tidy src/**/*.{c,h}
         os:
-          - name: ubuntu-20.04
-            deps: sudo apt update && sudo apt-get install -y libgc-dev libreadline-dev
-          - name: ubuntu-22.04
+          - name: ubuntu-latest
             deps: sudo apt update && sudo apt-get install -y libgc-dev libreadline-dev
 
     name: ${{ matrix.linter.name }} (${{ matrix.os.name }})
