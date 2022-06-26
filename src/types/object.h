@@ -7,15 +7,15 @@
 #include <stdint.h>
 
 enum object_t {
-	nil_t = 0,
-	boolean_t,
-	error_t,
-	keyword_t,
-	lambda_t,
-	list_t,
-	number_t,
-	string_t,
-	symbol_t,
+	nil_t = 0, // `nil_t`
+	boolean_t, // `boolean_t`
+	error_t,   // `error_t`
+	keyword_t, // `keyword_t`
+	lambda_t,  // `lambda_t`
+	list_t,	   // `list_t`
+	number_t,  // `number_t`
+	string_t,  // `string_t`
+	symbol_t,  // `symbol_t`
 };
 
 struct object {

@@ -8,7 +8,7 @@
 
 // TODO: implement number as a bignum
 struct number {
-	uint8_t data[99];
+	uint8_t *data;
 };
 
 #endif // PLOY_TYPES_NUMBER_H

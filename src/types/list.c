@@ -7,6 +7,7 @@
 
 #include "list.h"
 
+// `list_append` appends an object to the end of a list.
 struct list *
 list_append(struct list *list, struct object *obj)
 {
@@ -30,6 +31,7 @@ list_append(struct list *list, struct object *obj)
 	return list;
 }
 
+// `list_copy` returns a deep copy of a list
 struct list *
 list_copy(const struct list *list)
 {
@@ -37,22 +39,7 @@ list_copy(const struct list *list)
 	return copy;
 }
 
-// FIXME: implement this
-struct list *
-list_insert(struct list *list, struct object *obj)
-{
-	return list;
-}
-
-// FIXME: implement this
-struct list *
-list_join(struct list *dest, struct list *src)
-{
-	struct list *list = NULL;
-
-	return list;
-}
-
+// `list_length` returns the number of objects in a list.
 int64_t
 list_length(const struct list *list)
 {
@@ -92,33 +79,5 @@ list_new(struct object *car, struct object *cdr)
 		list->cdr = cdr;
 	}
 
-	return list;
-}
-
-// FIXME: implement this
-struct list *
-list_remove(struct list *dest, struct object *obj)
-{
-	return dest;
-}
-
-// FIXME: implement this
-struct list *
-list_reverse(struct list *list)
-{
-	return list;
-}
-
-// FIXME: implement this
-struct list *
-list_slice(struct list *list, int64_t offset, int64_t length)
-{
-	return list;
-}
-
-// FIXME: implement this
-struct list *
-list_sort(struct list *list)
-{
 	return list;
 }
