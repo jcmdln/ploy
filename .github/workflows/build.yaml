@@ -4,14 +4,14 @@ name: Build
 on:
   pull_request:
     paths:
-      - .github/workflows/build.yml
+      - .github/workflows/build.yaml
       - meson.build
       - src/**/*.c
       - src/**/*.h
       - src/**/meson.build
   push:
     paths:
-      - .github/workflows/build.yml
+      - .github/workflows/build.yaml
       - meson.build
       - src/**/*.c
       - src/**/*.h

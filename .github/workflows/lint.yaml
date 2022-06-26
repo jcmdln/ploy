@@ -6,7 +6,7 @@ on:
     paths:
       - .clang-format
       - .clang-tidy
-      - .github/workflows/lint.yml
+      - .github/workflows/lint.yaml
       - .prettierrc.yaml
       - meson.build
       - src/**/*.c
@@ -16,7 +16,7 @@ on:
     paths:
       - .clang-format
       - .clang-tidy
-      - .github/workflows/lint.yml
+      - .github/workflows/lint.yaml
       - .prettierrc.yaml
       - meson.build
       - src/**/*.c
