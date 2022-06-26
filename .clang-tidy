@@ -16,7 +16,8 @@ Checks: >-
   -readability-duplicate-include,
   -readability-implicit-bool-conversion,
   -readability-magic-numbers,
+  -readability-named-parameter,
   -readability-non-const-parameter,
 FormatStyle: none
-HeaderFilterRegex: ""
+HeaderFilterRegex: ".*"
 WarningsAsErrors: ""

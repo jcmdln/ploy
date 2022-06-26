@@ -9,6 +9,7 @@
 !.clangd
 !.editorconfig
 !.gitignore
+!.prettierrc.yaml
 !LICENSE
 !meson.build
 
