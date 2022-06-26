@@ -51,4 +51,6 @@ jobs:
         run: meson builddir -Dbuildtype=debug -Dwerror=true -Doptimization=g -Db_sanitize=address,undefined
 
       - name: Build Ploy
-        run: meson compile -C builddir
+        run: |
+          cd builddir
+          ninja
