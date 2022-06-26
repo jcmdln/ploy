@@ -5,9 +5,7 @@ BasedOnStyle: none
 
 AccessModifierOffset: -8
 AlignAfterOpenBracket: false
-AlignArrayOfStructures: Right
 AlignConsecutiveAssignments: false
-AlignConsecutiveBitFields: false
 AlignConsecutiveDeclarations: false
 AlignConsecutiveMacros: false
 AlignEscapedNewlines: true
@@ -17,7 +15,6 @@ AllowAllArgumentsOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
 AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortEnumsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: true
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLambdasOnASingleLine: false
@@ -28,7 +25,6 @@ AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: true
 BinPackArguments: true
 BinPackParameters: true
-BitFieldColonSpacing: Both
 
 BraceWrapping:
   AfterCaseLabel: false
@@ -39,7 +35,6 @@ BraceWrapping:
   AfterStruct: false
   AfterUnion: false
   BeforeElse: false
-  BeforeWhile: false
   IndentBraces: false
   SplitEmptyFunction: false
   SplitEmptyRecord: false
@@ -62,12 +57,9 @@ DisableFormat: false
 ExperimentalAutoDetectBinPacking: false
 ForEachMacros: []
 IncludeBlocks: Preserve
-IndentCaseBlocks: true
 IndentCaseLabels: false
-IndentExternBlock: false
 IndentGotoLabels: false
 IndentPPDirectives: None
-IndentRequires: false
 IndentWidth: 8
 IndentWrappedFunctionNames: false
 KeepEmptyLinesAtTheStartOfBlocks: false
@@ -80,9 +72,7 @@ SortIncludes: true
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: true
-SpaceAroundPointerQualifiers: After
 SpaceBeforeAssignmentOperators: true
-SpaceBeforeCaseColon: false
 SpaceBeforeParens: ControlStatements
 SpaceBeforeSquareBrackets: false
 SpaceInEmptyBlock: false

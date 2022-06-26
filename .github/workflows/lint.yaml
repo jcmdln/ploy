@@ -4,14 +4,20 @@ name: Lint
 on:
   pull_request:
     paths:
+      - .clang-format
+      - .clang-tidy
       - .github/workflows/lint.yml
+      - .prettierrc.yaml
       - meson.build
       - src/**/*.c
       - src/**/*.h
       - src/**/meson.build
   push:
     paths:
+      - .clang-format
+      - .clang-tidy
       - .github/workflows/lint.yml
+      - .prettierrc.yaml
       - meson.build
       - src/**/*.c
       - src/**/*.h
