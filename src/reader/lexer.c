@@ -12,7 +12,7 @@
 struct token *
 lexer(char *input)
 {
-	if (!input || !*input) {
+	if (!input) {
 		fputs("error: lexer: input is NULL\n", stderr);
 	}
 
@@ -119,7 +119,7 @@ lex_comment(int64_t *index, char **input)
 		return NULL;
 	}
 
-	if (!input || !*input) {
+	if (!input) {
 		fputs("error: lex_comment: input is NULL\n", stderr);
 		return NULL;
 	}
@@ -153,7 +153,7 @@ lex_keyword(int64_t *index, char **input)
 		return NULL;
 	}
 
-	if (!input || !*input) {
+	if (!input) {
 		fputs("error: lex_keyword: input is NULL\n", stderr);
 		return NULL;
 	}
@@ -192,7 +192,7 @@ lex_number(int64_t *index, char **input)
 		return NULL;
 	}
 
-	if (!input || !*input) {
+	if (!input) {
 		fputs("error: lex_number: input is NULL\n", stderr);
 		return NULL;
 	}
@@ -226,7 +226,7 @@ lex_string(int64_t *index, char **input)
 		return NULL;
 	}
 
-	if (!input || !*input) {
+	if (!input) {
 		fputs("error: lex_string: input is NULL\n", stderr);
 		return NULL;
 	}
@@ -265,7 +265,7 @@ lex_symbol(int64_t *index, char **input)
 		return NULL;
 	}
 
-	if (!input || !*input) {
+	if (!input) {
 		fputs("error: lex_symbol: input is NULL\n", stderr);
 		return NULL;
 	}
@@ -299,7 +299,7 @@ lex_token(int64_t *index, char **input, int64_t length)
 		return NULL;
 	}
 
-	if (!input || !*input) {
+	if (!input) {
 		fputs("error: lex_token: input is NULL\n", stderr);
 		return NULL;
 	}

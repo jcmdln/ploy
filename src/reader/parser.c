@@ -101,7 +101,7 @@ parse_form(struct token **tokens)
 struct object *
 parse_keyword(struct token **token)
 {
-	if (!token || !*token) {
+	if (!token) {
 		fputs("error: parse_keyword: token is NULL\n", stderr);
 		return NULL;
 	}
@@ -121,7 +121,7 @@ parse_keyword(struct token **token)
 struct object *
 parse_lambda(struct token **token)
 {
-	if (!token || !*token) {
+	if (!token) {
 		fputs("error: parse_lambda: token is NULL\n", stderr);
 		return NULL;
 	}
@@ -136,7 +136,7 @@ parse_lambda(struct token **token)
 struct object *
 parse_list(struct token **token)
 {
-	if (!token || !*token) {
+	if (!token) {
 		fputs("error: parse_list: token is NULL\n", stderr);
 		return NULL;
 	}
@@ -165,7 +165,7 @@ parse_list(struct token **token)
 struct object *
 parse_number(struct token **token)
 {
-	if (!token || !*token) {
+	if (!token) {
 		fputs("error: parse_number: token is NULL\n", stderr);
 		return NULL;
 	}
@@ -185,7 +185,7 @@ parse_number(struct token **token)
 struct object *
 parse_quasiquote(struct token **token)
 {
-	if (!token || !*token) {
+	if (!token) {
 		fputs("error: parse_quasiquote: token is NULL\n", stderr);
 		return NULL;
 	}
@@ -216,7 +216,7 @@ parse_quasiquote(struct token **token)
 struct object *
 parse_quote(struct token **token)
 {
-	if (!token || !*token) {
+	if (!token) {
 		fputs("error: parse_quote: token is NULL\n", stderr);
 		return NULL;
 	}
@@ -248,7 +248,7 @@ parse_quote(struct token **token)
 struct object *
 parse_string(struct token **token)
 {
-	if (!token || !*token) {
+	if (!token) {
 		fputs("error: parse_string: token is NULL\n", stderr);
 		return NULL;
 	}
@@ -268,7 +268,7 @@ parse_string(struct token **token)
 struct object *
 parse_symbol(struct token **token)
 {
-	if (!token || !*token) {
+	if (!token) {
 		fputs("error: parse_symbol: token is NULL\n", stderr);
 		return NULL;
 	}
