@@ -46,9 +46,10 @@ lexer(char *input)
 		case '-':
 		case '+':
 			if (isdigit(lexer_peek(cursor))) {
-			};
-			// TODO: if the next character is a number, fallthrough
-			token = lex_token(&index, &cursor, 1);
+				token = lex_number(&index, &cursor);
+			} else {
+				token = lex_token(&index, &cursor, 1);
+			}
 			break;
 		case '<':
 		case '>':
@@ -198,6 +199,11 @@ lex_number(int64_t *index, char **input)
 
 	char *cursor = *input;
 	int64_t length = 0;
+
+	if (*cursor == '+' || *cursor == '-') {
+		++cursor;
+		++length;
+	}
 
 	while (*cursor && !strchr(TOKENS, *cursor)) {
 		++cursor;
