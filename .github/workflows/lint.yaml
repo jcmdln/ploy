@@ -53,6 +53,8 @@ jobs:
         run: ${{ matrix.os.deps }}
 
       - name: Run Meson
+        env:
+          CC: clang-12
         run: >-
           meson builddir -Dbuildtype=debug -Doptimization=g -Dwerror=true \
             -Db_sanitize=address,undefined
