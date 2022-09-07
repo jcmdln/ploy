@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: ISC
 ---
 name: Build
 
@@ -37,10 +38,10 @@ jobs:
               sudo apt update &&
               sudo apt-get install -y libasan5 libgc-dev libreadline-dev libubsan1 meson
 
-        exclude:
-          # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=83243
-          - compiler: gcc
-            linker: lld
+        # exclude:
+        #   # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=83243
+        #   - compiler: gcc
+        #     linker: lld
 
     name: ${{ matrix.compiler }}-${{ matrix.linker }} (${{ matrix.os.name }})
     runs-on: ${{ matrix.os.name }}
@@ -51,13 +52,11 @@ jobs:
       - name: Install system dependencies
         run: ${{ matrix.os.deps }}
 
-      - name: Prepare build
+      - name: Run Meson
         env:
           CC: "${{ matrix.compiler }}"
           CC_LD: "${{ matrix.linker }}"
-        run: >-
-          meson builddir
-            -Dbuildtype=debug -Dwerror=true -Doptimization=g -Db_sanitize=address,undefined
+        run: meson builddir
 
       - name: Build Ploy
         run: >-
