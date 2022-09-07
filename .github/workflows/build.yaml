@@ -36,12 +36,7 @@ jobs:
           - name: ubuntu-latest
             deps: >-
               sudo apt update &&
-              sudo apt-get install -y libgc-dev libreadline-dev meson
-
-        # exclude:
-        #   # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=83243
-        #   - compiler: gcc
-        #     linker: lld
+              sudo apt-get install -y libgc-dev libreadline-dev lld meson
 
     name: ${{ matrix.compiler }}-${{ matrix.linker }} (${{ matrix.os.name }})
     runs-on: ${{ matrix.os.name }}
