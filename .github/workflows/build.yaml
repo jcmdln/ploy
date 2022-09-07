@@ -36,7 +36,7 @@ jobs:
           - name: ubuntu-latest
             deps: >-
               sudo apt update &&
-              sudo apt-get install -y libasan5 libgc-dev libreadline-dev libubsan1 meson
+              sudo apt-get install -y libgc-dev libreadline-dev meson
 
         # exclude:
         #   # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=83243
