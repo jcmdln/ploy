@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: ISC
 ---
 name: Lint
 
@@ -33,9 +34,9 @@ jobs:
       matrix:
         linter:
           - name: clang-format
-            cmd: clang-format --dry-run --Werror src/**/*.{c,h}
+            cmd: clang-format --dry-run --Werror include/**/*.h src/**/*.c
           - name: clang-tidy
-            cmd: clang-tidy src/**/*.{c,h}
+            cmd: clang-tidy -p ./builddir include/**/*.h src/**/*.c
         os:
           - name: ubuntu-latest
             deps: >-
@@ -50,6 +51,11 @@ jobs:
 
       - name: Install OS dependencies
         run: ${{ matrix.os.deps }}
+
+      - name: Run Meson
+        run: >-
+          meson builddir -Dbuildtype=debug -Doptimization=g -Dwerror=true \
+            -Db_sanitize=address,undefined
 
       - name: Run ${{ matrix.linter.name }}
         run: ${{ matrix.linter.cmd }}
