@@ -59,3 +59,8 @@ jobs:
 
       - name: Run ${{ matrix.linter.name }}
         run: ${{ matrix.linter.cmd }}
+
+      - name: Build Ploy (Debug)
+        run: >-
+          cd builddir &&
+          ninja
