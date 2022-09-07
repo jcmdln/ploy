@@ -11,7 +11,7 @@ The following examples show how to build and run `ploy` on Fedora.
 ```sh
 sudo dnf install -y gc-devel meson readline-devel
 meson builddir
-meson compile -C builddir
+ninja -C builddir
 ```
 
 ### Debug
@@ -19,17 +19,17 @@ meson compile -C builddir
 ```sh
 sudo dnf install -y clang{,-tools-extra} gc-devel lib{asan,ubsan} meson readline-devel
 meson builddir -Dbuildtype=debug -Dwerror=true -Doptimization=g -Db_sanitize=address,undefined
-meson compile -C builddir
+ninja -C builddir
 ```
 
 ### Fancy Debug
 
 ```sh
 sudo dnf install -y \
-    ccache clang{,-tools-extra} gc-devel lib{asan,ubsan} meson mold readline-devel samurai
+  ccache clang{,-tools-extra} gc-devel lib{asan,ubsan} meson mold readline-devel samurai
 CC="ccache clang" CC_LD="mold" NINJA="samu" meson builddir \
-    -Dbuildtype=debug -Dwerror=true -Doptimization=g -Db_sanitize=address,undefined
-meson compile -C builddir
+  -Dbuildtype=debug -Dwerror=true -Doptimization=g -Db_sanitize=address,undefined
+ninja -C builddir
 ```
 
 ## Run
@@ -52,7 +52,7 @@ ninja uninstall -C builddir
 
 # Special Thanks
 
--   http://www.paulgraham.com/lisp.html
--   https://github.com/kanaka/mal
--   https://github.com/krig/LISP
--   https://github.com/rui314/minilisp
+- http://www.paulgraham.com/lisp.html
+- https://github.com/kanaka/mal
+- https://github.com/krig/LISP
+- https://github.com/rui314/minilisp
