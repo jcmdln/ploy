@@ -13,13 +13,11 @@ struct object *
 parser(struct token *tokens)
 {
 	if (!tokens) {
-		// fputs("debug: parser: tokens stream is NULL\n", stderr);
 		return NULL;
 	}
 
 	struct object *objects = parse_form(&tokens);
 	if (!objects) {
-		// fputs("debug: parser: tokens stream is NULL\n", stderr);
 		return NULL;
 	}
 
