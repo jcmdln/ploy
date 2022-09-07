@@ -52,7 +52,7 @@ struct token {
 	struct token *next;
 };
 
-#define TOKENS " \t\n\r\v*`:\"=^/><-#()%+;\'"
+static char const TOKENS[31] = " \t\n\r\v*`:\"=^/><-#()%+;\'";
 
 struct token *token_new(enum token_type type, int64_t index, char *data);
 

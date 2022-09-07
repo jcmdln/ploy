@@ -9,8 +9,6 @@
 #include <ploy/gc.h>
 #include <ploy/reader/lexer.h>
 
-#define TOKENS " \t\n\r\v*`:\"=^/><-#()%+;\'"
-
 struct token *
 lexer(char *input)
 {
