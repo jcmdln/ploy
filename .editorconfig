@@ -1,0 +1,28 @@
+# SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
+
+root = true
+
+[*]
+charset = "utf-8"
+end_of_line = "lf"
+insert_final_newline = true
+indent_size = 4
+indent_style = "space"
+max_line_length = 100
+tab_width = 4
+trim_trailing_whitespace = true
+
+[.clang{d,-{format,tidy}}]
+indent_size = 2
+tab_width = 2
+
+[*.{c,h}]
+indent_size = 4
+indent_style = "tab"
+tab_width = 4
+
+[*.{json{,c},y{,a}ml}]
+indent_size = 2
+tab_width = 2

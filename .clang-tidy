@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: ISC
+---
+Checks: >-
+  -*,
+  bugprone-*,
+  -bugprone-branch-clone,
+  -bugprone-easily-swappable-parameters,
+  cert-*-c,
+  -cert-err33-c,
+  misc-*,
+  -misc-no-recursion,
+  performance-*,
+  portability-*,
+  readability-*,
+  -readability-identifier-length,
+  -readability-implicit-bool-conversion,
+  -readability-magic-numbers,
+  -readability-non-const-parameter,
+FormatStyle: none
+HeaderFilterRegex: ".*"
+WarningsAsErrors: ""

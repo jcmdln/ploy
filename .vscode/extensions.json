@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: ISC
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "llvm-vs-code-extensions.vscode-clangd",
+    "mesonbuild.mesonbuild",
+    "notskm.clang-tidy",
+    "redhat.vscode-yaml",
+    "tamasfe.even-better-toml",
+    "wayou.vscode-todo-highlight"
+  ]
+}

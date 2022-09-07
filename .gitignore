@@ -1,0 +1,37 @@
+# SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
+
+# Ignore everything
+*
+
+# Include these specific files
+!.clang-format
+!.clang-tidy
+!.clangd
+!.editorconfig
+!.gitignore
+!.prettierrc.yaml
+!LICENSE
+!meson.build
+!README.md
+
+# Include specific files from specific directories
+!.github/
+!.github/**/
+!.github/**/*.md
+!.github/**/*.y*ml
+!.vscode/
+!.vscode/**/
+!.vscode/**/*.json
+!.vscode/**/*.md
+!docs/
+!docs/**/*.md
+!include/
+!include/**/
+!include/**/*.h
+!include/**/meson.build
+!src/
+!src/**/
+!src/**/*.c
+!src/**/meson.build

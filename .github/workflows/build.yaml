@@ -1,0 +1,65 @@
+---
+name: Build
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/build.yaml
+      - meson.build
+      - include/**/*.h
+      - include/**/meson.build
+      - src/**/*.c
+      - src/**/meson.build
+  push:
+    paths:
+      - .github/workflows/build.yaml
+      - meson.build
+      - include/**/*.h
+      - include/**/meson.build
+      - src/**/*.c
+      - src/**/meson.build
+  workflow_dispatch:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler:
+          - clang
+          - gcc
+        linker:
+          - bfd
+          - lld
+        os:
+          - name: ubuntu-latest
+            deps: >-
+              sudo apt update &&
+              sudo apt-get install -y libasan5 libgc-dev libreadline-dev libubsan1 meson
+
+        exclude:
+          # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=83243
+          - compiler: gcc
+            linker: lld
+
+    name: ${{ matrix.compiler }}-${{ matrix.linker }} (${{ matrix.os.name }})
+    runs-on: ${{ matrix.os.name }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install system dependencies
+        run: ${{ matrix.os.deps }}
+
+      - name: Prepare build
+        env:
+          CC: "${{ matrix.compiler }}"
+          CC_LD: "${{ matrix.linker }}"
+        run: >-
+          meson builddir
+            -Dbuildtype=debug -Dwerror=true -Doptimization=g -Db_sanitize=address,undefined
+
+      - name: Build Ploy
+        run: >-
+          cd builddir &&
+          ninja
