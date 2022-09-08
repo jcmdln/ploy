@@ -1,8 +1,9 @@
 # SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
+#
+# clang-format >= 10
 ---
-Language: Cpp
-#BasedOnStyle: none
-
 AccessModifierOffset: -4
 AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: None
