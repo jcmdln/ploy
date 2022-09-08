@@ -13,29 +13,29 @@ enum token_type {
 
 	// Whitespace tokens
 	TOKEN_CARRIAGE_RETURN, // '\r'
-	TOKEN_NEWLINE,		   // '\n'
-	TOKEN_SPACE,		   // ' '
-	TOKEN_TAB,			   // '\t'
-	TOKEN_VERTICAL_TAB,	   // '\v'
+	TOKEN_NEWLINE,         // '\n'
+	TOKEN_SPACE,           // ' '
+	TOKEN_TAB,             // '\t'
+	TOKEN_VERTICAL_TAB,    // '\v'
 
 	// Character tokens
-	TOKEN_ASTERISK,			// '*'
-	TOKEN_BACKTICK,			// '`'
-	TOKEN_CARET,			// '^'
-	TOKEN_EQUAL,			// '='
-	TOKEN_FORWARD_SLASH,	// '/'
+	TOKEN_ASTERISK,         // '*'
+	TOKEN_BACKTICK,         // '`'
+	TOKEN_CARET,            // '^'
+	TOKEN_EQUAL,            // '='
+	TOKEN_FORWARD_SLASH,    // '/'
 	TOKEN_GREATER_OR_EQUAL, // ">="
-	TOKEN_GREATER_THAN,		// '>'
-	TOKEN_LESS_OR_EQUAL,	// "<="
-	TOKEN_LESS_THAN,		// '<'
-	TOKEN_MINUS,			// '-'
-	TOKEN_OCTOTHORPE,		// '#'
-	TOKEN_PAREN_L,			// '('
-	TOKEN_PAREN_R,			// ')'
-	TOKEN_PERCENT,			// '%'
-	TOKEN_PLUS,				// '+'
-	TOKEN_SEMICOLON,		// ';'
-	TOKEN_SINGLE_QUOTE,		// '\''
+	TOKEN_GREATER_THAN,     // '>'
+	TOKEN_LESS_OR_EQUAL,    // "<="
+	TOKEN_LESS_THAN,        // '<'
+	TOKEN_MINUS,            // '-'
+	TOKEN_OCTOTHORPE,       // '#'
+	TOKEN_PAREN_L,          // '('
+	TOKEN_PAREN_R,          // ')'
+	TOKEN_PERCENT,          // '%'
+	TOKEN_PLUS,             // '+'
+	TOKEN_SEMICOLON,        // ';'
+	TOKEN_SINGLE_QUOTE,     // '\''
 
 	// Atoms
 	TOKEN_COMMENT,

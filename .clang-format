@@ -1,34 +1,32 @@
 # SPDX-License-Identifier: ISC
 ---
 Language: Cpp
-BasedOnStyle: none
+#BasedOnStyle: none
 
 AccessModifierOffset: -4
-AlignAfterOpenBracket: false
-AlignConsecutiveAssignments: false
-AlignConsecutiveDeclarations: false
-AlignConsecutiveMacros: false
-AlignEscapedNewlines: true
-AlignOperands: true
+AlignAfterOpenBracket: DontAlign
+AlignConsecutiveAssignments: None
+AlignConsecutiveDeclarations: None
+AlignConsecutiveMacros: None
+AlignEscapedNewlines: Left
+AlignOperands: Align
 AlignTrailingComments: true
 AllowAllArgumentsOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
-AllowShortBlocksOnASingleLine: false
+AllowShortBlocksOnASingleLine: Never
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: true
-AllowShortIfStatementsOnASingleLine: false
-AllowShortLambdasOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
-AlwaysBreakAfterDefinitionReturnType: false
+AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: TopLevelDefinitions
 AlwaysBreakBeforeMultilineStrings: false
-AlwaysBreakTemplateDeclarations: true
 BinPackArguments: true
 BinPackParameters: true
 
 BraceWrapping:
   AfterCaseLabel: false
-  AfterControlStatement: false
+  AfterControlStatement: Never
   AfterEnum: false
   AfterExternBlock: false
   AfterFunction: true
@@ -39,7 +37,7 @@ BraceWrapping:
   SplitEmptyFunction: false
   SplitEmptyRecord: false
 
-BreakBeforeBinaryOperators: false
+BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Custom
 BreakBeforeTernaryOperators: false
 BreakStringLiterals: false
@@ -65,7 +63,7 @@ MacroBlockEnd: ""
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: None
 PointerAlignment: Right
-SortIncludes: true
+SortIncludes: CaseSensitive
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: true
@@ -75,7 +73,7 @@ SpaceBeforeSquareBrackets: false
 SpaceInEmptyBlock: false
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 1
-SpacesInAngles: false
+SpacesInAngles: Never
 SpacesInCStyleCastParentheses: false
 SpacesInConditionalStatement: false
 SpacesInContainerLiterals: false
@@ -83,4 +81,4 @@ SpacesInParentheses: false
 SpacesInSquareBrackets: false
 TabWidth: 4
 UseCRLF: false
-UseTab: true
+UseTab: AlignWithSpaces

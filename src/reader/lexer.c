@@ -471,18 +471,6 @@ token_type_as_char(enum token_type type)
 	case TOKEN_ERROR:
 		return "error";
 
-	// Atoms
-	case TOKEN_COMMENT:
-		return "comment";
-	case TOKEN_KEYWORD:
-		return "keyword";
-	case TOKEN_NUMBER:
-		return "number";
-	case TOKEN_STRING:
-		return "string";
-	case TOKEN_SYMBOL:
-		return "symbol";
-
 	// Whitespace tokens
 	case TOKEN_CARRIAGE_RETURN:
 		return "carriage_return";
@@ -530,6 +518,18 @@ token_type_as_char(enum token_type type)
 		return "semicolon";
 	case TOKEN_SINGLE_QUOTE:
 		return "single_quote";
+
+	// Atoms
+	case TOKEN_COMMENT:
+		return "comment";
+	case TOKEN_KEYWORD:
+		return "keyword";
+	case TOKEN_NUMBER:
+		return "number";
+	case TOKEN_STRING:
+		return "string";
+	case TOKEN_SYMBOL:
+		return "symbol";
 	}
 
 	return NULL;
