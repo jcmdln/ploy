@@ -25,8 +25,8 @@ ninja -C builddir
 ### Fancy Debug
 
 ```sh
-sudo dnf install -y \
-  ccache clang{,-tools-extra} gc-devel lib{asan,ubsan} meson mold readline-devel samurai
+sudo dnf install -y ccache clang{,-tools-extra} gc-devel lib{asan,ubsan} meson mold \
+  readline-devel samurai
 CC="ccache clang" CC_LD="mold" NINJA="samu" meson builddir \
   -Dbuildtype=debug -Dwerror=true -Doptimization=g -Db_sanitize=address,undefined
 ninja -C builddir
