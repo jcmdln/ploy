@@ -11,6 +11,6 @@
 
 struct object *reader(char *input);
 
-bool read_list_delimiters(struct token *tokens);
+struct object *read_list_delimiters(struct token *tokens);
 
 #endif // PLOY_READER_READER_H

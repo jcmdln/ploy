@@ -23,7 +23,7 @@ printer(struct object *object)
 		printf(object->boolean ? "true" : "false");
 		break;
 	case OBJECT_ERROR:
-		printf(object->boolean ? "true" : "false");
+		printf("error: %s\n", object->error);
 		break;
 	case OBJECT_KEYWORD:
 		printf(":%s", object->keyword);

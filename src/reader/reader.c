@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include <ploy/reader.h>
+#include <ploy/type/object.h>
 
 struct object *
 reader(char *input)
@@ -20,14 +21,15 @@ reader(char *input)
 		return NULL;
 	}
 
-	if (!read_list_delimiters(tokens)) {
-		return NULL;
+	struct object *object = read_list_delimiters(tokens);
+	if (object && object->type == OBJECT_ERROR) {
+		return object;
 	}
 
 	return parser(tokens);
 }
 
-bool
+struct object *
 read_list_delimiters(struct token *tokens)
 {
 	struct token *head = tokens;
@@ -44,14 +46,12 @@ read_list_delimiters(struct token *tokens)
 	}
 
 	if (balanced < 0) {
-		fputs("error: read_list_delimiters: missing open parenthesis\n", stderr);
-		return false;
+		return object_error("read_list_delimiters: missing open parenthesis");
 	}
 
 	if (balanced > 0) {
-		fputs("error: read_list_delimiters: missing closing parenthesis\n", stderr);
-		return false;
+		return object_error("read_list_delimiters: missing closing parenthesis");
 	}
 
-	return true;
+	return NULL;
 }

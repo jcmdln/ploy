@@ -26,6 +26,16 @@ object_boolean(bool boolean)
 }
 
 struct object *
+object_error(char *error)
+{
+	struct object *object = object_new(OBJECT_ERROR);
+
+	object->error = error;
+
+	return object;
+}
+
+struct object *
 object_keyword(char *keyword)
 {
 	struct object *object = object_new(OBJECT_KEYWORD);

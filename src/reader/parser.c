@@ -57,8 +57,7 @@ parse_form(struct token **tokens)
 			break;
 
 		// Atoms
-		case TOKEN_COMMENT:
-			// Comments are ignored for now
+		case TOKEN_COMMENT: // Comments are ignored
 			*tokens = token = token->next;
 			continue;
 		case TOKEN_KEYWORD:
@@ -75,13 +74,14 @@ parse_form(struct token **tokens)
 			break;
 
 		default:
-			printf("error: parse_form: unknown form: '%s' (%s)\n", token->data,
-				token_type_as_char(token->type));
-			return NULL;
+			return object_error("parse_form: unknown form");
 		}
 
 		if (!object) {
-			return NULL;
+			return object_error("parse_form: object is NULL");
+		}
+		if (object->type == OBJECT_ERROR) {
+			return object;
 		}
 
 		objects = Append(objects, object);
@@ -100,15 +100,12 @@ struct object *
 parse_keyword(struct token **token)
 {
 	if (!token) {
-		fputs("error: parse_keyword: token is NULL\n", stderr);
-		return NULL;
+		return object_error("parse_keyword: token is NULL");
 	}
 
 	struct token *head = *token;
-
 	if (head->type != TOKEN_KEYWORD) {
-		fputs("error: parse_keyword: token->type is not TOKEN_KEYWORD\n", stderr);
-		return NULL;
+		return object_error("parse_keyword: token->type is not TOKEN_KEYWORD");
 	}
 
 	*token = head->next;
@@ -120,8 +117,7 @@ struct object *
 parse_lambda(struct token **token)
 {
 	if (!token) {
-		fputs("error: parse_lambda: token is NULL\n", stderr);
-		return NULL;
+		return object_error("parse_lambda: token is NULL");
 	}
 
 	struct token *head = *token;
@@ -135,24 +131,20 @@ struct object *
 parse_list(struct token **token)
 {
 	if (!token) {
-		fputs("error: parse_list: token is NULL\n", stderr);
-		return NULL;
+		return object_error("parse_list: token is NULL");
 	}
 
 	struct token *head = *token;
-
-	if (head->type != TOKEN_PAREN_L || *head->data != '(') {
-		fputs("error: parse_list: missing open parenthesis '('\n", stderr);
-		return NULL;
+	if (head->type != TOKEN_PAREN_L) {
+		return object_error("parse_list: missing open parenthesis");
 	}
 
 	*token = head->next;
 	struct object *object = parse_form(token);
 	head = *token;
 
-	if (!head || head->type != TOKEN_PAREN_R || *head->data != ')') {
-		fputs("error: parse_list: missing closing parenthesis\n", stderr);
-		return NULL;
+	if (!head || head->type != TOKEN_PAREN_R) {
+		return object_error("parse_list: missing closing parenthesis");
 	}
 
 	*token = head->next;
@@ -164,15 +156,12 @@ struct object *
 parse_number(struct token **token)
 {
 	if (!token) {
-		fputs("error: parse_number: token is NULL\n", stderr);
-		return NULL;
+		return object_error("parse_number: token is NULL");
 	}
 
 	struct token *head = *token;
-
 	if (head->type != TOKEN_NUMBER) {
-		fputs("error: parse_string: token->type is not TOKEN_NUMBER\n", stderr);
-		return NULL;
+		return object_error("parse_number: token->type is not TOKEN_NUMBER");
 	}
 
 	*token = head->next;
@@ -184,15 +173,12 @@ struct object *
 parse_quasiquote(struct token **token)
 {
 	if (!token) {
-		fputs("error: parse_quasiquote: token is NULL\n", stderr);
-		return NULL;
+		return object_error("parse_quasiquote: token is NULL");
 	}
 
 	struct token *head = *token;
-
-	if (head->type != TOKEN_BACKTICK || *head->data != '`') {
-		fputs("error: parse_quasiquote: missing backtick '`' prefix\n", stderr);
-		return NULL;
+	if (head->type != TOKEN_BACKTICK) {
+		return object_error("parse_quasiquote: missing backtick prefix");
 	}
 
 	head = head->next;
@@ -202,8 +188,7 @@ parse_quasiquote(struct token **token)
 	case TOKEN_SYMBOL:
 		break;
 	default:
-		fputs("error: parse_quasiquote: invalid form\n", stderr);
-		return NULL;
+		return object_error("parse_quasiquote: invalid form");
 	}
 
 	*token = head->next;
@@ -215,15 +200,12 @@ struct object *
 parse_quote(struct token **token)
 {
 	if (!token) {
-		fputs("error: parse_quote: token is NULL\n", stderr);
-		return NULL;
+		return object_error("parse_quote: token is NULL");
 	}
 
 	struct token *head = *token;
-
 	if (head->type != TOKEN_SINGLE_QUOTE) {
-		fputs("error: parse_quasiquote: missing single_quote '\''\n", stderr);
-		return NULL;
+		return object_error("parse_quote: missing single_quote");
 	}
 
 	head = head->next;
@@ -233,8 +215,7 @@ parse_quote(struct token **token)
 	case TOKEN_SYMBOL:
 		break;
 	default:
-		fputs("error: parse_quasiquote: invalid form\n", stderr);
-		return NULL;
+		return object_error("parse_quote: invalid form");
 	}
 
 	*token = head->next;
@@ -247,15 +228,12 @@ struct object *
 parse_string(struct token **token)
 {
 	if (!token) {
-		fputs("error: parse_string: token is NULL\n", stderr);
-		return NULL;
+		return object_error("parse_string: token is NULL");
 	}
 
 	struct token *head = *token;
-
 	if (head->type != TOKEN_STRING) {
-		fputs("error: parse_string: token->type is not TOKEN_STRING\n", stderr);
-		return NULL;
+		return object_error("parse_string: token->type is not TOKEN_STRING");
 	}
 
 	*token = head->next;
@@ -267,15 +245,12 @@ struct object *
 parse_symbol(struct token **token)
 {
 	if (!token) {
-		fputs("error: parse_symbol: token is NULL\n", stderr);
-		return NULL;
+		return object_error("parse_symbol: token is NULL");
 	}
 
 	struct token *head = *token;
-
 	if (head->type != TOKEN_SYMBOL) {
-		fputs("error: parse_symbol: token->type is not TOKEN_SYMBOL\n", stderr);
-		return NULL;
+		return object_error("parse_symbol: token->type is not TOKEN_SYMBOL");
 	}
 
 	*token = head->next;
