@@ -3,7 +3,7 @@
 # Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 
 ploy_sources += files(
-    'lambda.c',
-    'list.c',
-    'object.c',
+  'lambda.c',
+  'list.c',
+  'object.c',
 )

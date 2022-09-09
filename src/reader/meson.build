@@ -3,7 +3,7 @@
 # Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 
 ploy_sources += files(
-    'lexer.c',
-    'parser.c',
-    'reader.c',
+  'lexer.c',
+  'parser.c',
+  'reader.c',
 )
