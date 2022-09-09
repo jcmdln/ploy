@@ -5,7 +5,7 @@
 #ifndef PLOY_PRINTER_H
 #pragma once
 
-#include <ploy/types.h>
+#include <ploy/type.h>
 
 void printer(struct object *object);
 

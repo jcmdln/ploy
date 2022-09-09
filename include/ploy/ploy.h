@@ -9,6 +9,6 @@
 #include <ploy/gc.h>
 #include <ploy/printer.h>
 #include <ploy/reader.h>
-#include <ploy/types.h>
+#include <ploy/type.h>
 
 #endif // PLOY_H
