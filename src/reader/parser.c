@@ -50,8 +50,8 @@ parse_form(struct token **tokens)
 
 		// Character tokens
 		case TOKEN_PAREN_R:
-			*tokens = token;
-			return objects;
+			object = object_nil();
+			break;
 		case TOKEN_PAREN_L:
 			object = parse_list(&token);
 			break;
@@ -86,7 +86,7 @@ parse_form(struct token **tokens)
 
 		objects = Append(objects, object);
 
-		if (!token || !token->next) {
+		if (!token || !token->next || object->type == OBJECT_NIL) {
 			break;
 		}
 	}
