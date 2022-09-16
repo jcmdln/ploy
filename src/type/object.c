@@ -8,7 +8,7 @@
 struct object *
 object_new(enum object_type type)
 {
-	struct object *object = (struct object *)gc_alloc(sizeof(*object));
+	struct object *object = gc_alloc(sizeof(*object));
 
 	object->type = type;
 

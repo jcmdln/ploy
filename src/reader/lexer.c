@@ -421,7 +421,7 @@ token_new(enum token_type type, int64_t index, char *data)
 		return NULL;
 	}
 
-	struct token *token = (struct token *)gc_alloc(sizeof(*token));
+	struct token *token = gc_alloc(sizeof(*token));
 
 	token->type = type;
 	token->index = index;
