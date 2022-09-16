@@ -508,7 +508,9 @@ token_type_as_char(enum token_type type)
 	case TOKEN_EQUAL:
 		return "equal";
 	case TOKEN_CARET:
-		return "exponent";
+		return "caret";
+	case TOKEN_COLON:
+		return "colon";
 	case TOKEN_FORWARD_SLASH:
 		return "forward_slash";
 	case TOKEN_GREATER_OR_EQUAL:

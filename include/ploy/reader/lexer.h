@@ -7,6 +7,7 @@
 
 #include <stdint.h>
 
+static char const TOKENS[31] = "\r\n \t\v*`^:=/><-#()%+;\'\"";
 enum token_type {
 	TOKEN_NIL = 0,
 	TOKEN_ERROR,
@@ -22,6 +23,7 @@ enum token_type {
 	TOKEN_ASTERISK,         // '*'
 	TOKEN_BACKTICK,         // '`'
 	TOKEN_CARET,            // '^'
+	TOKEN_COLON,            // ':'
 	TOKEN_EQUAL,            // '='
 	TOKEN_FORWARD_SLASH,    // '/'
 	TOKEN_GREATER_OR_EQUAL, // ">="
@@ -51,8 +53,6 @@ struct token {
 	char *data;
 	struct token *next;
 };
-
-static char const TOKENS[31] = " \t\n\r\v*`:\"=^/><-#()%+;\'";
 
 struct token *token_new(enum token_type type, int64_t index, char *data);
 
