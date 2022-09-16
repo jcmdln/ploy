@@ -4,3 +4,6 @@
 ---
 CompileFlags:
   CompilationDatabase: builddir
+
+Diagnostics:
+  UnusedIncludes: Strict

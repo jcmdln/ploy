@@ -2,22 +2,21 @@
 #
 # Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 ---
-Checks: >-
-  -*,
-  bugprone-*,
-  -bugprone-branch-clone,
-  -bugprone-easily-swappable-parameters,
-  cert-*-c,
-  -cert-err33-c,
-  misc-*,
-  -misc-no-recursion,
-  performance-*,
-  portability-*,
-  readability-*,
-  -readability-identifier-length,
-  -readability-implicit-bool-conversion,
-  -readability-magic-numbers,
-  -readability-non-const-parameter,
 FormatStyle: none
 HeaderFilterRegex: ".*"
 WarningsAsErrors: ""
+
+Checks: |
+  -*
+  bugprone-*
+  cert-*-c
+  misc-*
+  performance-*
+  portability-*
+  readability-*
+  -bugprone-branch-clone
+  -bugprone-easily-swappable-parameters
+  -cert-err33-c
+  -misc-no-recursion
+  -readability-magic-numbers
+  -readability-non-const-parameter

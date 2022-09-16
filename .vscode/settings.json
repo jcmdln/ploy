@@ -1,7 +1,19 @@
 // SPDX-License-Identifier: ISC
 {
+  "clangd.arguments": [
+    // Don't automatically add missing headers
+    "--header-insertion=false"
+  ],
+
+  // Set clang-tidy and meson build directory to "builddir"
   "clang-tidy.buildPath": "builddir",
+  "mesonbuild.buildFolder": "builddir",
+
+  // Make Prettier the default formatter
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.insertSpaces": true,
+
+  // Ensure files have the correct language association
   "files.associations": {
     ".clang-format": "yaml",
     ".clang-tidy": "yaml",
@@ -9,20 +21,23 @@
     "*.c": "c",
     "*.h": "c"
   },
+
+  // Exclude targets from being watched for changes
   "files.watcherExclude": {
     "**/builddir/**": true
   },
-  "mesonbuild.buildFolder": "builddir",
-  "prettier.useEditorConfig": true,
+
+  // Associate YAML schemas with targets
   "yaml.schemas": {
     "https://json.schemastore.org/github-workflow.json": [
       "${workspaceFolder}/.github/workflows/*.yaml"
     ]
   },
+
+  // Per-language settings
   "[c]": {
     "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
-    // Set 'editor.tabSize' to prevent seeing VSCode default to 8-column tabs
-    // before loading the editorconfig rules.
+    "editor.insertSpaces": false,
     "editor.tabSize": 4
   },
   "[json]": {
