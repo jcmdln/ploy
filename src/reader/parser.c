@@ -7,6 +7,7 @@
 #include <string.h>
 
 #include <ploy/builtins.h>
+#include <ploy/gc.h>
 #include <ploy/reader/parser.h>
 
 struct object *
@@ -110,7 +111,10 @@ parse_keyword(struct token **token)
 
 	*token = head->next;
 
-	return object_keyword(strdup(head->data));
+	char *string = gc_alloc(sizeof(*string));
+	memcpy(string, head->data, strlen(head->data));
+
+	return object_keyword(string);
 }
 
 struct object *
@@ -238,7 +242,10 @@ parse_string(struct token **token)
 
 	*token = head->next;
 
-	return object_string(strdup(head->data));
+	char *string = gc_alloc(sizeof(*string));
+	memcpy(string, head->data, strlen(head->data));
+
+	return object_string(string);
 }
 
 struct object *
@@ -255,5 +262,8 @@ parse_symbol(struct token **token)
 
 	*token = head->next;
 
-	return object_symbol(strdup(head->data));
+	char *string = gc_alloc(sizeof(*string));
+	memcpy(string, head->data, strlen(head->data));
+
+	return object_symbol(string);
 }

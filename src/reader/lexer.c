@@ -4,6 +4,7 @@
 
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include <ploy/gc.h>
@@ -137,7 +138,10 @@ lex_comment(int64_t *index, char **input)
 		++length;
 	};
 
-	struct token *token = token_new(TOKEN_COMMENT, *index, strndup(*input, length));
+	char *string = gc_alloc(sizeof(*string));
+	memcpy(string, *input, length);
+
+	struct token *token = token_new(TOKEN_COMMENT, *index, string);
 
 	*input = cursor;
 	*index += length;
@@ -176,7 +180,10 @@ lex_keyword(int64_t *index, char **input)
 		return NULL;
 	}
 
-	struct token *token = token_new(TOKEN_KEYWORD, *index, strndup(*input, length));
+	char *string = gc_alloc(sizeof(*string));
+	memcpy(string, *input, length);
+
+	struct token *token = token_new(TOKEN_KEYWORD, *index, string);
 
 	*input = cursor;
 	*index += length;
@@ -210,7 +217,10 @@ lex_number(int64_t *index, char **input)
 		++length;
 	};
 
-	struct token *token = token_new(TOKEN_NUMBER, *index, strndup(*input, length));
+	char *string = gc_alloc(sizeof(*string));
+	memcpy(string, *input, length);
+
+	struct token *token = token_new(TOKEN_NUMBER, *index, string);
 
 	*input = cursor;
 	*index += length;
@@ -249,7 +259,10 @@ lex_string(int64_t *index, char **input)
 		return NULL;
 	}
 
-	struct token *token = token_new(TOKEN_STRING, *index, strndup(*input, length));
+	char *string = gc_alloc(sizeof(*string));
+	memcpy(string, *input, length);
+
+	struct token *token = token_new(TOKEN_STRING, *index, string);
 
 	*input = ++cursor;
 	*index += ++length;
@@ -283,7 +296,10 @@ lex_symbol(int64_t *index, char **input)
 		return NULL;
 	}
 
-	struct token *token = token_new(TOKEN_SYMBOL, *index, strndup(*input, length));
+	char *string = gc_alloc(sizeof(*string));
+	memcpy(string, *input, length);
+
+	struct token *token = token_new(TOKEN_SYMBOL, *index, string);
 
 	*input = cursor;
 	*index += length;
@@ -377,11 +393,12 @@ lex_token(int64_t *index, char **input, int64_t length)
 			token = token_new(TOKEN_LESS_OR_EQUAL, *index, "<=");
 		}
 		break;
+	}
 
-	// Error
-	default:
-		token = token_new(TOKEN_ERROR, *index, strndup(*input, length));
-		break;
+	if (!token) {
+		char *string = gc_alloc(sizeof(*string));
+		memcpy(string, *input, length);
+		token = token_new(TOKEN_ERROR, *index, string);
 	}
 
 	*input += length;
