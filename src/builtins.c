@@ -12,8 +12,7 @@ struct object *
 Append(struct object *list, struct object *object)
 {
 	if (!object) {
-		fputs("error: Append: object is NULL\n", stderr);
-		return NULL;
+		return object_error("Append: object is NULL");
 	}
 
 	if (!list) {
@@ -82,8 +81,7 @@ Reverse(struct object *object)
 {
 	struct list *list = list_reverse(object->list);
 	if (!list) {
-		fputs("error: Reverse: list_reverse returned NULL\n", stderr);
-		return NULL;
+		return object_error("Reverse: list_reverse returned NULL");
 	}
 
 	return object_list(list);
