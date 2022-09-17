@@ -16,8 +16,11 @@ main(int argc, char **argv)
 {
 	int opt = 0;
 
-	while ((opt = getopt(argc, argv, ":e")) != -1) {
+	while ((opt = getopt(argc, argv, "h")) != -1) {
 		switch (opt) {
+		case 'h':
+			printf("usage: ploy [-h]\n\n%s", "-h      Show help output\n");
+			return EXIT_SUCCESS;
 		default:
 			printf("usage: ploy [-h]\n\n%s", "-h      Show help output\n");
 			return EXIT_FAILURE;
