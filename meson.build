@@ -20,7 +20,7 @@ project(
     'werror=false',
   ],
   license: 'ISC',
-  meson_version: '>=0.53',
+  meson_version: '>=0.56',
   version: '0.0.0',
 )
 
@@ -28,6 +28,7 @@ cc = meson.get_compiler('c', native: true)
 
 ploy_opts = [
   '-fno-omit-frame-pointer',
+  '-fwritable-strings',
   '-Werror=trigraphs',
   '-Werror=vla',
   '-Wno-error=pedantic',
@@ -64,18 +65,26 @@ foreach opt : ploy_opts
   endif
 endforeach
 
+bdw_gc = dependency('bdw-gc', required: true)
+readline = dependency('readline', required: true)
+
+ploy_includes = include_directories('include')
 ploy_sources = []
 subdir('src')
 
+test_sources = []
+foreach file : ploy_sources
+  target = join_paths(meson.project_source_root(), '@0@'.format(file))
+  if not target.contains('main.c')
+    test_sources += ''.join(target)
+  endif
+endforeach
+subdir('test')
+
 executable(
   'ploy',
-  dependencies: [
-    dependency('bdw-gc', required: true),
-    dependency('readline', required: true),
-  ],
-  include_directories: [
-    include_directories('include')
-  ],
+  dependencies: [bdw_gc, readline],
+  include_directories: ploy_includes,
   install: true,
   sources: ploy_sources,
 )
