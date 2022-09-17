@@ -43,7 +43,7 @@ jobs:
           - name: ubuntu-latest
             deps: >-
               sudo apt update &&
-              sudo apt-get install -y libasan5 libgc-dev libreadline-dev libubsan1 meson
+              sudo apt-get install -y libasan5 libgc-dev libreadline-dev libubsan1
 
     name: ${{ matrix.linter.name }} (${{ matrix.os.name }})
     runs-on: ${{ matrix.os.name }}
@@ -51,8 +51,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install OS dependencies
+      - name: Install system dependencies
         run: ${{ matrix.os.deps }}
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Install Meson>=0.56
+        run: pip install "meson>=0.56"
 
       - name: Run Meson
         env:
