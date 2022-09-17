@@ -8,6 +8,7 @@
 #include <stdint.h>
 
 static char const TOKENS[31] = "\r\n \t\v*`^:=/><-#()%+;\'\"";
+
 enum token_type {
 	TOKEN_NIL = 0,
 	TOKEN_ERROR,
@@ -54,16 +55,14 @@ struct token {
 	struct token *next;
 };
 
-struct token *token_new(enum token_type type, int64_t index, char *data);
-
 struct token *token_append(struct token *tokens, struct token *token);
+struct token *token_new(enum token_type type, int64_t index, char *data);
 struct token *token_peek(struct token *token);
 void token_print(struct token *tokens);
 char *token_type_as_char(enum token_type type);
 
 struct token *lexer(char *input);
 char lexer_peek(char *input);
-
 struct token *lex_comment(int64_t *index, char **input);
 struct token *lex_keyword(int64_t *index, char **input);
 struct token *lex_number(int64_t *index, char **input);

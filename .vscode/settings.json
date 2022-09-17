@@ -2,7 +2,7 @@
 {
   "clangd.arguments": [
     // Don't automatically add missing headers
-    "--header-insertion=false"
+    "--header-insertion=never"
   ],
 
   // Set clang-tidy and meson build directory to "builddir"
