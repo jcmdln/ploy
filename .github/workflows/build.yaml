@@ -38,7 +38,7 @@ jobs:
           - name: ubuntu-latest
             deps: >-
               sudo apt update &&
-              sudo apt-get install -y libgc-dev libreadline-dev lld
+              sudo apt-get install -y libgc-dev libreadline-dev lld ninja
 
     name: ${{ matrix.compiler }}-${{ matrix.linker }} (${{ matrix.os.name }})
     runs-on: ${{ matrix.os.name }}
@@ -57,7 +57,7 @@ jobs:
             poetry.lock
 
       - name: Install Meson>=0.56
-        run: pip install "meson>=0.56"
+        run: pip install "meson>=0.56" ninja
 
       - name: Run Meson
         env:

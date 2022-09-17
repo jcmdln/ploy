@@ -60,7 +60,7 @@ jobs:
           cache: "pip"
 
       - name: Install Meson>=0.56
-        run: pip install "meson>=0.56"
+        run: pip install "meson>=0.56" ninja
 
       - name: Run Meson
         env:
