@@ -14,7 +14,7 @@ struct token *
 lexer(char *input)
 {
 	if (!input) {
-		fputs("error: lexer: input is NULL\n", stderr);
+		return token_new(TOKEN_ERROR, 0, "lexer: input is NULL");
 	}
 
 	char *cursor = input;
@@ -90,15 +90,14 @@ lexer(char *input)
 		}
 
 		if (!token) {
-			return NULL;
+			return token_new(TOKEN_ERROR, 0, "lexer: token is NULL");
 		}
 
 		tokens = token_append(tokens, token);
 	};
 
 	if (!tokens) {
-		fputs("error: lexer: tokens is NULL\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, 0, "lexer: tokens is NULL");
 	}
 
 	return tokens;
@@ -116,18 +115,13 @@ struct token *
 lex_comment(int64_t *index, char **input)
 {
 	if (!index) {
-		fputs("error: lex_comment: index is NULL\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, 0, "lex_comment: index is NULL");
 	}
-
 	if (!input) {
-		fputs("error: lex_comment: input is NULL\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, 0, "lex_comment: input is NULL");
 	}
-
 	if (**input != '#' && **input != ';') {
-		fputs("error: lex_comment: input is NULL\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, 0, "lex_comment: input is NULL");
 	}
 
 	char *cursor = *input;
@@ -153,18 +147,15 @@ struct token *
 lex_keyword(int64_t *index, char **input)
 {
 	if (!index) {
-		fputs("error: lex_keyword: index is NULL\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_keyword: index is NULL");
 	}
 
 	if (!input) {
-		fputs("error: lex_keyword: input is NULL\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_keyword: input is NULL");
 	}
 
 	if (**input != ':') {
-		fputs("error: lex_keyword: missing colon prefix ':'\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_keyword: lex_keyword: missing colon prefix ':'");
 	}
 
 	char *cursor = ++*input;
@@ -176,8 +167,7 @@ lex_keyword(int64_t *index, char **input)
 	};
 
 	if (length == 0) {
-		fputs("error: lex_keyword: identifier length is zero\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_keyword: identifier length is zero");
 	}
 
 	char *string = (char *)gc_alloc(sizeof(*string));
@@ -195,13 +185,11 @@ struct token *
 lex_number(int64_t *index, char **input)
 {
 	if (!index) {
-		fputs("error: lex_number: index is NULL\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_number: index is NULL");
 	}
 
 	if (!input) {
-		fputs("error: lex_number: input is NULL\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_number: input is NULL");
 	}
 
 	char *cursor = *input;
@@ -232,18 +220,13 @@ struct token *
 lex_string(int64_t *index, char **input)
 {
 	if (!index) {
-		fputs("error: lex_string: index is NULL\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_string: index is NULL");
 	}
-
 	if (!input) {
-		fputs("error: lex_string: input is NULL\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_string: input is NULL");
 	}
-
 	if (**input != '\"') {
-		fputs("error: lex_string: missing open double-quote '\"'\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_string: missing open double-quote '\"'");
 	}
 
 	char *cursor = ++*input;
@@ -255,8 +238,7 @@ lex_string(int64_t *index, char **input)
 	};
 
 	if (*cursor != '\"') {
-		fputs("error: lex_string: missing closing double-quote '\"'\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_string: missing closing double-quote '\"'");
 	}
 
 	char *string = (char *)gc_alloc(sizeof(*string));
@@ -274,13 +256,10 @@ struct token *
 lex_symbol(int64_t *index, char **input)
 {
 	if (!index) {
-		fputs("error: lex_symbol: index is NULL\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_symbol: index is NULL");
 	}
-
 	if (!input) {
-		fputs("error: lex_symbol: input is NULL\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_symbol: input is NULL");
 	}
 
 	char *cursor = *input;
@@ -292,8 +271,7 @@ lex_symbol(int64_t *index, char **input)
 	};
 
 	if (length == 0) {
-		fputs("error: lex_symbol: symbol cannot have a length of zero\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_symbol: symbol cannot have a length of zero");
 	}
 
 	char *string = (char *)gc_alloc(sizeof(*string));
@@ -311,18 +289,13 @@ struct token *
 lex_token(int64_t *index, char **input, int64_t length)
 {
 	if (!index) {
-		fputs("error: lex_token: index is NULL\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_token: index is NULL");
 	}
-
 	if (!input) {
-		fputs("error: lex_token: input is NULL\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_token: input is NULL");
 	}
-
 	if (length == 0) {
-		fputs("error: lex_token: length is zero\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, *index, "lex_token: length is zero");
 	}
 
 	struct token *token = NULL;
@@ -411,10 +384,8 @@ struct token *
 token_append(struct token *tokens, struct token *token)
 {
 	if (!token) {
-		fputs("error: token_append: token is NULL\n", stderr);
-		return NULL;
+		return token_new(TOKEN_ERROR, 0, "token_append: token is NULL");
 	}
-
 	if (!tokens) {
 		return token;
 	}
@@ -434,8 +405,7 @@ struct token *
 token_new(enum token_type type, int64_t index, char *data)
 {
 	if (!data) {
-		printf("error: token_new: %s: data is NULL\n", token_type_as_char(type));
-		return NULL;
+		return token_new(TOKEN_ERROR, 0, "token_new: data is NULL");
 	}
 
 	struct token *token = (struct token *)gc_alloc(sizeof(*token));
@@ -451,13 +421,11 @@ struct token *
 token_peek(struct token *token)
 {
 	if (!token) {
-		printf("error: token_peek: token is NULL\n");
-		return NULL;
+		return token_new(TOKEN_ERROR, 0, "token_peek: token is NULL");
 	}
 
 	if (!token->next) {
-		printf("error: token_peek: token->next is NULL\n");
-		return NULL;
+		return token_new(TOKEN_ERROR, 0, "token_peek: token->next is NULL");
 	}
 
 	return token->next;
@@ -467,12 +435,11 @@ void
 token_print(struct token *tokens)
 {
 	if (!tokens) {
-		fputs("error: token_print: tokens cannot be NULL\n", stderr);
+		fputs("error: token_print: tokens is NULL\n", stderr);
 		return;
 	}
 
 	struct token *head = tokens;
-
 	while (head) {
 		printf("token: %16s: '%s'\n", token_type_as_char(head->type), head->data);
 		head = head->next;

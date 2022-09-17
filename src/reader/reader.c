@@ -12,13 +12,15 @@ struct object *
 reader(char *input)
 {
 	if (!input) {
-		fputs("error: reader: input is NULL", stderr);
-		return NULL;
+		return object_error("reader: input is NULL");
 	}
 
 	struct token *tokens = lexer(input);
 	if (!tokens) {
-		return NULL;
+		return object_error("reader: tokens is NULL");
+	}
+	if (tokens->type == TOKEN_ERROR) {
+		return object_error(tokens->data);
 	}
 
 	struct object *object = read_list_delimiters(tokens);
@@ -53,5 +55,5 @@ read_list_delimiters(struct token *tokens)
 		return object_error("read_list_delimiters: missing closing parenthesis");
 	}
 
-	return NULL;
+	return object_nil();
 }

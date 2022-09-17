@@ -14,12 +14,15 @@ struct object *
 parser(struct token *tokens)
 {
 	if (!tokens) {
-		return NULL;
+		return object_error("parser: tokens is NULL");
+	}
+	if (tokens->type == TOKEN_ERROR) {
+		return object_error(tokens->data);
 	}
 
 	struct object *objects = parse_form(&tokens);
 	if (!objects) {
-		return NULL;
+		return object_error("parser: objects is NULL");
 	}
 
 	return objects;
@@ -29,8 +32,7 @@ struct object *
 parse_form(struct token **tokens)
 {
 	if (!tokens) {
-		fputs("error: parse_form: tokens stream is NULL\n", stderr);
-		return NULL;
+		return object_error("parse_form: tokens stream is NULL");
 	}
 
 	struct object *objects = NULL;
@@ -128,7 +130,7 @@ parse_lambda(struct token **token)
 
 	*token = head->next;
 
-	return NULL;
+	return object_error("parse_lambda: not implemented");
 }
 
 struct object *
@@ -197,7 +199,7 @@ parse_quasiquote(struct token **token)
 
 	*token = head->next;
 
-	return NULL;
+	return object_error("parse_quasiquote: not implemented");
 }
 
 struct object *
@@ -224,7 +226,7 @@ parse_quote(struct token **token)
 
 	*token = head->next;
 
-	return NULL;
+	return object_error("parse_quote: not implemented");
 }
 
 // FIXME: parse_string: Handle nested strings

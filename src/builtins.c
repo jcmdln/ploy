@@ -30,7 +30,7 @@ struct object *
 Car(struct object *list)
 {
 	if (!list || list->type != OBJECT_LIST) {
-		return NULL;
+		return object_error("Car: list is NULL");
 	}
 
 	return list->list->element;
@@ -40,7 +40,7 @@ struct object *
 Cdr(struct object *list)
 {
 	if (!list || list->type != OBJECT_LIST) {
-		return NULL;
+		return object_error("Cdr: list is NULL");
 	}
 
 	return list->list->next;
