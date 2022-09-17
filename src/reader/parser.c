@@ -111,7 +111,7 @@ parse_keyword(struct token **token)
 
 	*token = head->next;
 
-	char *string = gc_alloc(sizeof(*string));
+	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, head->data, strlen(head->data));
 
 	return object_keyword(string);
@@ -242,7 +242,7 @@ parse_string(struct token **token)
 
 	*token = head->next;
 
-	char *string = gc_alloc(sizeof(*string));
+	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, head->data, strlen(head->data));
 
 	return object_string(string);
@@ -262,7 +262,7 @@ parse_symbol(struct token **token)
 
 	*token = head->next;
 
-	char *string = gc_alloc(sizeof(*string));
+	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, head->data, strlen(head->data));
 
 	return object_symbol(string);

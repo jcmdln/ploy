@@ -12,7 +12,7 @@
 struct list *
 list_new(struct object *element, struct object *next)
 {
-	struct list *list = gc_alloc(sizeof(*list));
+	struct list *list = (struct list *)gc_alloc(sizeof(*list));
 
 	list->element = element;
 	list->next = next;

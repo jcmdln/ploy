@@ -138,7 +138,7 @@ lex_comment(int64_t *index, char **input)
 		++length;
 	};
 
-	char *string = gc_alloc(sizeof(*string));
+	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, *input, length);
 
 	struct token *token = token_new(TOKEN_COMMENT, *index, string);
@@ -180,7 +180,7 @@ lex_keyword(int64_t *index, char **input)
 		return NULL;
 	}
 
-	char *string = gc_alloc(sizeof(*string));
+	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, *input, length);
 
 	struct token *token = token_new(TOKEN_KEYWORD, *index, string);
@@ -217,7 +217,7 @@ lex_number(int64_t *index, char **input)
 		++length;
 	};
 
-	char *string = gc_alloc(sizeof(*string));
+	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, *input, length);
 
 	struct token *token = token_new(TOKEN_NUMBER, *index, string);
@@ -259,7 +259,7 @@ lex_string(int64_t *index, char **input)
 		return NULL;
 	}
 
-	char *string = gc_alloc(sizeof(*string));
+	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, *input, length);
 
 	struct token *token = token_new(TOKEN_STRING, *index, string);
@@ -296,7 +296,7 @@ lex_symbol(int64_t *index, char **input)
 		return NULL;
 	}
 
-	char *string = gc_alloc(sizeof(*string));
+	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, *input, length);
 
 	struct token *token = token_new(TOKEN_SYMBOL, *index, string);
@@ -396,7 +396,7 @@ lex_token(int64_t *index, char **input, int64_t length)
 	}
 
 	if (!token) {
-		char *string = gc_alloc(sizeof(*string));
+		char *string = (char *)gc_alloc(sizeof(*string));
 		memcpy(string, *input, length);
 		token = token_new(TOKEN_ERROR, *index, string);
 	}
@@ -438,7 +438,7 @@ token_new(enum token_type type, int64_t index, char *data)
 		return NULL;
 	}
 
-	struct token *token = gc_alloc(sizeof(*token));
+	struct token *token = (struct token *)gc_alloc(sizeof(*token));
 
 	token->type = type;
 	token->index = index;
