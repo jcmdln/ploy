@@ -8,6 +8,6 @@
 #include <stddef.h>
 
 void *gc_alloc(size_t size);
-void gc_free(void *p);
+void gc_free(void *target);
 
 #endif // PLOY_GC_H

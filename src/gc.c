@@ -13,7 +13,7 @@ gc_alloc(size_t size)
 }
 
 void
-gc_free(void *p)
+gc_free(void *target)
 {
-	GC_FREE(p);
+	GC_FREE(target);
 }
