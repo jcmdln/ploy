@@ -25,7 +25,7 @@ enum object_type {
 
 struct object {
 	enum object_type type;
-	struct {
+	union {
 		bool boolean;
 		char *error;
 		char *keyword;
