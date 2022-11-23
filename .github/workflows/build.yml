@@ -60,6 +60,4 @@ jobs:
         run: meson builddir
 
       - name: Build Ploy (Release)
-        run: >-
-          cd builddir &&
-          ninja
+        run: ninja -C builddir

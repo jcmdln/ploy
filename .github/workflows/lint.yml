@@ -61,14 +61,13 @@ jobs:
       - name: Run Meson
         env:
           CC: clang-12
+          CC_LD: lld
         run: >-
           meson builddir -Dbuildtype=debug -Doptimization=g -Dwerror=true \
             -Db_sanitize=address,undefined
 
       - name: Build Ploy (Debug)
-        run: >-
-          cd builddir &&
-          ninja
+        run: ninja -C builddir
 
       - name: Run ${{ matrix.linter.name }}
         run: ${{ matrix.linter.cmd }}
