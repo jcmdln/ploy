@@ -7,6 +7,7 @@
     "mesonbuild.mesonbuild",
     "notskm.clang-tidy",
     "redhat.vscode-yaml",
+    "streetsidesoftware.code-spell-checker",
     "tamasfe.even-better-toml",
     "wayou.vscode-todo-highlight"
   ]
