@@ -15,13 +15,8 @@ Append(struct object *list, struct object *object)
 		return object_error("Append: object is NULL");
 	}
 	if (!list) {
-		return object;
+		return Cons(object, object_nil());
 	}
-
-	if (list->type != OBJECT_LIST) {
-		return object_list(list_new(list, object_list(list_new(object, object_nil()))));
-	}
-
 	return object_list(list_append(list->list, object));
 }
 
