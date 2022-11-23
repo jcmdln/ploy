@@ -9,7 +9,7 @@
 
 #include <ploy/reader/lexer.h>
 
-struct object *reader(char *input);
+struct object *reader(const char *input);
 
 struct object *read_list_delimiters(struct token *tokens);
 

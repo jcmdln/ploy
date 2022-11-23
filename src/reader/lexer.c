@@ -11,13 +11,13 @@
 #include <ploy/reader/lexer.h>
 
 struct token *
-lexer(char *input)
+lexer(const char *input)
 {
 	if (!input) {
 		return token_new(TOKEN_ERROR, 0, "lexer: input is NULL");
 	}
 
-	char *cursor = input;
+	char *cursor = (char *)input;
 	int64_t index = 0;
 	struct token *tokens = NULL;
 	while (*cursor) {
@@ -103,9 +103,9 @@ lexer(char *input)
 }
 
 char
-lexer_peek(char *input)
+lexer_peek(const char *input)
 {
-	char *cursor = input;
+	char *cursor = (char *)input;
 	++cursor;
 	return *cursor;
 }
@@ -257,7 +257,8 @@ lex_symbol(int64_t *index, char **input)
 	};
 
 	if (length == 0) {
-		return token_new(TOKEN_ERROR, *index, "lex_symbol: symbol cannot have a length of zero");
+		const char str[49] = "lex_symbol: symbol cannot have a length of zero\0";
+		return token_new(TOKEN_ERROR, *index, str);
 	}
 
 	char *string = (char *)gc_alloc(sizeof(*string));
@@ -383,7 +384,7 @@ token_append(struct token *tokens, struct token *token)
 }
 
 struct token *
-token_new(enum token_type type, int64_t index, char *data)
+token_new(enum token_type type, int64_t index, const char *data)
 {
 	if (!data) {
 		return token_new(TOKEN_ERROR, 0, "token_new: data is NULL");
@@ -426,7 +427,7 @@ token_print(struct token *tokens)
 	}
 }
 
-char *
+const char *
 token_type_as_char(enum token_type type)
 {
 	switch (type) {

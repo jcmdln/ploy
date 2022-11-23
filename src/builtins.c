@@ -62,7 +62,7 @@ Print(struct object *object)
 }
 
 struct object *
-Read(char *input)
+Read(const char *input)
 {
 	return reader(input);
 }

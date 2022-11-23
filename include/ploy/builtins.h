@@ -17,7 +17,7 @@ struct object *Eval(struct object *object);
 // struct object *If(struct object *expr, struct object *body);
 // struct object *Lambda(struct object *env, struct object *args, struct object *body);
 struct object *Print(struct object *object);
-struct object *Read(char *input);
+struct object *Read(const char *input);
 // struct object *Quasiquote(struct object *object);
 // struct object *Quote(struct object *object);
 struct object *Reverse(struct object *object);

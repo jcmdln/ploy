@@ -35,9 +35,10 @@ subdir('src')
 
 opts = [
   '-fno-omit-frame-pointer',
-  '-fwritable-strings',
+  '-Werror=discarded-qualifiers',
   '-Werror=trigraphs',
   '-Werror=vla',
+  '-Werror=write-strings',
   '-Wno-error=pedantic',
   '-Wno-error=uninitialized',
   '-Wno-error=unused-but-set-parameter',

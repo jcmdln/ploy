@@ -51,18 +51,18 @@ enum token_type {
 struct token {
 	enum token_type type;
 	int64_t index;
-	char *data;
+	const char *data;
 	struct token *next;
 };
 
 struct token *token_append(struct token *tokens, struct token *token);
-struct token *token_new(enum token_type type, int64_t index, char *data);
+struct token *token_new(enum token_type type, int64_t index, const char *data);
 struct token *token_peek(struct token *token);
 void token_print(struct token *tokens);
-char *token_type_as_char(enum token_type type);
+const char *token_type_as_char(enum token_type type);
 
-struct token *lexer(char *input);
-char lexer_peek(char *input);
+struct token *lexer(const char *input);
+char lexer_peek(const char *input);
 
 struct token *lex_comment(int64_t *index, char **input);
 struct token *lex_keyword(int64_t *index, char **input);

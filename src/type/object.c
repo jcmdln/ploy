@@ -22,7 +22,7 @@ object_boolean(bool boolean)
 }
 
 struct object *
-object_error(char *error)
+object_error(const char *error)
 {
 	struct object *object = object_new(OBJECT_ERROR);
 	object->error = error;

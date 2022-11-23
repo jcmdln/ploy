@@ -27,7 +27,7 @@ struct object {
 	enum object_type type;
 	union {
 		bool boolean;
-		char *error;
+		const char *error;
 		char *keyword;
 		struct lambda *lambda;
 		struct list *list;
@@ -38,7 +38,7 @@ struct object {
 };
 
 struct object *object_boolean(bool boolean);
-struct object *object_error(char *error);
+struct object *object_error(const char *error);
 struct object *object_keyword(char *keyword);
 struct object *object_lambda(struct lambda *lambda);
 struct object *object_list(struct list *list);

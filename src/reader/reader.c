@@ -6,7 +6,7 @@
 #include <ploy/type/object.h>
 
 struct object *
-reader(char *input)
+reader(const char *input)
 {
 	if (!input) {
 		return object_error("reader: input is NULL");
