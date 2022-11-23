@@ -30,7 +30,7 @@
   // Associate YAML schemas with targets
   "yaml.schemas": {
     "https://json.schemastore.org/github-workflow.json": [
-      "${workspaceFolder}/.github/workflows/*.yaml"
+      "${workspaceFolder}/.github/workflows/*.yml"
     ]
   },
 

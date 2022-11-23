@@ -11,20 +11,18 @@
 !.clangd
 !.editorconfig
 !.gitignore
-!.prettierrc.yaml
+!.prettierrc.yml
 !LICENSE
 !meson.build
 !README.md
 
 # Include specific files from specific directories
 !.github/
-!.github/**/
-!.github/**/*.md
-!.github/**/*.y*ml
+!.github/workflows/
+!.github/workflows/*.yml
 !.vscode/
-!.vscode/**/
-!.vscode/**/*.json
-!.vscode/**/*.md
+!.vscode/extensions.json
+!.vscode/settings.json
 !docs/
 !docs/**/*.md
 !include/

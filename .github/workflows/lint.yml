@@ -9,8 +9,8 @@ on:
     paths:
       - .clang-format
       - .clang-tidy
-      - .github/workflows/lint.yaml
-      - .prettierrc.yaml
+      - .github/workflows/lint.yml
+      - .prettierrc.yml
       - include/**/*.c
       - include/**/meson.build
       - meson.build
@@ -20,8 +20,8 @@ on:
     paths:
       - .clang-format
       - .clang-tidy
-      - .github/workflows/lint.yaml
-      - .prettierrc.yaml
+      - .github/workflows/lint.yml
+      - .prettierrc.yml
       - include/**/*.c
       - include/**/meson.build
       - meson.build
@@ -65,10 +65,10 @@ jobs:
           meson builddir -Dbuildtype=debug -Doptimization=g -Dwerror=true \
             -Db_sanitize=address,undefined
 
-      - name: Run ${{ matrix.linter.name }}
-        run: ${{ matrix.linter.cmd }}
-
       - name: Build Ploy (Debug)
         run: >-
           cd builddir &&
           ninja
+
+      - name: Run ${{ matrix.linter.name }}
+        run: ${{ matrix.linter.cmd }}

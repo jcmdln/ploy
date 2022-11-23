@@ -7,7 +7,7 @@ name: Build
 on:
   pull_request:
     paths:
-      - .github/workflows/build.yaml
+      - .github/workflows/build.yml
       - meson.build
       - include/**/*.h
       - include/**/meson.build
@@ -15,7 +15,7 @@ on:
       - src/**/meson.build
   push:
     paths:
-      - .github/workflows/build.yaml
+      - .github/workflows/build.yml
       - meson.build
       - include/**/*.h
       - include/**/meson.build
@@ -59,7 +59,7 @@ jobs:
           CC_LD: "${{ matrix.linker }}"
         run: meson builddir
 
-      - name: Build Ploy
+      - name: Build Ploy (Release)
         run: >-
           cd builddir &&
           ninja
