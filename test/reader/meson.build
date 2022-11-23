@@ -4,8 +4,8 @@
 
 test('test_reader', executable('test_reader',
   dependencies: bdw_gc,
-  include_directories: ploy_includes,
-  sources: files(test_sources, 'reader.c')
+  include_directories: includes,
+  sources: [test_sources, files('reader.c')]
 ))
 
 subdir('lexer')

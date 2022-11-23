@@ -24,9 +24,16 @@ project(
   version: '0.0.0',
 )
 
-cc = meson.get_compiler('c', native: true)
+#
+# Compilation
+#
 
-ploy_opts = [
+compiler = meson.get_compiler('c', native: true)
+includes = include_directories('include')
+sources = []
+subdir('src')
+
+opts = [
   '-fno-omit-frame-pointer',
   '-fwritable-strings',
   '-Werror=trigraphs',
@@ -38,19 +45,19 @@ ploy_opts = [
   '-Wno-error=unused-variable',
 ]
 
-if cc.get_id().startswith('clang')
-  ploy_opts += [
+if compiler.get_id().startswith('clang')
+  opts += [
     '-Werror=unreachable-code-break',
     '-Werror=unreachable-code-return',
   ]
-elif cc.get_id().startswith('gcc')
-  ploy_opts += [
+elif compiler.get_id().startswith('gcc')
+  opts += [
     '-Werror=switch-unreachable',
   ]
 endif
 
 if get_option('buildtype').startswith('debug')
-  ploy_opts += [
+  opts += [
     '-fsanitize=float-cast-overflow',
     '-fsanitize=float-divide-by-zero',
     '-fsanitize=integer-divide-by-zero',
@@ -59,32 +66,44 @@ if get_option('buildtype').startswith('debug')
   ]
 endif
 
-foreach opt : ploy_opts
-  if cc.has_argument(opt)
+foreach opt : opts
+  if compiler.has_argument(opt)
     add_project_arguments(opt, language: 'c')
   endif
 endforeach
 
+#
+# Dependencies
+#
+
 bdw_gc = dependency('bdw-gc', required: true)
 readline = dependency('readline', required: true)
 
-ploy_includes = include_directories('include')
-ploy_sources = []
-subdir('src')
+#
+# Executables
+#
 
+executable(
+  'ploy',
+  dependencies: [bdw_gc, readline],
+  include_directories: includes,
+  install: true,
+  sources: sources,
+)
+
+#
+# Tests
+#
+
+# Collect all source files other than 'main.c' so that tests can define their
+# own `main` function.
+#
+# TODO: Is there a simpler way to do this?
 test_sources = []
-foreach file : ploy_sources
+foreach file : sources
   target = join_paths(meson.project_source_root(), '@0@'.format(file))
   if not target.contains('main.c')
     test_sources += ''.join(target)
   endif
 endforeach
 subdir('test')
-
-executable(
-  'ploy',
-  dependencies: [bdw_gc, readline],
-  include_directories: ploy_includes,
-  install: true,
-  sources: ploy_sources,
-)

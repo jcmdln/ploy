@@ -4,6 +4,6 @@
 
 test('test_lexer', executable('test_lexer',
   dependencies: bdw_gc,
-  include_directories: ploy_includes,
-  sources: files(test_sources, 'lexer.c')
+  include_directories: includes,
+  sources: [test_sources, files('lexer.c')]
 ))

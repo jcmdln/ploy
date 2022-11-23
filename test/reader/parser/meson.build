@@ -4,6 +4,6 @@
 
 test('test_parser', executable('test_parser',
   dependencies: bdw_gc,
-  include_directories: ploy_includes,
-  sources: files(test_sources, 'parser.c')
+  include_directories: includes,
+  sources: [test_sources, files('parser.c')]
 ))
