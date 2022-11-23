@@ -3,93 +3,25 @@ This directory contains tests for validating Ploy.
 # Printer
 
 ```c
-// clang-format off
+#include <ploy/ploy.h>
 
-// reader("(wew :lad \"foo bar\" (wew :lad \"foo bar\" (wew :lad \"foo bar\")))")
-Print(
-    object_list(list_new(
-        object_symbol("wew"),
-        object_list(list_new(
-            object_keyword("lad"),
-            object_list(list_new(
-                object_string("foo bar"),
-
-                object_list(list_new(
-                    object_list(list_new(
-                        object_symbol("wew"),
-                        object_list(list_new(
-                            object_keyword("lad"),
-                            object_list(list_new(
-                                object_string("foo bar"),
-
-                                object_list(list_new(
-                                    object_list(list_new(
-                                        object_symbol("wew"),
-                                        object_list(list_new(
-                                            object_keyword("lad"),
-                                            object_list(list_new(
-                                                object_string("foo bar"),
-                                                object_nil()
-                                            ))
-                                        ))
-                                    )),
-                                    object_nil()
-                                ))
-
-                            ))
-                        ))
-                    )),
-                    object_nil()
-                ))
-
-            ))
-        ))
-    ))
-);
-
-// reader("(((wew :lad \"foo bar\") wew :lad \"foo bar\") wew :lad \"foo bar\")")
-Print(
-    object_list(list_new(
-        object_list(list_new(
-
-            object_list(list_new(
-                object_symbol("wew"),
-                object_list(list_new(
-                    object_keyword("lad"),
-                    object_list(list_new(
-                        object_string("foo bar"),
-                        object_nil()
-                    ))
-                ))
-            )),
-
-            object_list(list_new(
-                object_symbol("wew"),
-                object_list(list_new(
-                    object_keyword("lad"),
-                    object_list(list_new(
-                        object_string("foo bar"),
-                        object_nil()
-                    ))
-                ))
-            ))
-        )),
-
-        object_list(list_new(
-            object_symbol("wew"),
-            object_list(list_new(
-                object_keyword("lad"),
-                object_list(list_new(
-                    object_string("foo bar"),
-                    object_nil()
-                ))
-            ))
-        ))
-
-    ))
-);
-
-// clang-format on
+int
+main(void) {
+    // Read("(wew :lad \"foo bar\" (wew :lad \"foo bar\" (wew :lad \"foo bar\")))")
+    struct object *head = object_nil();
+    head = Append(head, object_symbol("wew"));
+    head = Append(head, object_keyword("lad"));
+    head = Append(head, object_string("Hello, world!"));
+    struct object *mid = object_nil();
+    mid = Append(mid, object_symbol("foo"));
+    mid = Append(mid, object_keyword("bar"));
+    mid = Append(mid, object_string("Hello, again!"));
+    struct object *tail = object_nil();
+    tail = Append(tail, object_symbol("wew"));
+    tail = Append(tail, object_keyword("lad"));
+    tail = Append(tail, object_string("And yet again!"));
+    Print(Append(head, Append(mid, tail)));
+}
 ```
 
 # Reader
