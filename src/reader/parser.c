@@ -110,7 +110,6 @@ parse_keyword(struct token **token)
 	if (head->type != TOKEN_KEYWORD) {
 		return object_error("parse_keyword: token->type is not TOKEN_KEYWORD");
 	}
-
 	*token = head->next;
 
 	char *string = (char *)gc_alloc(sizeof(*string));
@@ -127,7 +126,6 @@ parse_lambda(struct token **token)
 	}
 
 	struct token *head = *token;
-
 	*token = head->next;
 
 	return object_error("parse_lambda: not implemented");
@@ -144,8 +142,8 @@ parse_list(struct token **token)
 	if (head->type != TOKEN_PAREN_L) {
 		return object_error("parse_list: missing open parenthesis");
 	}
-
 	*token = head->next;
+
 	struct object *object = parse_form(token);
 	head = *token;
 
@@ -169,7 +167,6 @@ parse_number(struct token **token)
 	if (head->type != TOKEN_NUMBER) {
 		return object_error("parse_number: token->type is not TOKEN_NUMBER");
 	}
-
 	*token = head->next;
 
 	return object_number(strtoll(head->data, NULL, 10));
@@ -186,7 +183,6 @@ parse_quasiquote(struct token **token)
 	if (head->type != TOKEN_BACKTICK) {
 		return object_error("parse_quasiquote: missing backtick prefix");
 	}
-
 	head = head->next;
 
 	switch (head->type) {
@@ -213,7 +209,6 @@ parse_quote(struct token **token)
 	if (head->type != TOKEN_SINGLE_QUOTE) {
 		return object_error("parse_quote: missing single_quote");
 	}
-
 	head = head->next;
 
 	switch (head->type) {
@@ -241,7 +236,6 @@ parse_string(struct token **token)
 	if (head->type != TOKEN_STRING) {
 		return object_error("parse_string: token->type is not TOKEN_STRING");
 	}
-
 	*token = head->next;
 
 	char *string = (char *)gc_alloc(sizeof(*string));
@@ -261,7 +255,6 @@ parse_symbol(struct token **token)
 	if (head->type != TOKEN_SYMBOL) {
 		return object_error("parse_symbol: token->type is not TOKEN_SYMBOL");
 	}
-
 	*token = head->next;
 
 	char *string = (char *)gc_alloc(sizeof(*string));

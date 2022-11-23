@@ -20,7 +20,6 @@ lexer(char *input)
 	char *cursor = input;
 	int64_t index = 0;
 	struct token *tokens = NULL;
-
 	while (*cursor) {
 		struct token *token = NULL;
 
@@ -126,7 +125,6 @@ lex_comment(int64_t *index, char **input)
 
 	char *cursor = *input;
 	int64_t length = 0;
-
 	while (*cursor && *cursor != '\n') {
 		++cursor;
 		++length;
@@ -134,9 +132,7 @@ lex_comment(int64_t *index, char **input)
 
 	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, *input, length);
-
 	struct token *token = token_new(TOKEN_COMMENT, *index, string);
-
 	*input = cursor;
 	*index += length;
 
@@ -160,7 +156,6 @@ lex_keyword(int64_t *index, char **input)
 
 	char *cursor = ++*input;
 	int64_t length = 0;
-
 	while (*cursor && !strchr(TOKENS, *cursor)) {
 		++cursor;
 		++length;
@@ -172,9 +167,7 @@ lex_keyword(int64_t *index, char **input)
 
 	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, *input, length);
-
 	struct token *token = token_new(TOKEN_KEYWORD, *index, string);
-
 	*input = cursor;
 	*index += length;
 
@@ -194,7 +187,6 @@ lex_number(int64_t *index, char **input)
 
 	char *cursor = *input;
 	int64_t length = 0;
-
 	if (*cursor == '+' || *cursor == '-') {
 		++cursor;
 		++length;
@@ -207,9 +199,7 @@ lex_number(int64_t *index, char **input)
 
 	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, *input, length);
-
 	struct token *token = token_new(TOKEN_NUMBER, *index, string);
-
 	*input = cursor;
 	*index += length;
 
@@ -231,7 +221,6 @@ lex_string(int64_t *index, char **input)
 
 	char *cursor = ++*input;
 	int64_t length = 0;
-
 	while (*cursor && *cursor != '\"') {
 		++cursor;
 		++length;
@@ -243,9 +232,7 @@ lex_string(int64_t *index, char **input)
 
 	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, *input, length);
-
 	struct token *token = token_new(TOKEN_STRING, *index, string);
-
 	*input = ++cursor;
 	*index += ++length;
 
@@ -264,7 +251,6 @@ lex_symbol(int64_t *index, char **input)
 
 	char *cursor = *input;
 	int64_t length = 0;
-
 	while (*cursor && !strchr(TOKENS, *cursor)) {
 		++cursor;
 		++length;
@@ -276,9 +262,7 @@ lex_symbol(int64_t *index, char **input)
 
 	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, *input, length);
-
 	struct token *token = token_new(TOKEN_SYMBOL, *index, string);
-
 	*input = cursor;
 	*index += length;
 
@@ -299,7 +283,6 @@ lex_token(int64_t *index, char **input, int64_t length)
 	}
 
 	struct token *token = NULL;
-
 	switch (**input) {
 	// Whitespace tokens
 	case ' ':
@@ -391,11 +374,9 @@ token_append(struct token *tokens, struct token *token)
 	}
 
 	struct token *head = tokens;
-
 	while (head && head->next) {
 		head = head->next;
 	}
-
 	head->next = token;
 
 	return tokens;
@@ -409,7 +390,6 @@ token_new(enum token_type type, int64_t index, char *data)
 	}
 
 	struct token *token = (struct token *)gc_alloc(sizeof(*token));
-
 	token->type = type;
 	token->index = index;
 	token->data = data;

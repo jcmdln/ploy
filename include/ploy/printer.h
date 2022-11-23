@@ -8,7 +8,6 @@
 #include <ploy/type.h>
 
 void printer(struct object *object);
-
 void printer_list(struct object *list);
 
 #endif // PLOY_PRINTER_H

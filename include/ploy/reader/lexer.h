@@ -63,6 +63,7 @@ char *token_type_as_char(enum token_type type);
 
 struct token *lexer(char *input);
 char lexer_peek(char *input);
+
 struct token *lex_comment(int64_t *index, char **input);
 struct token *lex_keyword(int64_t *index, char **input);
 struct token *lex_number(int64_t *index, char **input);

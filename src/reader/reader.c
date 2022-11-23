@@ -2,9 +2,6 @@
 //
 // Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 
-#include <stdio.h>
-#include <string.h>
-
 #include <ploy/reader.h>
 #include <ploy/type/object.h>
 
@@ -50,7 +47,6 @@ read_list_delimiters(struct token *tokens)
 	if (balanced < 0) {
 		return object_error("read_list_delimiters: missing open parenthesis");
 	}
-
 	if (balanced > 0) {
 		return object_error("read_list_delimiters: missing closing parenthesis");
 	}

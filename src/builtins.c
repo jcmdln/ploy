@@ -14,7 +14,6 @@ Append(struct object *list, struct object *object)
 	if (!object) {
 		return object_error("Append: object is NULL");
 	}
-
 	if (!list) {
 		return object;
 	}
@@ -32,7 +31,6 @@ Car(struct object *list)
 	if (!list || list->type != OBJECT_LIST) {
 		return object_error("Car: list is NULL");
 	}
-
 	return list->list->element;
 }
 
@@ -42,7 +40,6 @@ Cdr(struct object *list)
 	if (!list || list->type != OBJECT_LIST) {
 		return object_error("Cdr: list is NULL");
 	}
-
 	return list->list->next;
 }
 
@@ -66,7 +63,6 @@ Print(struct object *object)
 		printer(head);
 		putchar('\n');
 	}
-
 	return object;
 }
 
@@ -83,6 +79,5 @@ Reverse(struct object *object)
 	if (!list) {
 		return object_error("Reverse: list_reverse returned NULL");
 	}
-
 	return object_list(list);
 }
