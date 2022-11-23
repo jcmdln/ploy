@@ -58,17 +58,23 @@ printer_list(struct object *list)
 			break;
 		}
 
-		if (Car(list) && Car(list)->type == OBJECT_NIL) {
-			break;
+		struct object *car = Car(list);
+		struct object *cdr = Cdr(list);
+
+		if (car->type == OBJECT_NIL && cdr->type == OBJECT_NIL) {
+			list = cdr;
+			continue;
 		}
 
-		printer(Car(list));
+		printer(car);
 
-		if (Cdr(list) && Car(Cdr(list)) && Car(Cdr(list))->type != OBJECT_NIL) {
-			putchar(' ');
+		if (car->type != OBJECT_NIL && cdr->type != OBJECT_NIL) {
+			if (Car(cdr)->type != OBJECT_NIL || Cdr(cdr)->type != OBJECT_NIL) {
+				putchar(' ');
+			}
 		}
 
-		list = Cdr(list);
+		list = cdr;
 	}
 
 	putchar(')');
