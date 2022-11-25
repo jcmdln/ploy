@@ -32,7 +32,7 @@ struct object *
 parse_form(struct token **tokens)
 {
 	if (!tokens) {
-		return object_error("parse_form: tokens stream is NULL");
+		return object_error("parse_form: tokens is NULL");
 	}
 
 	struct object *objects = NULL;
