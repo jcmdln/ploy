@@ -3,6 +3,7 @@
 # Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 
 test('test_reader', executable('test_reader',
+  build_by_default: false,
   dependencies: bdw_gc,
   include_directories: includes,
   sources: [test_sources, files('reader.c')]

@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
+
+option('benchmark',
+  description: 'Build benchmarks',
+  type: 'boolean',
+  value: false,
+)
+
+option('test',
+  description: 'Build tests',
+  type: 'boolean',
+  value: false,
+)

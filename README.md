@@ -25,6 +25,9 @@ ninja -C builddir
 ## Test
 
 ```sh
+# FIXME: https://github.com/mesonbuild/meson/issues/2518
+# FIXME: https://github.com/mesonbuild/meson/pull/6511
+meson configure builddir -Dtest=true
 ninja -C builddir test
 ```
 

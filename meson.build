@@ -96,15 +96,8 @@ executable(
 # Tests
 #
 
-# Collect all source files other than 'main.c' so that tests can define their
-# own `main` function.
-#
-# TODO: Is there a simpler way to do this?
-test_sources = []
-foreach file : sources
-  target = join_paths(meson.project_source_root(), '@0@'.format(file))
-  if not target.contains('main.c')
-    test_sources += ''.join(target)
-  endif
-endforeach
-subdir('test')
+# FIXME: https://github.com/mesonbuild/meson/issues/2518
+# FIXME: https://github.com/mesonbuild/meson/pull/6511
+if get_option('test')
+  subdir('test')
+endif

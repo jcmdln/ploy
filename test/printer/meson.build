@@ -2,9 +2,9 @@
 #
 # Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 
-test('test_parser', executable('test_parser',
+test('test_printer', executable('test_printer',
   build_by_default: false,
   dependencies: bdw_gc,
   include_directories: includes,
-  sources: [test_sources, files('parser.c')]
+  sources: [test_sources, files('printer.c')]
 ))

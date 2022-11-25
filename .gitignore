@@ -13,6 +13,7 @@
 !.gitignore
 !.prettierrc.yml
 !LICENSE
+!meson_options.txt
 !meson.build
 !README.md
 
