@@ -32,7 +32,7 @@ printer(struct object *object)
 		printf("<lambda>");
 		break;
 	case OBJECT_LIST:
-		printer_list(object);
+		print_list(object);
 		break;
 	case OBJECT_NUMBER:
 		printf("%ld", object->number);
@@ -47,7 +47,7 @@ printer(struct object *object)
 }
 
 void
-printer_list(struct object *list)
+print_list(struct object *list)
 {
 	putchar('(');
 
