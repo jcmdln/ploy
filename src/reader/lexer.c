@@ -145,11 +145,9 @@ lex_keyword(int64_t *index, char **input)
 	if (!index) {
 		return token_new(TOKEN_ERROR, *index, "lex_keyword: index is NULL");
 	}
-
 	if (!input) {
 		return token_new(TOKEN_ERROR, *index, "lex_keyword: input is NULL");
 	}
-
 	if (**input != ':') {
 		return token_new(TOKEN_ERROR, *index, "lex_keyword: lex_keyword: missing colon prefix ':'");
 	}
@@ -180,7 +178,6 @@ lex_number(int64_t *index, char **input)
 	if (!index) {
 		return token_new(TOKEN_ERROR, *index, "lex_number: index is NULL");
 	}
-
 	if (!input) {
 		return token_new(TOKEN_ERROR, *index, "lex_number: input is NULL");
 	}
@@ -404,7 +401,6 @@ token_peek(struct token *token)
 	if (!token) {
 		return token_new(TOKEN_ERROR, 0, "token_peek: token is NULL");
 	}
-
 	if (!token->next) {
 		return token_new(TOKEN_ERROR, 0, "token_peek: token->next is NULL");
 	}
