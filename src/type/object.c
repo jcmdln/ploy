@@ -30,7 +30,7 @@ object_error(const char *error)
 }
 
 struct object *
-object_keyword(char *keyword)
+object_keyword(const char *keyword)
 {
 	struct object *object = object_new(OBJECT_KEYWORD);
 	object->keyword = keyword;
@@ -72,7 +72,7 @@ object_number(int64_t number)
 }
 
 struct object *
-object_string(char *string)
+object_string(const char *string)
 {
 	struct object *object = object_new(OBJECT_STRING);
 	object->string = string;
@@ -80,7 +80,7 @@ object_string(char *string)
 }
 
 struct object *
-object_symbol(char *symbol)
+object_symbol(const char *symbol)
 {
 	struct object *object = object_new(OBJECT_SYMBOL);
 	object->symbol = symbol;
