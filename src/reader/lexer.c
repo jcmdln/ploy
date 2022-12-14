@@ -45,7 +45,7 @@ lexer(const char *input)
 			break;
 		case '-':
 		case '+':
-			if (isdigit(lexer_peek(cursor))) {
+			if (isdigit(cursor[1])) {
 				token = lex_number(&index, &cursor);
 			} else {
 				token = lex_token(&index, &cursor, 1);
@@ -53,7 +53,7 @@ lexer(const char *input)
 			break;
 		case '<':
 		case '>':
-			if (lexer_peek(cursor) == '=') {
+			if (cursor[1] == '=') {
 				token = lex_token(&index, &cursor, 2);
 			} else {
 				token = lex_token(&index, &cursor, 1);
@@ -100,14 +100,6 @@ lexer(const char *input)
 	}
 
 	return tokens;
-}
-
-char
-lexer_peek(const char *input)
-{
-	char *cursor = (char *)input;
-	++cursor;
-	return *cursor;
 }
 
 struct token *
@@ -336,14 +328,14 @@ lex_token(int64_t *index, char **input, int64_t length)
 	case '>':
 		if (length == 1) {
 			token = token_new(TOKEN_GREATER_THAN, *index, ">");
-		} else if (length == 2 && lexer_peek(*input) == '=') {
+		} else if (length == 2 && *input[1] == '=') {
 			token = token_new(TOKEN_GREATER_OR_EQUAL, *index, ">=");
 		}
 		break;
 	case '<':
 		if (length == 1) {
 			token = token_new(TOKEN_LESS_THAN, *index, "<");
-		} else if (length == 2 && lexer_peek(*input) == '=') {
+		} else if (length == 2 && *input[1] == '=') {
 			token = token_new(TOKEN_LESS_OR_EQUAL, *index, "<=");
 		}
 		break;
