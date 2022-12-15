@@ -18,7 +18,7 @@ lexer(const char *input)
 	}
 
 	char *cursor = (char *)input;
-	int64_t index = 0;
+	size_t index = 0;
 	struct token *tokens = NULL;
 	while (*cursor) {
 		struct token *token = NULL;
@@ -103,7 +103,7 @@ lexer(const char *input)
 }
 
 struct token *
-lex_comment(int64_t *index, char **input)
+lex_comment(size_t *index, char **input)
 {
 	if (!index) {
 		return new_token(TOKEN_ERROR, 0, "lex_comment: index is NULL");
@@ -116,7 +116,7 @@ lex_comment(int64_t *index, char **input)
 	}
 
 	char *cursor = *input;
-	int64_t length = 0;
+	size_t length = 0;
 	while (*cursor && *cursor != '\n') {
 		++cursor;
 		++length;
@@ -132,7 +132,7 @@ lex_comment(int64_t *index, char **input)
 }
 
 struct token *
-lex_keyword(int64_t *index, char **input)
+lex_keyword(size_t *index, char **input)
 {
 	if (!index) {
 		return new_token(TOKEN_ERROR, *index, "lex_keyword: index is NULL");
@@ -145,7 +145,7 @@ lex_keyword(int64_t *index, char **input)
 	}
 
 	char *cursor = ++*input;
-	int64_t length = 0;
+	size_t length = 0;
 	while (*cursor && !strchr(TOKENS, *cursor)) {
 		++cursor;
 		++length;
@@ -165,7 +165,7 @@ lex_keyword(int64_t *index, char **input)
 }
 
 struct token *
-lex_number(int64_t *index, char **input)
+lex_number(size_t *index, char **input)
 {
 	if (!index) {
 		return new_token(TOKEN_ERROR, *index, "lex_number: index is NULL");
@@ -175,7 +175,7 @@ lex_number(int64_t *index, char **input)
 	}
 
 	char *cursor = *input;
-	int64_t length = 0;
+	size_t length = 0;
 	if (*cursor == '+' || *cursor == '-') {
 		++cursor;
 		++length;
@@ -196,7 +196,7 @@ lex_number(int64_t *index, char **input)
 }
 
 struct token *
-lex_string(int64_t *index, char **input)
+lex_string(size_t *index, char **input)
 {
 	if (!index) {
 		return new_token(TOKEN_ERROR, *index, "lex_string: index is NULL");
@@ -209,7 +209,7 @@ lex_string(int64_t *index, char **input)
 	}
 
 	char *cursor = ++*input;
-	int64_t length = 0;
+	size_t length = 0;
 	while (*cursor && *cursor != '\"') {
 		++cursor;
 		++length;
@@ -229,7 +229,7 @@ lex_string(int64_t *index, char **input)
 }
 
 struct token *
-lex_symbol(int64_t *index, char **input)
+lex_symbol(size_t *index, char **input)
 {
 	if (!index) {
 		return new_token(TOKEN_ERROR, *index, "lex_symbol: index is NULL");
@@ -239,7 +239,7 @@ lex_symbol(int64_t *index, char **input)
 	}
 
 	char *cursor = *input;
-	int64_t length = 0;
+	size_t length = 0;
 	while (*cursor && !strchr(TOKENS, *cursor)) {
 		++cursor;
 		++length;
@@ -260,7 +260,7 @@ lex_symbol(int64_t *index, char **input)
 }
 
 struct token *
-lex_token(int64_t *index, char **input, int64_t length)
+lex_token(size_t *index, char **input, size_t length)
 {
 	if (!index) {
 		return new_token(TOKEN_ERROR, *index, "lex_token: index is NULL");
@@ -373,7 +373,7 @@ token_append(struct token *tokens, struct token *token)
 }
 
 struct token *
-new_token(enum token_type type, int64_t index, const char *data)
+new_token(enum token_type type, size_t index, const char *data)
 {
 	if (!data) {
 		return new_token(TOKEN_ERROR, 0, "new_token: data is NULL");

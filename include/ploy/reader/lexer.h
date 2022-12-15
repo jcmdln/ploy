@@ -5,7 +5,7 @@
 #ifndef PLOY_READER_LEXER_H
 #pragma once
 
-#include <stdint.h>
+#include <stdlib.h>
 
 static char const TOKENS[31] = " \t\v\n\r()*`^:=/><-#%+;\'\"";
 
@@ -50,7 +50,7 @@ enum token_type {
 
 struct token {
 	enum token_type type;
-	int64_t index;
+	size_t index;
 	const char *data;
 	struct token *next;
 };
@@ -64,11 +64,11 @@ const char *token_type_as_char(enum token_type type);
 
 struct token *lexer(const char *input);
 
-struct token *lex_comment(int64_t *index, char **input);
-struct token *lex_keyword(int64_t *index, char **input);
-struct token *lex_number(int64_t *index, char **input);
-struct token *lex_string(int64_t *index, char **input);
-struct token *lex_symbol(int64_t *index, char **input);
-struct token *lex_token(int64_t *index, char **input, int64_t length);
+struct token *lex_comment(size_t *index, char **input);
+struct token *lex_keyword(size_t *index, char **input);
+struct token *lex_number(size_t *index, char **input);
+struct token *lex_string(size_t *index, char **input);
+struct token *lex_symbol(size_t *index, char **input);
+struct token *lex_token(size_t *index, char **input, size_t length);
 
 #endif // PLOY_READER_LEXER_H

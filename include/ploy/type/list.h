@@ -5,7 +5,7 @@
 #ifndef PLOY_TYPE_LIST_H
 #pragma once
 
-#include <stdint.h>
+#include <stdlib.h>
 
 struct list {
 	struct object *element;
@@ -15,7 +15,7 @@ struct list {
 struct list *new_list(struct object *element, struct object *next);
 
 struct list *list_append(struct list *list, struct object *element);
-int64_t list_length(struct list *list);
+size_t list_length(struct list *list);
 struct list *list_pop(struct list *list);
 struct list *list_push(struct list *list, struct object *element);
 struct list *list_reverse(struct list *list);

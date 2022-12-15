@@ -38,10 +38,10 @@ list_append(struct list *list, struct object *element)
 	return list;
 }
 
-int64_t
+size_t
 list_length(struct list *list)
 {
-	int64_t length = 0;
+	size_t length = 0;
 	struct list *head = list;
 	while (head && head->element) {
 		head = head->next->list;
