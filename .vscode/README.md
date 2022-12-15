@@ -1,8 +1,8 @@
 This directory provides a VSCode configuration and acts as a reference for configuring other editors.
 
--   https://clangd.llvm.org/
--   https://editorconfig.org
--   https://microsoft.github.io/language-server-protocol/
+- https://clangd.llvm.org/
+- https://editorconfig.org
+- https://microsoft.github.io/language-server-protocol/
 
 # Editors
 
