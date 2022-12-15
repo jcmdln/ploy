@@ -13,6 +13,6 @@ struct lambda {
 	struct object *body;
 };
 
-struct lambda *lambda_new(struct object *env, struct object *args, struct object *body);
+struct lambda *new_lambda(struct object *env, struct object *args, struct object *body);
 
 #endif // PLOY_TYPE_LAMDBA_H

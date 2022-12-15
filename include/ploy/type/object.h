@@ -37,6 +37,8 @@ struct object {
 	};
 };
 
+struct object *new_object(enum object_type type);
+
 struct object *object_boolean(bool boolean);
 struct object *object_error(const char *error);
 struct object *object_keyword(const char *keyword);

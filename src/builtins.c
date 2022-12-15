@@ -41,7 +41,7 @@ Cdr(struct object *list)
 struct object *
 Cons(struct object *car, struct object *cdr)
 {
-	return object_list(list_new(car, cdr));
+	return object_list(new_list(car, cdr));
 }
 
 struct object *

@@ -10,7 +10,7 @@
 #include <ploy/type/object.h>
 
 struct list *
-list_new(struct object *element, struct object *next)
+new_list(struct object *element, struct object *next)
 {
 	struct list *list = (struct list *)gc_alloc(sizeof(*list));
 	list->element = element;
@@ -26,14 +26,14 @@ list_append(struct list *list, struct object *element)
 		return NULL;
 	}
 	if (!list) {
-		return list_new(element, object_nil());
+		return new_list(element, object_nil());
 	}
 
 	struct list *head = list;
 	while (head && head->element && head->next && head->next->type == OBJECT_LIST) {
 		head = head->next->list;
 	}
-	head->next = object_list(list_new(element, object_nil()));
+	head->next = object_list(new_list(element, object_nil()));
 
 	return list;
 }
@@ -64,14 +64,14 @@ list_pop(struct list *list)
 struct list *
 list_push(struct list *list, struct object *element)
 {
-	return list_new(element, object_list(list));
+	return new_list(element, object_list(list));
 }
 
 struct list *
 list_reverse(struct list *list)
 {
 	struct list *head = list;
-	struct list *reversed = list_new(NULL, NULL);
+	struct list *reversed = new_list(NULL, NULL);
 	while (head && head->element) {
 		reversed = list_push(reversed, head->element);
 		if (!head->next) {

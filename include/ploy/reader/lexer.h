@@ -55,8 +55,9 @@ struct token {
 	struct token *next;
 };
 
+struct token *new_token(enum token_type type, size_t index, const char *data);
+
 struct token *token_append(struct token *tokens, struct token *token);
-struct token *token_new(enum token_type type, int64_t index, const char *data);
 struct token *token_peek(struct token *token);
 void token_print(struct token *tokens);
 const char *token_type_as_char(enum token_type type);
