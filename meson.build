@@ -12,7 +12,7 @@ project(
     'b_pie=false',
     'b_sanitize=none',
     'buildtype=release',
-    'c_std=c11',
+    'c_std=c17',
     'default_library=shared',
     'optimization=2',
     'strip=false',
@@ -29,13 +29,15 @@ project(
 #
 
 compiler = meson.get_compiler('c', native: true)
+
 includes = include_directories('include')
 sources = []
 subdir('src')
 
 opts = [
-  '-fno-omit-frame-pointer',
-  '-Werror=discarded-qualifiers',
+  '-fshort-wchar',
+  '-fstrict-aliasing',
+  '-funsigned-char',
   '-Werror=trigraphs',
   '-Werror=vla',
   '-Werror=write-strings',
@@ -53,15 +55,19 @@ if compiler.get_id().startswith('clang')
   ]
 elif compiler.get_id().startswith('gcc')
   opts += [
+    '-Werror=discarded-qualifiers',
     '-Werror=switch-unreachable',
   ]
 endif
 
 if get_option('buildtype').startswith('debug')
   opts += [
+    '-fno-omit-frame-pointer',
     '-fsanitize=float-cast-overflow',
     '-fsanitize=float-divide-by-zero',
     '-fsanitize=integer-divide-by-zero',
+    '-fsanitize=pointer-overflow',
+    '-fsanitize=shadow-call-stack',
     '-fsanitize=signed-integer-overflow',
     '-fsanitize=unsigned-integer-overflow',
   ]
