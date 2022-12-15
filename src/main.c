@@ -12,21 +12,8 @@
 #include <ploy/ploy.h>
 
 int
-main(int argc, char **argv)
+repl(void)
 {
-	int opt = 0;
-
-	while ((opt = getopt(argc, argv, "h")) != -1) {
-		switch (opt) {
-		case 'h':
-			printf("usage: ploy [-h]\n\n%s", "-h      Show help output\n");
-			return EXIT_SUCCESS;
-		default:
-			printf("usage: ploy [-h]\n\n%s", "-h      Show help output\n");
-			return EXIT_FAILURE;
-		}
-	}
-
 	puts("ploy v0.0.0\n");
 
 	while (true) {
@@ -42,6 +29,50 @@ main(int argc, char **argv)
 		if (objects) {
 			gc_free(objects);
 		}
+	}
+
+	return EXIT_SUCCESS;
+}
+
+int
+usage(int exit_code)
+{
+	const char *using = "usage: ploy [-h] [-e STRING]\n\n"
+						"    -h      Show help output\n"
+						"    -e      Evaluate an expression\n";
+
+	printf("%s\n", using);
+	return exit_code;
+}
+
+int
+main(int argc, char **argv)
+{
+	bool opt_help = false;
+	bool opt_exec = false;
+
+	int opt = 0;
+	while ((opt = getopt(argc, argv, "he:f:")) != -1) {
+		switch (opt) {
+		case 'e':
+			opt_exec = true;
+			break;
+		case 'h':
+			opt_help = true;
+			break;
+		default:
+			return usage(EXIT_FAILURE);
+		}
+	}
+
+	if (opt_help) {
+		return usage(EXIT_SUCCESS);
+	}
+
+	if (opt_exec) {
+		Print(Eval(Read(argv[2])));
+	} else {
+		return repl();
 	}
 
 	return EXIT_SUCCESS;
