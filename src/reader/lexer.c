@@ -387,19 +387,6 @@ new_token(enum token_type type, size_t index, const char *data)
 	return token;
 }
 
-struct token *
-token_peek(struct token *token)
-{
-	if (!token) {
-		return token_new(TOKEN_ERROR, 0, "token_peek: token is NULL");
-	}
-	if (!token->next) {
-		return token_new(TOKEN_ERROR, 0, "token_peek: token->next is NULL");
-	}
-
-	return token->next;
-}
-
 void
 token_print(struct token *tokens)
 {
