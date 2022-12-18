@@ -8,17 +8,15 @@ on:
   pull_request:
     paths:
       - .github/workflows/build.yml
-      - meson.build
       - include/**/*.h
-      - include/**/meson.build
+      - meson.build
       - src/**/*.c
       - src/**/meson.build
   push:
     paths:
       - .github/workflows/build.yml
-      - meson.build
       - include/**/*.h
-      - include/**/meson.build
+      - meson.build
       - src/**/*.c
       - src/**/meson.build
   workflow_dispatch:

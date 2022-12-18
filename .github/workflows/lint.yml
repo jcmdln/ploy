@@ -11,8 +11,7 @@ on:
       - .clang-tidy
       - .github/workflows/lint.yml
       - .prettierrc.yml
-      - include/**/*.c
-      - include/**/meson.build
+      - include/**/*.h
       - meson.build
       - src/**/*.c
       - src/**/meson.build
@@ -22,8 +21,7 @@ on:
       - .clang-tidy
       - .github/workflows/lint.yml
       - .prettierrc.yml
-      - include/**/*.c
-      - include/**/meson.build
+      - include/**/*.h
       - meson.build
       - src/**/*.c
       - src/**/meson.build
