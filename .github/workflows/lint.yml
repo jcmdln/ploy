@@ -34,14 +34,12 @@ jobs:
       matrix:
         linter:
           - name: clang-format
-            cmd: clang-format --dry-run --Werror include/**/*.h src/**/*.c
+            args: --dry-run --Werror include/**/*.h src/**/*.c
           - name: clang-tidy
-            cmd: clang-tidy -p ./builddir include/**/*.h src/**/*.c
+            args: -p ./builddir include/**/*.h src/**/*.c
         os:
           - name: ubuntu-latest
-            deps: >-
-              sudo apt update &&
-              sudo apt-get install -y libasan5 libgc-dev libreadline-dev libubsan1 meson pkgconf
+            deps: libasan5 libgc-dev libreadline-dev libubsan1 meson pkgconf
 
     name: ${{ matrix.linter.name }} (${{ matrix.os.name }})
     runs-on: ${{ matrix.os.name }}
@@ -57,18 +55,13 @@ jobs:
           path: builddir/
 
       - name: Install system dependencies
-        run: ${{ matrix.os.deps }}
+        run: sudo apt update && sudo apt-get install -y ${{ matrix.os.deps }}
 
       - name: Run Meson
-        run: >-
-          meson builddir
-            -Db_sanitize=address,undefined
-            -Dbuildtype=debug
-            -Doptimization=g
-            -Dwerror=true
+        run: meson builddir -Db_sanitize=address,undefined -Dbuildtype=debug -Doptimization=g -Dwerror=true
 
       - name: Build Ploy (Debug)
         run: ninja -C builddir
 
       - name: Run ${{ matrix.linter.name }}
-        run: ${{ matrix.linter.cmd }}
+        run: ${{ matrix.linter.name }} ${{ matrix.linter.args }}
