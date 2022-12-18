@@ -102,6 +102,14 @@ lexer(const char *input)
 	return tokens;
 }
 
+char
+lexer_peek(const char *input)
+{
+	char *cursor = (char *)input;
+	++cursor;
+	return *cursor;
+}
+
 struct token *
 lex_comment(size_t *index, char **input)
 {
@@ -328,14 +336,14 @@ lex_token(size_t *index, char **input, size_t length)
 	case '>':
 		if (length == 1) {
 			token = new_token(TOKEN_GREATER_THAN, *index, ">");
-		} else if (length == 2 && *input[1] == '=') {
+		} else if (length == 2 && lexer_peek(*input) == '=') {
 			token = new_token(TOKEN_GREATER_OR_EQUAL, *index, ">=");
 		}
 		break;
 	case '<':
 		if (length == 1) {
 			token = new_token(TOKEN_LESS_THAN, *index, "<");
-		} else if (length == 2 && *input[1] == '=') {
+		} else if (length == 2 && lexer_peek(*input) == '=') {
 			token = new_token(TOKEN_LESS_OR_EQUAL, *index, "<=");
 		}
 		break;
