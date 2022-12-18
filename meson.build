@@ -20,7 +20,7 @@ project(
     'werror=false',
   ],
   license: 'ISC',
-  meson_version: '>=0.56',
+  meson_version: '>=0.53',
   version: '0.0.0',
 )
 

@@ -41,28 +41,31 @@ jobs:
           - name: ubuntu-latest
             deps: >-
               sudo apt update &&
-              sudo apt-get install -y libasan5 libgc-dev libreadline-dev libubsan1
+              sudo apt-get install -y libasan5 libgc-dev libreadline-dev libubsan1 meson pkgconf
 
     name: ${{ matrix.linter.name }} (${{ matrix.os.name }})
     runs-on: ${{ matrix.os.name }}
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+
+      - name: Setup meson cache
+        uses: actions/cache@v3
+        id: meson
+        with:
+          key: meson-${{ hashFiles('**/meson.build', 'meson_options.txt') }}
+          path: builddir/
 
       - name: Install system dependencies
         run: ${{ matrix.os.deps }}
 
-      - name: Install Meson>=0.56
-        run: pip install "meson>=0.56" ninja
-
       - name: Run Meson
-        env:
-          CC: clang-12
-          CC_LD: lld
         run: >-
-          meson builddir -Dbuildtype=debug -Doptimization=g -Dwerror=true \
+          meson builddir
             -Db_sanitize=address,undefined
+            -Dbuildtype=debug
+            -Doptimization=g
+            -Dwerror=true
 
       - name: Build Ploy (Debug)
         run: ninja -C builddir
