@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 
-static char const TOKENS[31] = " \t\v\n\r()*`^:=/><-#%+;\'\"";
+static char const TOKENS[24] = " \t\v\n\r()*`^:=/><-#%+;\'\"\0";
 
 enum token_type {
 	TOKEN_NIL = 0,
