@@ -145,6 +145,13 @@ parse_list(struct token **token)
 	*token = head->next;
 
 	struct object *object = parse_form(token);
+	if (!object) {
+		return object_error("parse_list: parse_form returned NULL");
+	}
+	if (object->type == OBJECT_ERROR) {
+		return object;
+	}
+
 	head = *token;
 
 	if (!head || head->type != TOKEN_PAREN_R) {
