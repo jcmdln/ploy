@@ -2,12 +2,8 @@
 #
 # Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 
-option('benchmark',
-  description: 'Build benchmarks',
-  type: 'boolean',
-  value: false,
-)
-
+# FIXME: https://github.com/mesonbuild/meson/issues/2518
+# FIXME: https://github.com/mesonbuild/meson/pull/6511
 option('test',
   description: 'Build tests',
   type: 'boolean',
