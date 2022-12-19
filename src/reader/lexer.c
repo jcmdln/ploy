@@ -388,7 +388,9 @@ new_token(enum token_type type, size_t index, const char *data) {
 void
 token_print(struct token *tokens) {
 	if (!tokens) {
-		fputs("error: token_print: tokens is NULL\n", stderr);
+		if (!fputs("error: token_print: tokens is NULL\n", stderr)) {
+			exit(EXIT_FAILURE);
+		}
 		return;
 	}
 

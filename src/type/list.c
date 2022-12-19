@@ -20,7 +20,9 @@ new_list(struct object *element, struct object *next) {
 struct list *
 list_append(struct list *list, struct object *element) {
 	if (!element) {
-		fputs("error: list_append: element is NULL\n", stderr);
+		if (!fputs("error: list_append: element is NULL\n", stderr)) {
+			exit(EXIT_FAILURE);
+		}
 		return NULL;
 	}
 	if (!list) {

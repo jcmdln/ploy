@@ -2,8 +2,8 @@
 #
 # Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 ---
-FormatStyle: none
-HeaderFilterRegex: ".*"
+FormatStyle: file
+HeaderFilterRegex: ""
 Checks: |
   -*
   bugprone-*
@@ -23,4 +23,3 @@ WarningsAsErrors: |
   performance-*
   portability-*
   readability-*
-  -cert-err33-c

@@ -18,7 +18,9 @@ repl(void) {
 	while (true) {
 		char *input = readline("λ ");
 		if (!input) {
-			fputs("error: main: input is invalid\n", stderr);
+			if (!fputs("error: main: input is invalid\n", stderr)) {
+				exit(EXIT_FAILURE);
+			}
 			return EXIT_FAILURE;
 		}
 
