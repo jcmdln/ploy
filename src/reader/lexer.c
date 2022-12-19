@@ -67,7 +67,11 @@ lexer(const char *input) {
 			token = lex_comment(&index, &cursor);
 			break;
 		case ':':
-			token = lex_keyword(&index, &cursor);
+			if (strchr(TOKENS, lexer_peek(cursor))) {
+				token = lex_token(&index, &cursor, 1);
+			} else {
+				token = lex_keyword(&index, &cursor);
+			}
 			break;
 		case '0':
 		case '1':
@@ -131,6 +135,7 @@ lex_comment(size_t *index, char **input) {
 
 	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, *input, length);
+
 	struct token *token = new_token(TOKEN_COMMENT, *index, string);
 	*input = cursor;
 	*index += length;
@@ -306,6 +311,9 @@ lex_token(size_t *index, char **input, size_t length) {
 		break;
 	case '^':
 		token = new_token(TOKEN_CARET, *index, "^");
+		break;
+	case ':':
+		token = new_token(TOKEN_COLON, *index, ":");
 		break;
 	case '=':
 		token = new_token(TOKEN_EQUAL, *index, "=");
