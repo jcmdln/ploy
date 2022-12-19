@@ -11,8 +11,7 @@
 #include <ploy/reader/parser.h>
 
 struct object *
-parser(struct token *tokens)
-{
+parser(struct token *tokens) {
 	if (!tokens) {
 		return object_error("parser: tokens is NULL");
 	}
@@ -29,8 +28,7 @@ parser(struct token *tokens)
 }
 
 struct object *
-parse_form(struct token **tokens)
-{
+parse_form(struct token **tokens) {
 	if (!tokens) {
 		return object_error("parse_form: tokens is NULL");
 	}
@@ -100,8 +98,7 @@ parse_form(struct token **tokens)
 }
 
 struct object *
-parse_keyword(struct token **token)
-{
+parse_keyword(struct token **token) {
 	if (!token) {
 		return object_error("parse_keyword: token is NULL");
 	}
@@ -119,8 +116,7 @@ parse_keyword(struct token **token)
 }
 
 struct object *
-parse_lambda(struct token **token)
-{
+parse_lambda(struct token **token) {
 	if (!token) {
 		return object_error("parse_lambda: token is NULL");
 	}
@@ -132,8 +128,7 @@ parse_lambda(struct token **token)
 }
 
 struct object *
-parse_list(struct token **token)
-{
+parse_list(struct token **token) {
 	if (!token) {
 		return object_error("parse_list: token is NULL");
 	}
@@ -164,8 +159,7 @@ parse_list(struct token **token)
 }
 
 struct object *
-parse_number(struct token **token)
-{
+parse_number(struct token **token) {
 	if (!token) {
 		return object_error("parse_number: token is NULL");
 	}
@@ -180,8 +174,7 @@ parse_number(struct token **token)
 }
 
 struct object *
-parse_quasiquote(struct token **token)
-{
+parse_quasiquote(struct token **token) {
 	if (!token) {
 		return object_error("parse_quasiquote: token is NULL");
 	}
@@ -206,8 +199,7 @@ parse_quasiquote(struct token **token)
 }
 
 struct object *
-parse_quote(struct token **token)
-{
+parse_quote(struct token **token) {
 	if (!token) {
 		return object_error("parse_quote: token is NULL");
 	}
@@ -233,8 +225,7 @@ parse_quote(struct token **token)
 
 // FIXME: parse_string: Handle nested strings
 struct object *
-parse_string(struct token **token)
-{
+parse_string(struct token **token) {
 	if (!token) {
 		return object_error("parse_string: token is NULL");
 	}
@@ -252,8 +243,7 @@ parse_string(struct token **token)
 }
 
 struct object *
-parse_symbol(struct token **token)
-{
+parse_symbol(struct token **token) {
 	if (!token) {
 		return object_error("parse_symbol: token is NULL");
 	}
@@ -262,6 +252,7 @@ parse_symbol(struct token **token)
 	if (head->type != TOKEN_SYMBOL) {
 		return object_error("parse_symbol: token->type is not TOKEN_SYMBOL");
 	}
+
 	*token = head->next;
 
 	char *string = (char *)gc_alloc(sizeof(*string));

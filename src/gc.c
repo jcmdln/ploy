@@ -7,13 +7,11 @@
 #include <ploy/ploy.h>
 
 void *
-gc_alloc(size_t size)
-{
+gc_alloc(size_t size) {
 	return GC_MALLOC(size);
 }
 
 void
-gc_free(void *target)
-{
+gc_free(void *target) {
 	GC_FREE(target);
 }

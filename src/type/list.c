@@ -10,8 +10,7 @@
 #include <ploy/type/object.h>
 
 struct list *
-new_list(struct object *element, struct object *next)
-{
+new_list(struct object *element, struct object *next) {
 	struct list *list = (struct list *)gc_alloc(sizeof(*list));
 	list->element = element;
 	list->next = next;
@@ -19,8 +18,7 @@ new_list(struct object *element, struct object *next)
 }
 
 struct list *
-list_append(struct list *list, struct object *element)
-{
+list_append(struct list *list, struct object *element) {
 	if (!element) {
 		fputs("error: list_append: element is NULL\n", stderr);
 		return NULL;
@@ -39,8 +37,7 @@ list_append(struct list *list, struct object *element)
 }
 
 size_t
-list_length(struct list *list)
-{
+list_length(struct list *list) {
 	size_t length = 0;
 	struct list *head = list;
 	while (head && head->element) {
@@ -51,8 +48,7 @@ list_length(struct list *list)
 }
 
 struct list *
-list_pop(struct list *list)
-{
+list_pop(struct list *list) {
 	struct list *head = list;
 	while (head && head->next && head->next->list) {
 		head = head->next->list;
@@ -62,14 +58,12 @@ list_pop(struct list *list)
 }
 
 struct list *
-list_push(struct list *list, struct object *element)
-{
+list_push(struct list *list, struct object *element) {
 	return new_list(element, object_list(list));
 }
 
 struct list *
-list_reverse(struct list *list)
-{
+list_reverse(struct list *list) {
 	struct list *head = list;
 	struct list *reversed = new_list(NULL, NULL);
 	while (head && head->element) {

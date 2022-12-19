@@ -6,8 +6,7 @@
 #include <ploy/type/object.h>
 
 struct object *
-reader(const char *input)
-{
+reader(const char *input) {
 	if (!input) {
 		return object_error("reader: input is NULL");
 	}
@@ -29,8 +28,7 @@ reader(const char *input)
 }
 
 struct object *
-read_list_delimiters(struct token *tokens)
-{
+read_list_delimiters(struct token *tokens) {
 	struct token *head = tokens;
 	int64_t balanced = 0;
 

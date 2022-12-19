@@ -8,8 +8,7 @@
 #include <ploy/type/lambda.h>
 
 struct lambda *
-new_lambda(struct object *env, struct object *args, struct object *body)
-{
+new_lambda(struct object *env, struct object *args, struct object *body) {
 	struct lambda *lambda = (struct lambda *)gc_alloc(sizeof(*lambda));
 	lambda->env = env;
 	lambda->args = args;

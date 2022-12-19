@@ -11,8 +11,7 @@
 #include <ploy/reader/lexer.h>
 
 struct token *
-lexer(const char *input)
-{
+lexer(const char *input) {
 	if (!input) {
 		return new_token(TOKEN_ERROR, 0, "lexer: input is NULL");
 	}
@@ -103,16 +102,14 @@ lexer(const char *input)
 }
 
 char
-lexer_peek(const char *input)
-{
+lexer_peek(const char *input) {
 	char *cursor = (char *)input;
 	++cursor;
 	return *cursor;
 }
 
 struct token *
-lex_comment(size_t *index, char **input)
-{
+lex_comment(size_t *index, char **input) {
 	if (!index) {
 		return new_token(TOKEN_ERROR, 0, "lex_comment: index is NULL");
 	}
@@ -140,8 +137,7 @@ lex_comment(size_t *index, char **input)
 }
 
 struct token *
-lex_keyword(size_t *index, char **input)
-{
+lex_keyword(size_t *index, char **input) {
 	if (!index) {
 		return new_token(TOKEN_ERROR, *index, "lex_keyword: index is NULL");
 	}
@@ -173,8 +169,7 @@ lex_keyword(size_t *index, char **input)
 }
 
 struct token *
-lex_number(size_t *index, char **input)
-{
+lex_number(size_t *index, char **input) {
 	if (!index) {
 		return new_token(TOKEN_ERROR, *index, "lex_number: index is NULL");
 	}
@@ -204,8 +199,7 @@ lex_number(size_t *index, char **input)
 }
 
 struct token *
-lex_string(size_t *index, char **input)
-{
+lex_string(size_t *index, char **input) {
 	if (!index) {
 		return new_token(TOKEN_ERROR, *index, "lex_string: index is NULL");
 	}
@@ -237,8 +231,7 @@ lex_string(size_t *index, char **input)
 }
 
 struct token *
-lex_symbol(size_t *index, char **input)
-{
+lex_symbol(size_t *index, char **input) {
 	if (!index) {
 		return new_token(TOKEN_ERROR, *index, "lex_symbol: index is NULL");
 	}
@@ -268,8 +261,7 @@ lex_symbol(size_t *index, char **input)
 }
 
 struct token *
-lex_token(size_t *index, char **input, size_t length)
-{
+lex_token(size_t *index, char **input, size_t length) {
 	if (!index) {
 		return new_token(TOKEN_ERROR, *index, "lex_token: index is NULL");
 	}
@@ -362,8 +354,7 @@ lex_token(size_t *index, char **input, size_t length)
 }
 
 struct token *
-token_append(struct token *tokens, struct token *token)
-{
+token_append(struct token *tokens, struct token *token) {
 	if (!token) {
 		return new_token(TOKEN_ERROR, 0, "token_append: token is NULL");
 	}
@@ -381,8 +372,7 @@ token_append(struct token *tokens, struct token *token)
 }
 
 struct token *
-new_token(enum token_type type, size_t index, const char *data)
-{
+new_token(enum token_type type, size_t index, const char *data) {
 	if (!data) {
 		return new_token(TOKEN_ERROR, 0, "new_token: data is NULL");
 	}
@@ -396,8 +386,7 @@ new_token(enum token_type type, size_t index, const char *data)
 }
 
 void
-token_print(struct token *tokens)
-{
+token_print(struct token *tokens) {
 	if (!tokens) {
 		fputs("error: token_print: tokens is NULL\n", stderr);
 		return;
@@ -411,8 +400,7 @@ token_print(struct token *tokens)
 }
 
 const char *
-token_type_as_char(enum token_type type)
-{
+token_type_as_char(enum token_type type) {
 	switch (type) {
 	case TOKEN_NIL:
 		return "nil";

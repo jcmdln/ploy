@@ -9,8 +9,7 @@
 #include <ploy/reader/reader.h>
 
 struct object *
-Append(struct object *list, struct object *object)
-{
+Append(struct object *list, struct object *object) {
 	if (!object) {
 		return object_error("Append: object is NULL");
 	}
@@ -21,8 +20,7 @@ Append(struct object *list, struct object *object)
 }
 
 struct object *
-Car(struct object *list)
-{
+Car(struct object *list) {
 	if (!list || list->type != OBJECT_LIST) {
 		return object_error("Car: list is NULL");
 	}
@@ -30,8 +28,7 @@ Car(struct object *list)
 }
 
 struct object *
-Cdr(struct object *list)
-{
+Cdr(struct object *list) {
 	if (!list || list->type != OBJECT_LIST) {
 		return object_error("Cdr: list is NULL");
 	}
@@ -39,20 +36,17 @@ Cdr(struct object *list)
 }
 
 struct object *
-Cons(struct object *car, struct object *cdr)
-{
+Cons(struct object *car, struct object *cdr) {
 	return object_list(new_list(car, cdr));
 }
 
 struct object *
-Eval(struct object *object)
-{
+Eval(struct object *object) {
 	return object;
 }
 
 struct object *
-Print(struct object *object)
-{
+Print(struct object *object) {
 	struct object *head = object;
 	if (head) {
 		printer(head);
@@ -62,14 +56,12 @@ Print(struct object *object)
 }
 
 struct object *
-Read(const char *input)
-{
+Read(const char *input) {
 	return reader(input);
 }
 
 struct object *
-Reverse(struct object *object)
-{
+Reverse(struct object *object) {
 	struct list *list = list_reverse(object->list);
 	if (!list) {
 		return object_error("Reverse: list_reverse returned NULL");

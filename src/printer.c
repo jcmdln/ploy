@@ -9,8 +9,7 @@
 #include <ploy/printer.h>
 
 void
-printer(struct object *object)
-{
+printer(struct object *object) {
 	if (!object) {
 		return;
 	}
@@ -47,8 +46,7 @@ printer(struct object *object)
 }
 
 void
-print_list(struct object *list)
-{
+print_list(struct object *list) {
 	putchar('(');
 
 	while (list && list->type != OBJECT_NIL) {
