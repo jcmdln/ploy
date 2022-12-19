@@ -2,8 +2,6 @@
 
 # Usage
 
-The following examples show how to build and run `ploy` on Fedora.
-
 ## Build
 
 ### Release (Default)
@@ -22,7 +20,23 @@ meson builddir -Dbuildtype=debug -Dwerror=true -Doptimization=g -Db_sanitize=add
 ninja -C builddir
 ```
 
+## Lint
+
+### clang-format
+
+```sh
+clang-format --dry-run --Werror include/**/*.h src/*.c src/**/*.c
+```
+
+### clang-tidy
+
+```sh
+clang-tidy -p ./builddir include/**/*.h src/*.c src/**/*.c
+```
+
 ## Test
+
+No real tests are written, but the plumbing is workable.
 
 ```sh
 # FIXME: https://github.com/mesonbuild/meson/issues/2518
@@ -34,19 +48,23 @@ ninja -C builddir test
 ## Run
 
 ```sh
-./builddir/ploy
+./builddir/ploy -h
+usage: ploy [-h] [-e STRING]
+
+    -h      Show help output
+    -e      Evaluate an expression
 ```
 
 ## Install
 
 ```sh
-ninja install -C builddir
+ninja -C builddir install
 ```
 
 ## Uninstall
 
 ```sh
-ninja uninstall -C builddir
+ninja -C builddir uninstall
 ```
 
 # Special Thanks
