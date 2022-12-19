@@ -44,15 +44,17 @@ lexer(const char *input) {
 			break;
 		case '-':
 		case '+':
-			if (isdigit(cursor[1])) {
+			if (isdigit(lexer_peek(cursor))) {
 				token = lex_number(&index, &cursor);
+			} else if (*cursor == '-' && lexer_peek(cursor) == '>') {
+				token = lex_token(&index, &cursor, 2);
 			} else {
 				token = lex_token(&index, &cursor, 1);
 			}
 			break;
 		case '<':
 		case '>':
-			if (cursor[1] == '=') {
+			if (lexer_peek(cursor) == '=') {
 				token = lex_token(&index, &cursor, 2);
 			} else {
 				token = lex_token(&index, &cursor, 1);
@@ -161,6 +163,7 @@ lex_keyword(size_t *index, char **input) {
 
 	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, *input, length);
+
 	struct token *token = new_token(TOKEN_KEYWORD, *index, string);
 	*input = cursor;
 	*index += length;
@@ -191,6 +194,7 @@ lex_number(size_t *index, char **input) {
 
 	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, *input, length);
+
 	struct token *token = new_token(TOKEN_NUMBER, *index, string);
 	*input = cursor;
 	*index += length;
@@ -223,6 +227,7 @@ lex_string(size_t *index, char **input) {
 
 	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, *input, length);
+
 	struct token *token = new_token(TOKEN_STRING, *index, string);
 	*input = ++cursor;
 	*index += ++length;
@@ -253,6 +258,7 @@ lex_symbol(size_t *index, char **input) {
 
 	char *string = (char *)gc_alloc(sizeof(*string));
 	memcpy(string, *input, length);
+
 	struct token *token = new_token(TOKEN_SYMBOL, *index, string);
 	*input = cursor;
 	*index += length;
@@ -308,7 +314,11 @@ lex_token(size_t *index, char **input, size_t length) {
 		token = new_token(TOKEN_FORWARD_SLASH, *index, "/");
 		break;
 	case '-':
-		token = new_token(TOKEN_MINUS, *index, "-");
+		if (lexer_peek(*input) == '>') {
+			token = new_token(TOKEN_ARROW, *index, "->");
+		} else {
+			token = new_token(TOKEN_MINUS, *index, "-");
+		}
 		break;
 	case '(':
 		token = new_token(TOKEN_PAREN_L, *index, "(");
@@ -422,6 +432,8 @@ token_type_as_char(enum token_type type) {
 		return "vertical_tab";
 
 	// Character tokens
+	case TOKEN_ARROW:
+		return "arrow";
 	case TOKEN_ASTERISK:
 		return "asterisk";
 	case TOKEN_BACKTICK:

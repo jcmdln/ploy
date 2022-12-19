@@ -21,7 +21,8 @@ enum token_type {
 	TOKEN_VERTICAL_TAB,    // '\v'
 
 	// Character tokens
-	TOKEN_ASTERISK,         // '*'
+	TOKEN_ARROW,            // `->`
+	TOKEN_ASTERISK,         // `*`
 	TOKEN_BACKTICK,         // '`'
 	TOKEN_CARET,            // '^'
 	TOKEN_COLON,            // ':'
