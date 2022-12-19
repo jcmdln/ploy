@@ -33,12 +33,10 @@ enum token_type {
 	TOKEN_LESS_OR_EQUAL,    // `<=`
 	TOKEN_LESS_THAN,        // `<`
 	TOKEN_MINUS,            // `-`
-	TOKEN_OCTOTHORPE,       // `#`
 	TOKEN_PAREN_L,          // `(`
 	TOKEN_PAREN_R,          // `)`
 	TOKEN_PERCENT,          // `%`
 	TOKEN_PLUS,             // `+`
-	TOKEN_SEMICOLON,        // `;`
 	TOKEN_SINGLE_QUOTE,     // `'`
 
 	// Atoms

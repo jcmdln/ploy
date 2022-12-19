@@ -456,8 +456,6 @@ token_type_as_char(enum token_type type) {
 		return "less_than";
 	case TOKEN_MINUS:
 		return "minus";
-	case TOKEN_OCTOTHORPE:
-		return "octothorpe";
 	case TOKEN_PAREN_L:
 		return "paren_l";
 	case TOKEN_PAREN_R:
@@ -466,8 +464,6 @@ token_type_as_char(enum token_type type) {
 		return "percent";
 	case TOKEN_PLUS:
 		return "plus";
-	case TOKEN_SEMICOLON:
-		return "semicolon";
 	case TOKEN_SINGLE_QUOTE:
 		return "single_quote";
 
