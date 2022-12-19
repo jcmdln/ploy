@@ -192,7 +192,7 @@ lex_number(size_t *index, char **input) {
 		++length;
 	}
 
-	while (*cursor && !strchr(TOKENS, *cursor)) {
+	while (*cursor && isdigit(*cursor) && !strchr(TOKENS, *cursor)) {
 		++cursor;
 		++length;
 	};
