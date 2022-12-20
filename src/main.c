@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <gc/gc.h>
 #include <readline/history.h>
 #include <readline/readline.h>
 
@@ -28,7 +29,7 @@ repl(void) {
 
 		struct object *objects = Print(Eval(Read(input)));
 		if (objects) {
-			gc_free(objects);
+			GC_FREE(objects);
 		}
 	}
 
@@ -50,7 +51,7 @@ main(int argc, char **argv) {
 	bool opt_exec = false;
 
 	int opt = 0;
-	while ((opt = getopt(argc, argv, "he:f:")) != -1) {
+	while ((opt = getopt(argc, argv, ":he:")) != -1) {
 		switch (opt) {
 		case 'e':
 			opt_exec = true;

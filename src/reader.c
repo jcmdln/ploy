@@ -3,21 +3,23 @@
 // Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 
 #include <ploy/reader.h>
-#include <ploy/type/object.h>
+#include <ploy/type.h>
 
 struct object *
 reader(const char *input) {
 	if (!input) {
-		return object_error("reader: input is NULL");
+		return Error("reader: input is NULL");
 	}
 
 	struct token *tokens = lexer(input);
 	if (!tokens) {
-		return object_error("reader: tokens is NULL");
+		return Error("reader: tokens is NULL");
 	}
 	if (tokens->type == TOKEN_ERROR) {
-		return object_error(tokens->data);
+		return Error(tokens->data);
 	}
+
+	token_print(tokens);
 
 	struct object *object = read_list_delimiters(tokens);
 	if (object && object->type == OBJECT_ERROR) {
@@ -43,11 +45,11 @@ read_list_delimiters(struct token *tokens) {
 	}
 
 	if (balanced < 0) {
-		return object_error("read_list_delimiters: missing open parenthesis");
+		return Error("read_list_delimiters: missing open parenthesis");
 	}
 	if (balanced > 0) {
-		return object_error("read_list_delimiters: missing closing parenthesis");
+		return Error("read_list_delimiters: missing closing parenthesis");
 	}
 
-	return object_nil();
+	return Nil();
 }

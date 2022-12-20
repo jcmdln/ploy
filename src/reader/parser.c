@@ -6,22 +6,23 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <ploy/builtins.h>
-#include <ploy/gc.h>
+#include <gc/gc.h>
+
 #include <ploy/reader/parser.h>
+#include <ploy/type.h>
 
 struct object *
 parser(struct token *tokens) {
 	if (!tokens) {
-		return object_error("parser: tokens is NULL");
+		return Error("parser: tokens is NULL");
 	}
 	if (tokens->type == TOKEN_ERROR) {
-		return object_error(tokens->data);
+		return Error(tokens->data);
 	}
 
 	struct object *objects = parse_form(&tokens);
 	if (!objects) {
-		return object_error("parser: objects is NULL");
+		return Error("parser: objects is NULL");
 	}
 
 	return objects;
@@ -30,7 +31,7 @@ parser(struct token *tokens) {
 struct object *
 parse_form(struct token **tokens) {
 	if (!tokens) {
-		return object_error("parse_form: tokens is NULL");
+		return Error("parse_form: tokens is NULL");
 	}
 
 	struct object *objects = NULL;
@@ -50,15 +51,31 @@ parse_form(struct token **tokens) {
 			continue;
 
 		// Character tokens
+		// case TOKEN_ARROW:
+		// case TOKEN_ASTERISK:
+		// case TOKEN_BACKTICK:
+		// case TOKEN_CARET:
+		// case TOKEN_COLON:
+		// case TOKEN_EQUAL:
+		// case TOKEN_FORWARD_SLASH:
+		// case TOKEN_GREATER_OR_EQUAL:
+		// case TOKEN_GREATER_THAN:
+		// case TOKEN_LESS_OR_EQUAL:
+		// case TOKEN_LESS_THAN:
+		// case TOKEN_MINUS:
 		case TOKEN_PAREN_R:
-			object = object_nil();
+			object = Nil();
 			break;
 		case TOKEN_PAREN_L:
 			object = parse_list(&token);
 			break;
+		// case TOKEN_PERCENT:
+		// case TOKEN_PLUS:
+		// case TOKEN_SINGLE_QUOTE:
 
 		// Atoms
-		case TOKEN_COMMENT: // Comments are ignored
+		case TOKEN_COMMENT:
+			// `parse_form` ignores comments
 			*tokens = token = token->next;
 			continue;
 		case TOKEN_KEYWORD:
@@ -75,11 +92,11 @@ parse_form(struct token **tokens) {
 			break;
 
 		default:
-			return object_error("parse_form: unknown form");
+			return Error("parse_form: unknown form");
 		}
 
 		if (!object) {
-			return object_error("parse_form: object is NULL");
+			return Error("parse_form: object is NULL");
 		}
 		if (object->type == OBJECT_ERROR) {
 			return object;
@@ -100,48 +117,48 @@ parse_form(struct token **tokens) {
 struct object *
 parse_keyword(struct token **token) {
 	if (!token) {
-		return object_error("parse_keyword: token is NULL");
+		return Error("parse_keyword: token is NULL");
 	}
 
 	struct token *head = *token;
 	if (head->type != TOKEN_KEYWORD) {
-		return object_error("parse_keyword: token->type is not TOKEN_KEYWORD");
+		return Error("parse_keyword: token->type is not TOKEN_KEYWORD");
 	}
 	*token = head->next;
 
-	char *string = (char *)gc_alloc(sizeof(*string));
+	char *string = (char *)GC_MALLOC(sizeof(*string));
 	memcpy(string, head->data, strlen(head->data));
 
-	return object_keyword(string);
+	return Keyword(string);
 }
 
 struct object *
 parse_lambda(struct token **token) {
 	if (!token) {
-		return object_error("parse_lambda: token is NULL");
+		return Error("parse_lambda: token is NULL");
 	}
 
 	struct token *head = *token;
 	*token = head->next;
 
-	return object_error("parse_lambda: not implemented");
+	return Error("parse_lambda: not implemented");
 }
 
 struct object *
 parse_list(struct token **token) {
 	if (!token) {
-		return object_error("parse_list: token is NULL");
+		return Error("parse_list: token is NULL");
 	}
 
 	struct token *head = *token;
 	if (head->type != TOKEN_PAREN_L) {
-		return object_error("parse_list: missing open parenthesis");
+		return Error("parse_list: missing open parenthesis");
 	}
 	*token = head->next;
 
 	struct object *object = parse_form(token);
 	if (!object) {
-		return object_error("parse_list: parse_form returned NULL");
+		return Error("parse_list: parse_form returned NULL");
 	}
 	if (object->type == OBJECT_ERROR) {
 		return object;
@@ -150,7 +167,7 @@ parse_list(struct token **token) {
 	head = *token;
 
 	if (!head || head->type != TOKEN_PAREN_R) {
-		return object_error("parse_list: missing closing parenthesis");
+		return Error("parse_list: missing closing parenthesis");
 	}
 
 	*token = head->next;
@@ -161,27 +178,27 @@ parse_list(struct token **token) {
 struct object *
 parse_number(struct token **token) {
 	if (!token) {
-		return object_error("parse_number: token is NULL");
+		return Error("parse_number: token is NULL");
 	}
 
 	struct token *head = *token;
 	if (head->type != TOKEN_NUMBER) {
-		return object_error("parse_number: token->type is not TOKEN_NUMBER");
+		return Error("parse_number: token->type is not TOKEN_NUMBER");
 	}
 	*token = head->next;
 
-	return object_number(strtoll(head->data, NULL, 10));
+	return Number(strtoll(head->data, NULL, 10));
 }
 
 struct object *
 parse_quasiquote(struct token **token) {
 	if (!token) {
-		return object_error("parse_quasiquote: token is NULL");
+		return Error("parse_quasiquote: token is NULL");
 	}
 
 	struct token *head = *token;
 	if (head->type != TOKEN_BACKTICK) {
-		return object_error("parse_quasiquote: missing backtick prefix");
+		return Error("parse_quasiquote: missing backtick prefix");
 	}
 	head = head->next;
 
@@ -190,23 +207,23 @@ parse_quasiquote(struct token **token) {
 	case TOKEN_SYMBOL:
 		break;
 	default:
-		return object_error("parse_quasiquote: invalid form");
+		return Error("parse_quasiquote: invalid form");
 	}
 
 	*token = head->next;
 
-	return object_error("parse_quasiquote: not implemented");
+	return Error("parse_quasiquote: not implemented");
 }
 
 struct object *
 parse_quote(struct token **token) {
 	if (!token) {
-		return object_error("parse_quote: token is NULL");
+		return Error("parse_quote: token is NULL");
 	}
 
 	struct token *head = *token;
 	if (head->type != TOKEN_SINGLE_QUOTE) {
-		return object_error("parse_quote: missing single_quote");
+		return Error("parse_quote: missing single_quote");
 	}
 	head = head->next;
 
@@ -215,48 +232,48 @@ parse_quote(struct token **token) {
 	case TOKEN_SYMBOL:
 		break;
 	default:
-		return object_error("parse_quote: invalid form");
+		return Error("parse_quote: invalid form");
 	}
 
 	*token = head->next;
 
-	return object_error("parse_quote: not implemented");
+	return Error("parse_quote: not implemented");
 }
 
 // FIXME: parse_string: Handle nested strings
 struct object *
 parse_string(struct token **token) {
 	if (!token) {
-		return object_error("parse_string: token is NULL");
+		return Error("parse_string: token is NULL");
 	}
 
 	struct token *head = *token;
 	if (head->type != TOKEN_STRING) {
-		return object_error("parse_string: token->type is not TOKEN_STRING");
+		return Error("parse_string: token->type is not TOKEN_STRING");
 	}
 	*token = head->next;
 
-	char *string = (char *)gc_alloc(sizeof(*string));
+	char *string = (char *)GC_MALLOC(sizeof(*string));
 	memcpy(string, head->data, strlen(head->data));
 
-	return object_string(string);
+	return String(string);
 }
 
 struct object *
 parse_symbol(struct token **token) {
 	if (!token) {
-		return object_error("parse_symbol: token is NULL");
+		return Error("parse_symbol: token is NULL");
 	}
 
 	struct token *head = *token;
 	if (head->type != TOKEN_SYMBOL) {
-		return object_error("parse_symbol: token->type is not TOKEN_SYMBOL");
+		return Error("parse_symbol: token->type is not TOKEN_SYMBOL");
 	}
 
 	*token = head->next;
 
-	char *string = (char *)gc_alloc(sizeof(*string));
+	char *string = (char *)GC_MALLOC(sizeof(*string));
 	memcpy(string, head->data, strlen(head->data));
 
-	return object_symbol(string);
+	return Symbol(string);
 }

@@ -5,5 +5,5 @@
 sources += files(
   'lexer.c',
   'parser.c',
-  'reader.c',
+  'token.c',
 )

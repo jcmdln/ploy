@@ -5,8 +5,6 @@
 #ifndef PLOY_H
 #pragma once
 
-#include <ploy/builtins.h>
-#include <ploy/gc.h>
 #include <ploy/printer.h>
 #include <ploy/reader.h>
 #include <ploy/type.h>

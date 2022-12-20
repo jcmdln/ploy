@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <ploy/builtins.h>
 #include <ploy/printer.h>
+#include <ploy/type.h>
 
 void
 printer(struct object *object) {

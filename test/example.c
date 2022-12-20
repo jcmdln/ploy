@@ -2,4 +2,9 @@
 //
 // Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 
-#include <ploy/env.h>
+#include <stdlib.h>
+
+int
+main(void) {
+	return EXIT_SUCCESS;
+}
