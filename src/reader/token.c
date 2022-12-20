@@ -33,7 +33,7 @@ new_token(enum token_type type, size_t index, const char *data) {
 		return new_token(TOKEN_ERROR, 0, "new_token: data is NULL");
 	}
 
-	struct token *token = (struct token *)GC_MALLOC(sizeof(*token));
+	struct token *token = GC_MALLOC(sizeof(*token));
 	token->type = type;
 	token->index = index;
 	token->data = data;

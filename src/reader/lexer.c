@@ -132,7 +132,7 @@ lex_comment(size_t *index, char **input) {
 		++length;
 	};
 
-	char *string = (char *)GC_MALLOC(sizeof(*string));
+	char *string = GC_MALLOC(sizeof(*string));
 	memcpy(string, *input, length);
 
 	struct token *token = new_token(TOKEN_COMMENT, *index, string);
@@ -165,7 +165,7 @@ lex_keyword(size_t *index, char **input) {
 		return new_token(TOKEN_ERROR, *index, "lex_keyword: identifier length is zero");
 	}
 
-	char *string = (char *)GC_MALLOC(sizeof(*string));
+	char *string = GC_MALLOC(sizeof(*string));
 	memcpy(string, *input, length);
 
 	struct token *token = new_token(TOKEN_KEYWORD, *index, string);
@@ -196,7 +196,7 @@ lex_number(size_t *index, char **input) {
 		++length;
 	};
 
-	char *string = (char *)GC_MALLOC(sizeof(*string));
+	char *string = GC_MALLOC(sizeof(*string));
 	memcpy(string, *input, length);
 
 	struct token *token = new_token(TOKEN_NUMBER, *index, string);
@@ -229,7 +229,7 @@ lex_string(size_t *index, char **input) {
 		return new_token(TOKEN_ERROR, *index, "lex_string: missing closing double-quote '\"'");
 	}
 
-	char *string = (char *)GC_MALLOC(sizeof(*string));
+	char *string = GC_MALLOC(sizeof(*string));
 	memcpy(string, *input, length);
 
 	struct token *token = new_token(TOKEN_STRING, *index, string);
@@ -260,7 +260,7 @@ lex_symbol(size_t *index, char **input) {
 		return new_token(TOKEN_ERROR, *index, str);
 	}
 
-	char *string = (char *)GC_MALLOC(sizeof(*string));
+	char *string = GC_MALLOC(sizeof(*string));
 	memcpy(string, *input, length);
 
 	struct token *token = new_token(TOKEN_SYMBOL, *index, string);
@@ -359,7 +359,7 @@ lex_token(size_t *index, char **input, size_t length) {
 	}
 
 	if (!token) {
-		char *string = (char *)GC_MALLOC(sizeof(*string));
+		char *string = GC_MALLOC(sizeof(*string));
 		memcpy(string, *input, length);
 		token = new_token(TOKEN_ERROR, *index, string);
 	}

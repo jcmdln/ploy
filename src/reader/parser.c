@@ -126,7 +126,7 @@ parse_keyword(struct token **token) {
 	}
 	*token = head->next;
 
-	char *string = (char *)GC_MALLOC(sizeof(*string));
+	char *string = GC_MALLOC(sizeof(*string));
 	memcpy(string, head->data, strlen(head->data));
 
 	return Keyword(string);
@@ -253,7 +253,7 @@ parse_string(struct token **token) {
 	}
 	*token = head->next;
 
-	char *string = (char *)GC_MALLOC(sizeof(*string));
+	char *string = GC_MALLOC(sizeof(*string));
 	memcpy(string, head->data, strlen(head->data));
 
 	return String(string);
@@ -272,7 +272,7 @@ parse_symbol(struct token **token) {
 
 	*token = head->next;
 
-	char *string = (char *)GC_MALLOC(sizeof(*string));
+	char *string = GC_MALLOC(sizeof(*string));
 	memcpy(string, head->data, strlen(head->data));
 
 	return Symbol(string);
