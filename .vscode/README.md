@@ -1,4 +1,5 @@
-This directory provides a VSCode configuration and acts as a reference for configuring other editors.
+This directory provides a VSCode configuration and acts as a reference for
+configuring other editors.
 
 - https://clangd.llvm.org/
 - https://editorconfig.org
