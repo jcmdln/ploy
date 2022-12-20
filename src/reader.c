@@ -19,8 +19,6 @@ reader(const char *input) {
 		return Error(tokens->data);
 	}
 
-	token_print(tokens);
-
 	struct object *object = read_list_delimiters(tokens);
 	if (object && object->type == OBJECT_ERROR) {
 		return object;
