@@ -15,7 +15,7 @@ lexer(const char *input) {
 		return new_token(TOKEN_ERROR, 0, "lexer: input is NULL");
 	}
 
-	char *cursor = (char *)input;
+	const char *cursor = input;
 	size_t index = 0;
 	struct token *tokens = NULL;
 	while (*cursor) {
@@ -108,13 +108,13 @@ lexer(const char *input) {
 
 char
 lexer_peek(const char *input) {
-	char *cursor = (char *)input;
+	const char *cursor = input;
 	++cursor;
 	return *cursor;
 }
 
 struct token *
-lex_comment(size_t *index, char **input) {
+lex_comment(size_t *index, const char **input) {
 	if (!index) {
 		return new_token(TOKEN_ERROR, 0, "lex_comment: index is NULL");
 	}
@@ -125,7 +125,7 @@ lex_comment(size_t *index, char **input) {
 		return new_token(TOKEN_ERROR, 0, "lex_comment: input is NULL");
 	}
 
-	char *cursor = *input;
+	const char *cursor = *input;
 	size_t length = 0;
 	while (*cursor && *cursor != '\n') {
 		++cursor;
@@ -143,7 +143,7 @@ lex_comment(size_t *index, char **input) {
 }
 
 struct token *
-lex_keyword(size_t *index, char **input) {
+lex_keyword(size_t *index, const char **input) {
 	if (!index) {
 		return new_token(TOKEN_ERROR, *index, "lex_keyword: index is NULL");
 	}
@@ -154,7 +154,7 @@ lex_keyword(size_t *index, char **input) {
 		return new_token(TOKEN_ERROR, *index, "lex_keyword: lex_keyword: missing colon prefix ':'");
 	}
 
-	char *cursor = ++*input;
+	const char *cursor = ++*input;
 	size_t length = 0;
 	while (*cursor && !strchr(TOKENS, *cursor)) {
 		++cursor;
@@ -176,7 +176,7 @@ lex_keyword(size_t *index, char **input) {
 }
 
 struct token *
-lex_number(size_t *index, char **input) {
+lex_number(size_t *index, const char **input) {
 	if (!index) {
 		return new_token(TOKEN_ERROR, *index, "lex_number: index is NULL");
 	}
@@ -184,7 +184,7 @@ lex_number(size_t *index, char **input) {
 		return new_token(TOKEN_ERROR, *index, "lex_number: input is NULL");
 	}
 
-	char *cursor = *input;
+	const char *cursor = *input;
 	size_t length = 0;
 	if (*cursor == '+' || *cursor == '-') {
 		++cursor;
@@ -207,7 +207,7 @@ lex_number(size_t *index, char **input) {
 }
 
 struct token *
-lex_string(size_t *index, char **input) {
+lex_string(size_t *index, const char **input) {
 	if (!index) {
 		return new_token(TOKEN_ERROR, *index, "lex_string: index is NULL");
 	}
@@ -218,7 +218,7 @@ lex_string(size_t *index, char **input) {
 		return new_token(TOKEN_ERROR, *index, "lex_string: missing open double-quote '\"'");
 	}
 
-	char *cursor = ++*input;
+	const char *cursor = ++*input;
 	size_t length = 0;
 	while (*cursor && *cursor != '\"') {
 		++cursor;
@@ -240,7 +240,7 @@ lex_string(size_t *index, char **input) {
 }
 
 struct token *
-lex_symbol(size_t *index, char **input) {
+lex_symbol(size_t *index, const char **input) {
 	if (!index) {
 		return new_token(TOKEN_ERROR, *index, "lex_symbol: index is NULL");
 	}
@@ -248,7 +248,7 @@ lex_symbol(size_t *index, char **input) {
 		return new_token(TOKEN_ERROR, *index, "lex_symbol: input is NULL");
 	}
 
-	char *cursor = *input;
+	const char *cursor = *input;
 	size_t length = 0;
 	while (*cursor && !strchr(TOKENS, *cursor)) {
 		++cursor;
@@ -271,7 +271,7 @@ lex_symbol(size_t *index, char **input) {
 }
 
 struct token *
-lex_token(size_t *index, char **input, size_t length) {
+lex_token(size_t *index, const char **input, size_t length) {
 	if (!index) {
 		return new_token(TOKEN_ERROR, *index, "lex_token: index is NULL");
 	}

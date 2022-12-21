@@ -30,18 +30,26 @@ opts = [
   '-fshort-wchar',
   '-fstrict-aliasing',
   '-funsigned-char',
-  '-Werror=trigraphs',
+
+  '-fno-digraphs',
+  '-fno-trigraphs',
+
+  '-Werror=cast-qual',
+  '-Werror=implicit-int',
+  '-Werror=strict-prototypes',
   '-Werror=vla',
   '-Werror=write-strings',
+
   '-Wno-error=pedantic',
-  '-Wno-error=uninitialized',
   '-Wno-error=unused-but-set-parameter',
   '-Wno-error=unused-parameter',
+  '-Wno-error=unused-result',
   '-Wno-error=unused-variable',
 ]
 
 if compiler.get_id().startswith('clang')
   opts += [
+    '-Werror=ignored-qualifiers',
     '-Werror=unreachable-code-break',
     '-Werror=unreachable-code-return',
   ]
