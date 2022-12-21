@@ -60,7 +60,6 @@ endif
 if get_option('buildtype').startswith('debug')
   sanitizers = [
     '-fsanitize=address',
-    '-fsanitize=leak',
     '-fsanitize=undefined',
   ]
   add_project_arguments(compiler.get_supported_arguments(sanitizers), language: 'c')
