@@ -5,8 +5,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <ploy/ploy.h>
 #include <ploy/printer.h>
-#include <ploy/type.h>
+
+void print_list(struct object *list);
 
 void
 printer(struct object *object) {

@@ -6,9 +6,9 @@
 
 #include <gc/gc.h>
 
+#include <ploy/ploy.h>
 #include <ploy/printer.h>
 #include <ploy/reader.h>
-#include <ploy/type.h>
 
 struct object *
 Append(struct object *list, struct object *object) {

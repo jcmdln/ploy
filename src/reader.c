@@ -2,8 +2,10 @@
 //
 // Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 
+#include <ploy/ploy.h>
 #include <ploy/reader.h>
-#include <ploy/type.h>
+
+struct object *read_list_delimiters(struct token *tokens);
 
 struct object *
 reader(const char *input) {

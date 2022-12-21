@@ -5,10 +5,8 @@
 #ifndef PLOY_PRINTER_H
 #pragma once
 
-#include <ploy/type.h>
+#include <ploy/ploy.h>
 
 void printer(struct object *object);
-
-void print_list(struct object *list);
 
 #endif // PLOY_PRINTER_H

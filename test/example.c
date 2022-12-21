@@ -4,6 +4,8 @@
 
 #include <stdlib.h>
 
+#include <ploy/ploy.h>
+
 int
 main(void) {
 	return EXIT_SUCCESS;
