@@ -61,7 +61,7 @@ jobs:
         env:
           CC: clang
           CC_LD: lld
-        run: meson builddir -Db_sanitize=address,undefined -Dbuildtype=debug -Doptimization=g -Dwerror=true
+        run: meson builddir -Dbuildtype=debug -Dwerror=true -Db_sanitize=address,undefined
 
       - name: Build Ploy (Debug)
         run: ninja -C builddir
