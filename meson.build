@@ -65,16 +65,7 @@ if get_option('buildtype').startswith('debug')
 
   add_project_arguments(compiler.get_supported_arguments([
     '-fsanitize=address',
-    '-fsanitize=bounds',
-    '-fsanitize=float-cast-overflow',
-    '-fsanitize=float-divide-by-zero',
-    '-fsanitize=integer-divide-by-zero',
     '-fsanitize=leak',
-    '-fsanitize=null',
-    '-fsanitize=pointer-overflow',
-    '-fsanitize=shadow-call-stack',
-    '-fsanitize=signed-integer-overflow',
-    '-fsanitize=unsigned-integer-overflow',
     '-fsanitize=undefined',
   ]), language: 'c')
 endif
