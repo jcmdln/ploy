@@ -55,16 +55,22 @@ jobs:
           path: builddir/
 
       - name: Install system dependencies
-        run: sudo apt update && sudo apt-get install -y ${{ matrix.os.deps }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ${{ matrix.os.deps }}
 
       - name: Run Meson
         env:
           CC: clang
           CC_LD: lld
-        run: meson builddir -Dbuildtype=debugoptimized -Dwerror=true
+        run: |
+          meson --version
+          meson builddir -Dbuildtype=debugoptimized -Dwerror=true
 
       - name: Build Ploy (Debug)
-        run: ninja -C builddir
+        run: |
+          ninja --version
+          ninja -C builddir
 
       - name: Run ${{ matrix.linter.name }}
         run: ${{ matrix.linter.name }} ${{ matrix.linter.args }}

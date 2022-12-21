@@ -26,8 +26,8 @@ favor of hand-written alternatives.
 
 ### Release (Default)
 
-By default, Meson will perform a simple release build. See the
-`default_options` in [meson.build](./meson.build) for specifics.
+By default, Meson will perform a simple release build. See `default_options` in
+[meson.build](./meson.build) for specifics.
 
 ```sh
 sudo dnf install -y gc-devel meson pkgconf readline-devel

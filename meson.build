@@ -12,7 +12,7 @@ project(
     'werror=false',
   ],
   license: 'ISC',
-  meson_version: '>=0.53',
+  meson_version: '>=0.46',
   version: '0.0.0',
 )
 
@@ -82,7 +82,7 @@ executable(
   dependencies: [bdw_gc, readline],
   include_directories: includes,
   install: true,
-  sources: sources,
+  sources: [sources, src_main_c],
 )
 
 #
