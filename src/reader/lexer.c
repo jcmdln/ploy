@@ -2,12 +2,12 @@
 //
 // Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 
-#include <ploy/reader/lexer.h>
-
 #include <ctype.h>
 #include <string.h>
 
 #include <gc/gc.h>
+
+#include <ploy/reader/lexer.h>
 
 struct token *
 lexer(const char *input) {

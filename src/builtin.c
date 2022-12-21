@@ -6,10 +6,9 @@
 
 #include <gc/gc.h>
 
+#include <ploy/printer.h>
+#include <ploy/reader.h>
 #include <ploy/type.h>
-
-struct object *printer(struct object *object);
-struct object *reader(const char *input);
 
 struct object *
 Append(struct object *list, struct object *object) {
@@ -144,12 +143,12 @@ Reverse(struct object *object) {
 
 	struct object *head = object;
 	struct object *reversed = List(NULL, NULL);
-	while (head && head->type == OBJECT_LIST && head->list->car) {
-		reversed = List(reversed, head->list->car);
-		if (!head->list->cdr) {
+	while (head && head->type == OBJECT_LIST && Car(head)) {
+		reversed = List(reversed, Car(head));
+		if (!Cdr(head)) {
 			break;
 		}
-		head = head->list->cdr;
+		head = Cdr(head);
 	}
 
 	return reversed;

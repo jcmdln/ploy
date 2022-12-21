@@ -5,8 +5,8 @@
 #ifndef PLOY_READER_PARSER_H
 #pragma once
 
-#include <ploy/ploy.h>
 #include <ploy/reader/token.h>
+#include <ploy/type.h>
 
 struct object *parser(struct token *token);
 

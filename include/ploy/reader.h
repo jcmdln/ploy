@@ -5,11 +5,10 @@
 #ifndef PLOY_READER_H
 #pragma once
 
-#include <stdbool.h>
-
 #include <ploy/reader/lexer.h>
 #include <ploy/reader/parser.h>
 #include <ploy/reader/token.h>
+#include <ploy/type.h>
 
 struct object *reader(const char *input);
 
