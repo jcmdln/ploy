@@ -58,16 +58,13 @@ elif compiler.get_id().startswith('gcc')
 endif
 
 if get_option('buildtype').startswith('debug')
-  add_project_link_arguments(compiler.get_supported_link_arguments([
-    '-lasan',
-    '-lubsan',
-  ]), language: 'c')
-
-  add_project_arguments(compiler.get_supported_arguments([
+  sanitizers = [
     '-fsanitize=address',
     '-fsanitize=leak',
     '-fsanitize=undefined',
-  ]), language: 'c')
+  ]
+  add_project_arguments(compiler.get_supported_arguments(sanitizers), language: 'c')
+  add_project_link_arguments(compiler.get_supported_link_arguments(sanitizers), language: 'c')
 endif
 
 #
