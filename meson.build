@@ -26,58 +26,58 @@ includes = include_directories('include')
 sources = []
 subdir('src')
 
-opts = [
+add_project_arguments(compiler.get_supported_arguments([
   '-fshort-wchar',
   '-fstrict-aliasing',
   '-funsigned-char',
-
   '-fno-digraphs',
   '-fno-trigraphs',
-
   '-Werror=cast-qual',
   '-Werror=implicit-int',
   '-Werror=strict-prototypes',
   '-Werror=vla',
   '-Werror=write-strings',
-
   '-Wno-error=pedantic',
   '-Wno-error=unused-but-set-parameter',
   '-Wno-error=unused-parameter',
   '-Wno-error=unused-result',
   '-Wno-error=unused-variable',
-]
+]), language: 'c')
 
 if compiler.get_id().startswith('clang')
-  opts += [
+  add_project_arguments(compiler.get_supported_arguments([
     '-Werror=ignored-qualifiers',
     '-Werror=unreachable-code-break',
     '-Werror=unreachable-code-return',
-  ]
+  ]), language: 'c')
 elif compiler.get_id().startswith('gcc')
-  opts += [
+  add_project_arguments(compiler.get_supported_arguments([
     '-Werror=discarded-qualifiers',
     '-Werror=switch-unreachable',
-  ]
+  ]), language: 'c')
 endif
 
 if get_option('buildtype').startswith('debug')
-  opts += [
-    '-fno-omit-frame-pointer',
+  add_project_link_arguments(compiler.get_supported_link_arguments([
+    '-lasan',
+    '-lubsan',
+  ]), language: 'c')
+
+  add_project_arguments(compiler.get_supported_arguments([
+    '-fsanitize=address',
+    '-fsanitize=bounds',
     '-fsanitize=float-cast-overflow',
     '-fsanitize=float-divide-by-zero',
     '-fsanitize=integer-divide-by-zero',
+    '-fsanitize=leak',
+    '-fsanitize=null',
     '-fsanitize=pointer-overflow',
     '-fsanitize=shadow-call-stack',
     '-fsanitize=signed-integer-overflow',
     '-fsanitize=unsigned-integer-overflow',
-  ]
+    '-fsanitize=undefined',
+  ]), language: 'c')
 endif
-
-foreach opt : opts
-  if compiler.has_argument(opt)
-    add_project_arguments(opt, language: 'c')
-  endif
-endforeach
 
 #
 # Dependencies

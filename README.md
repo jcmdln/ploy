@@ -42,7 +42,7 @@ the specified options with Meson:
 
 ```sh
 sudo dnf install -y clang-tools-extra gc-devel libasan libubsan meson pkgconf readline-devel
-meson builddir -Dbuildtype=debug -Dwerror=true -Db_sanitize=address,undefined
+meson builddir -Dbuildtype=debugoptimized -Dwerror=true
 ninja -C builddir
 ```
 
