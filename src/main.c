@@ -24,9 +24,7 @@ repl(void) {
 		}
 
 		add_history(input);
-
-		struct object *objects = Print(Eval(Read(input)));
-		if (objects) GC_FREE(objects);
+		Print(Eval(Read(input)));
 	}
 
 	return EXIT_SUCCESS;

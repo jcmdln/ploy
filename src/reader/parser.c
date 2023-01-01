@@ -10,34 +10,34 @@
 
 #include <ploy/reader/parser.h>
 
-struct object *parse_form(struct token **tokens);
-struct object *parse_keyword(struct token **token);
-struct object *parse_lambda(struct token **token);
-struct object *parse_list(struct token **token);
-struct object *parse_number(struct token **token);
-struct object *parse_quasiquote(struct token **token);
-struct object *parse_quote(struct token **token);
-struct object *parse_string(struct token **token);
-struct object *parse_symbol(struct token **token);
+Object *parse_form(Token **tokens);
+Object *parse_keyword(Token **token);
+Object *parse_lambda(Token **token);
+Object *parse_list(Token **token);
+Object *parse_number(Token **token);
+Object *parse_quasiquote(Token **token);
+Object *parse_quote(Token **token);
+Object *parse_string(Token **token);
+Object *parse_symbol(Token **token);
 
-struct object *
-parser(struct token *tokens) {
+Object *
+parser(Token *tokens) {
 	if (!tokens) return Error("parser: tokens is NULL");
 	if (tokens->type == TOKEN_ERROR) return Error(tokens->data);
 
-	struct object *objects = parse_form(&tokens);
+	Object *objects = parse_form(&tokens);
 	if (!objects) return Error("parser: objects is NULL");
 	return objects;
 }
 
-struct object *
-parse_form(struct token **tokens) {
-	struct object *objects = NULL;
-	struct token *token = *tokens;
+Object *
+parse_form(Token **tokens) {
+	Object *objects = NULL;
+	Token *token = *tokens;
 	if (!token) return Error("parse_form: tokens is NULL");
 
 	while (token) {
-		struct object *object = NULL;
+		Object *object = NULL;
 
 		switch (token->type) {
 		// Whitespace
@@ -104,9 +104,9 @@ parse_form(struct token **tokens) {
 	return objects;
 }
 
-struct object *
-parse_keyword(struct token **token) {
-	struct token *head = *token;
+Object *
+parse_keyword(Token **token) {
+	Token *head = *token;
 	if (!head) return Error("parse_keyword: token is NULL");
 	if (head->type != TOKEN_KEYWORD) return Error("parse_keyword: invalid token->type");
 	*token = head->next;
@@ -120,9 +120,9 @@ parse_keyword(struct token **token) {
 	return object;
 }
 
-struct object *
-parse_lambda(struct token **token) {
-	struct token *head = *token;
+Object *
+parse_lambda(Token **token) {
+	Token *head = *token;
 	if (!head) return Error("parse_lambda: token is NULL");
 	*token = head->next;
 
@@ -135,14 +135,14 @@ parse_lambda(struct token **token) {
 	return Error("parse_lambda: not implemented");
 }
 
-struct object *
-parse_list(struct token **token) {
-	struct token *head = *token;
+Object *
+parse_list(Token **token) {
+	Token *head = *token;
 	if (!head) return Error("parse_list: token is NULL");
 	if (head->type != TOKEN_PAREN_L) return Error("parse_list: missing open parenthesis");
 	*token = head->next;
 
-	struct object *object = parse_form(token);
+	Object *object = parse_form(token);
 	if (!object) return Error("parse_list: parse_form returned NULL");
 	if (object->type == OBJECT_ERROR) return object;
 	head = *token;
@@ -153,9 +153,9 @@ parse_list(struct token **token) {
 	return object;
 }
 
-struct object *
-parse_number(struct token **token) {
-	struct token *head = *token;
+Object *
+parse_number(Token **token) {
+	Token *head = *token;
 	if (!head) return Error("parse_number: token is NULL");
 	if (head->type != TOKEN_NUMBER) return Error("parse_number: invalid token->type");
 	*token = head->next;
@@ -166,9 +166,9 @@ parse_number(struct token **token) {
 	return object;
 }
 
-struct object *
-parse_quasiquote(struct token **token) {
-	struct token *head = *token;
+Object *
+parse_quasiquote(Token **token) {
+	Token *head = *token;
 	if (!head) return Error("parse_quasiquote: token is NULL");
 	if (head->type != TOKEN_BACKTICK) return Error("parse_quasiquote: missing backtick prefix");
 	head = head->next;
@@ -185,9 +185,9 @@ parse_quasiquote(struct token **token) {
 	return Error("parse_quasiquote: not implemented");
 }
 
-struct object *
-parse_quote(struct token **token) {
-	struct token *head = *token;
+Object *
+parse_quote(Token **token) {
+	Token *head = *token;
 	if (!head) return Error("parse_quote: token is NULL");
 	if (head->type != TOKEN_SINGLE_QUOTE) return Error("parse_quote: missing single_quote");
 	head = head->next;
@@ -205,9 +205,9 @@ parse_quote(struct token **token) {
 }
 
 // FIXME: parse_string: Handle nested strings
-struct object *
-parse_string(struct token **token) {
-	struct token *head = *token;
+Object *
+parse_string(Token **token) {
+	Token *head = *token;
 	if (!head) return Error("parse_string: token is NULL");
 	if (head->type != TOKEN_STRING) return Error("parse_string: invalid token->type");
 	*token = head->next;
@@ -221,9 +221,9 @@ parse_string(struct token **token) {
 	return object;
 }
 
-struct object *
-parse_symbol(struct token **token) {
-	struct token *head = *token;
+Object *
+parse_symbol(Token **token) {
+	Token *head = *token;
 	if (!head) return Error("parse_symbol: token is NULL");
 	if (head->type != TOKEN_SYMBOL) return Error("parse_symbol: invalid token->type");
 	*token = head->next;

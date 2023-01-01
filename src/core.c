@@ -10,12 +10,12 @@
 #include <ploy/printer.h>
 #include <ploy/reader.h>
 
-struct object *
-Append(struct object *list, struct object *object) {
+Object *
+Append(Object *list, Object *object) {
 	if (!object) return Error("Append: object is NULL");
 	if (!list) return Cons(object, &Nil);
 
-	struct object *head = list;
+	Object *head = list;
 	while (head && Car(head) && Cdr(head) && Cdr(head)->type == OBJECT_LIST)
 		head = Cdr(head);
 
@@ -23,22 +23,22 @@ Append(struct object *list, struct object *object) {
 	return list;
 }
 
-struct object *
-Car(struct object *object) {
+Object *
+Car(Object *object) {
 	if (!object) return Error("Cdr: object is NULL");
 	if (object->type != OBJECT_LIST) return Error("Cdr: object is not of type LIST");
 	return object->list->car;
 }
 
-struct object *
-Cdr(struct object *object) {
+Object *
+Cdr(Object *object) {
 	if (!object) return Error("Cdr: object is NULL");
 	if (object->type != OBJECT_LIST) return Error("Cdr: object is not of type LIST");
 	return object->list->cdr;
 }
 
-struct object *
-Cons(struct object *car, struct object *cdr) {
+Object *
+Cons(Object *car, Object *cdr) {
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_LIST;
 	object->list = GC_MALLOC(sizeof(*object->list));
@@ -47,7 +47,7 @@ Cons(struct object *car, struct object *cdr) {
 	return object;
 }
 
-struct object *
+Object *
 Error(const char *error) {
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_ERROR;
@@ -55,13 +55,13 @@ Error(const char *error) {
 	return object;
 }
 
-struct object *
-Eval(struct object *object) {
+Object *
+Eval(Object *object) {
 	return object;
 }
 
-struct object *
-Lambda(struct object *env, struct object *args, struct object *body) {
+Object *
+Lambda(Object *env, Object *args, Object *body) {
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_LAMBDA;
 	object->lambda = GC_MALLOC(sizeof(*object->lambda));
@@ -71,9 +71,9 @@ Lambda(struct object *env, struct object *args, struct object *body) {
 	return object;
 }
 
-struct object *
-Print(struct object *object) {
-	struct object *head = object;
+Object *
+Print(Object *object) {
+	Object *head = object;
 	if (head) {
 		printer(head);
 		putchar('\n');
@@ -81,16 +81,16 @@ Print(struct object *object) {
 	return object;
 }
 
-struct object *
+Object *
 Read(const char *input) {
 	return reader(input);
 }
 
-struct object *
-Reverse(struct object *object) {
+Object *
+Reverse(Object *object) {
 	if (!object) return Error("Reverse: object is NULL");
-	struct object *head = object;
-	struct object *reversed = Cons(NULL, NULL);
+	Object *head = object;
+	Object *reversed = Cons(NULL, NULL);
 	while (head && head->type == OBJECT_LIST && Car(head)) {
 		reversed = Cons(reversed, Car(head));
 		if (!Cdr(head)) break;

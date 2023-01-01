@@ -5,24 +5,24 @@
 #include <ploy/ploy.h>
 #include <ploy/reader.h>
 
-struct object *read_list_delimiters(struct token *tokens);
+Object *read_list_delimiters(Token *tokens);
 
-struct object *
+Object *
 reader(const char *input) {
 	if (!input) return Error("reader: input is NULL");
 
-	struct token *tokens = lexer(input);
+	Token *tokens = lexer(input);
 	if (!tokens) return Error("reader: tokens is NULL");
 	if (tokens->type == TOKEN_ERROR) return Error(tokens->data);
 
-	struct object *object = read_list_delimiters(tokens);
+	Object *object = read_list_delimiters(tokens);
 	if (object && object->type == OBJECT_ERROR) return object;
 	return parser(tokens);
 }
 
-struct object *
-read_list_delimiters(struct token *tokens) {
-	struct token *head = tokens;
+Object *
+read_list_delimiters(Token *tokens) {
+	Token *head = tokens;
 	int64_t balanced = 0;
 
 	while (head && head->data) {

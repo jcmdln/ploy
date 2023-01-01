@@ -47,12 +47,12 @@ enum token_type {
 	TOKEN_SYMBOL,
 };
 
-struct token {
+typedef struct token {
 	enum token_type type;
 	size_t index;
 	const char *data;
 	struct token *next;
-};
+} const Token;
 
 struct token *new_token(enum token_type type, size_t index, const char *data);
 

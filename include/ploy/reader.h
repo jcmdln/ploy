@@ -10,6 +10,6 @@
 #include <ploy/reader/parser.h>
 #include <ploy/reader/token.h>
 
-struct object *reader(const char *input);
+Object *reader(const char *input);
 
 #endif // PLOY_READER_H

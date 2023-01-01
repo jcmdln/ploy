@@ -8,6 +8,6 @@
 #include <ploy/ploy.h>
 #include <ploy/reader/token.h>
 
-struct object *parser(struct token *token);
+Object *parser(Token *token);
 
 #endif // PLOY_READER_PARSER_H
