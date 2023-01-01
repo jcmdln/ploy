@@ -30,10 +30,10 @@ Object *parser(Token *tokens) {
 }
 
 Object *parse_form(Token **tokens) {
+	if (!tokens) return Error("parse_form: tokens is NULL");
+
 	Object *objects = NULL;
 	Token *token = *tokens;
-	if (!token) return Error("parse_form: tokens is NULL");
-
 	while (token) {
 		Object *object = NULL;
 
