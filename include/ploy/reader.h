@@ -6,9 +6,6 @@
 #pragma once
 
 #include <ploy/ploy.h>
-#include <ploy/reader/lexer.h>
-#include <ploy/reader/parser.h>
-#include <ploy/reader/token.h>
 
 Object *reader(const char *input);
 

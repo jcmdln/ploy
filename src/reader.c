@@ -4,6 +4,9 @@
 
 #include <ploy/ploy.h>
 #include <ploy/reader.h>
+#include <ploy/reader/lexer.h>
+#include <ploy/reader/parser.h>
+#include <ploy/reader/token.h>
 
 Object *read_list_delimiters(Token *tokens);
 
