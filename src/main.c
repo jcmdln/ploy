@@ -30,19 +30,18 @@ int repl(void) {
 }
 
 int usage(int exit_code) {
-	const char *using = "usage: ploy [-h] [-e STRING]\n\n"
-						"    -h      Show help output\n"
-						"    -e      Evaluate an expression\n";
+	const char *using = "usage: ploy [-h] [-e EXPR]\n\n"
+						"    -e      Evaluate an expression\n"
+						"    -h      Show help output\n";
 	printf("%s\n", using);
 	return exit_code;
 }
 
 int main(int argc, char **argv) {
-main(int argc, char **argv) {
+	int opt = 0;
 	bool opt_help = false;
 	bool opt_exec = false;
 
-	int opt = 0;
 	while ((opt = getopt(argc, argv, ":he:")) != -1) {
 		switch (opt) {
 		case 'e':
