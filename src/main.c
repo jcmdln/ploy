@@ -12,8 +12,7 @@
 
 #include <ploy/ploy.h>
 
-int
-repl(void) {
+int repl(void) {
 	puts("ploy v0.0.0\n");
 
 	while (true) {
@@ -30,8 +29,7 @@ repl(void) {
 	return EXIT_SUCCESS;
 }
 
-int
-usage(int exit_code) {
+int usage(int exit_code) {
 	const char *using = "usage: ploy [-h] [-e STRING]\n\n"
 						"    -h      Show help output\n"
 						"    -e      Evaluate an expression\n";
@@ -39,7 +37,7 @@ usage(int exit_code) {
 	return exit_code;
 }
 
-int
+int main(int argc, char **argv) {
 main(int argc, char **argv) {
 	bool opt_help = false;
 	bool opt_exec = false;

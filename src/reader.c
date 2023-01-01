@@ -7,8 +7,7 @@
 
 Object *read_list_delimiters(Token *tokens);
 
-Object *
-reader(const char *input) {
+Object *reader(const char *input) {
 	if (!input) return Error("reader: input is NULL");
 
 	Token *tokens = lexer(input);
@@ -20,8 +19,7 @@ reader(const char *input) {
 	return parser(tokens);
 }
 
-Object *
-read_list_delimiters(Token *tokens) {
+Object *read_list_delimiters(Token *tokens) {
 	Token *head = tokens;
 	int64_t balanced = 0;
 

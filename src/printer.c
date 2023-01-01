@@ -10,8 +10,7 @@
 
 void print_list(Object *list);
 
-void
-printer(Object *object) {
+void printer(Object *object) {
 	if (!object) return;
 
 	switch (object->type) {
@@ -45,8 +44,7 @@ printer(Object *object) {
 	}
 }
 
-void
-print_list(Object *list) {
+void print_list(Object *list) {
 	putchar('(');
 
 	while (list && list->type != OBJECT_NIL) {
