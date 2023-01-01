@@ -19,18 +19,14 @@ repl(void) {
 	while (true) {
 		char *input = readline("λ ");
 		if (!input) {
-			if (!fputs("error: main: input is invalid\n", stderr)) {
-				exit(EXIT_FAILURE);
-			}
+			fputs("error: main: input is NULL\n", stderr);
 			return EXIT_FAILURE;
 		}
 
 		add_history(input);
 
 		struct object *objects = Print(Eval(Read(input)));
-		if (objects) {
-			GC_FREE(objects);
-		}
+		if (objects) GC_FREE(objects);
 	}
 
 	return EXIT_SUCCESS;
@@ -64,9 +60,7 @@ main(int argc, char **argv) {
 		}
 	}
 
-	if (opt_help) {
-		return usage(EXIT_SUCCESS);
-	}
+	if (opt_help) return usage(EXIT_SUCCESS);
 
 	if (opt_exec) {
 		Print(Eval(Read(argv[2])));

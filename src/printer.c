@@ -12,9 +12,7 @@ void print_list(struct object *list);
 
 void
 printer(struct object *object) {
-	if (!object) {
-		return;
-	}
+	if (!object) return;
 
 	switch (object->type) {
 	case OBJECT_NIL:
@@ -68,11 +66,8 @@ print_list(struct object *list) {
 
 		printer(car);
 
-		if (car->type != OBJECT_NIL && cdr->type != OBJECT_NIL) {
-			if (Car(cdr)->type != OBJECT_NIL || Cdr(cdr)->type != OBJECT_NIL) {
-				putchar(' ');
-			}
-		}
+		if (car->type != OBJECT_NIL && cdr->type != OBJECT_NIL)
+			if (Car(cdr)->type != OBJECT_NIL || Cdr(cdr)->type != OBJECT_NIL) putchar(' ');
 
 		list = cdr;
 	}

@@ -11,42 +11,31 @@
 
 struct token *
 token_append(struct token *tokens, struct token *token) {
-	if (!token) {
-		return new_token(TOKEN_ERROR, 0, "token_append: token is NULL");
-	}
-	if (!tokens) {
-		return token;
-	}
+	if (!token) return new_token(TOKEN_ERROR, 0, "token_append: token is NULL");
+	if (!tokens) return token;
 
 	struct token *head = tokens;
-	while (head && head->next) {
+	while (head && head->next)
 		head = head->next;
-	}
-	head->next = token;
 
+	head->next = token;
 	return tokens;
 }
 
 struct token *
 new_token(enum token_type type, size_t index, const char *data) {
-	if (!data) {
-		return new_token(TOKEN_ERROR, 0, "new_token: data is NULL");
-	}
-
+	if (!data) return new_token(TOKEN_ERROR, 0, "new_token: data is NULL");
 	struct token *token = GC_MALLOC(sizeof(*token));
 	token->type = type;
 	token->index = index;
 	token->data = data;
-
 	return token;
 }
 
 void
 token_print(struct token *tokens) {
 	if (!tokens) {
-		if (!fputs("error: token_print: tokens is NULL\n", stderr)) {
-			exit(EXIT_FAILURE);
-		}
+		fputs("error: token_print: tokens is NULL\n", stderr);
 		return;
 	}
 

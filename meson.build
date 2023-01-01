@@ -21,12 +21,9 @@ project(
 #
 
 compiler = meson.get_compiler('c', native: true)
+compiler_args = []
 
-includes = include_directories('include')
-sources = []
-subdir('src')
-
-add_project_arguments(compiler.get_supported_arguments([
+compiler_args += [
   '-fshort-wchar',
   '-fstrict-aliasing',
   '-funsigned-char',
@@ -38,33 +35,26 @@ add_project_arguments(compiler.get_supported_arguments([
   '-Werror=vla',
   '-Werror=write-strings',
   '-Wno-error=pedantic',
-  '-Wno-error=unused-but-set-parameter',
-  '-Wno-error=unused-parameter',
-  '-Wno-error=unused-result',
-  '-Wno-error=unused-variable',
-]), language: 'c')
+  '-Wno-unused-but-set-parameter',
+  '-Wno-unused-parameter',
+  '-Wno-unused-result',
+  '-Wno-unused-variable',
+]
 
 if compiler.get_id().startswith('clang')
-  add_project_arguments(compiler.get_supported_arguments([
+  compiler_args += [
     '-Werror=ignored-qualifiers',
     '-Werror=unreachable-code-break',
     '-Werror=unreachable-code-return',
-  ]), language: 'c')
+  ]
 elif compiler.get_id().startswith('gcc')
-  add_project_arguments(compiler.get_supported_arguments([
+  compiler_args += [
     '-Werror=discarded-qualifiers',
     '-Werror=switch-unreachable',
-  ]), language: 'c')
+  ]
 endif
 
-if get_option('buildtype').startswith('debug')
-  sanitizers = [
-    '-fsanitize=address',
-    '-fsanitize=undefined',
-  ]
-  add_project_arguments(compiler.get_supported_arguments(sanitizers), language: 'c')
-  add_project_link_arguments(compiler.get_supported_link_arguments(sanitizers), language: 'c')
-endif
+add_project_arguments(compiler.get_supported_arguments(compiler_args), language: 'c')
 
 #
 # Dependencies
@@ -77,12 +67,16 @@ readline = dependency('readline', required: true)
 # Executables
 #
 
+ploy_includes = include_directories('include')
+ploy_sources = []
+subdir('src')
+
 executable(
   'ploy',
   dependencies: [bdw_gc, readline],
-  include_directories: includes,
+  include_directories: [ploy_includes],
   install: true,
-  sources: [sources, src_main_c],
+  sources: [ploy_sources, src_main_c],
 )
 
 #

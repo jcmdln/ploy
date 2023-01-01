@@ -5,6 +5,6 @@
 test('test_example', executable('test_example',
   build_by_default: false,
   dependencies: bdw_gc,
-  include_directories: includes,
-  sources: [sources, files('example.c')]
+  include_directories: ploy_includes,
+  sources: [ploy_sources, files('example.c')]
 ))

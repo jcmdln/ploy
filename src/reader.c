@@ -9,23 +9,14 @@ struct object *read_list_delimiters(struct token *tokens);
 
 struct object *
 reader(const char *input) {
-	if (!input) {
-		return Error("reader: input is NULL");
-	}
+	if (!input) return Error("reader: input is NULL");
 
 	struct token *tokens = lexer(input);
-	if (!tokens) {
-		return Error("reader: tokens is NULL");
-	}
-	if (tokens->type == TOKEN_ERROR) {
-		return Error(tokens->data);
-	}
+	if (!tokens) return Error("reader: tokens is NULL");
+	if (tokens->type == TOKEN_ERROR) return Error(tokens->data);
 
 	struct object *object = read_list_delimiters(tokens);
-	if (object && object->type == OBJECT_ERROR) {
-		return object;
-	}
-
+	if (object && object->type == OBJECT_ERROR) return object;
 	return parser(tokens);
 }
 
@@ -40,16 +31,11 @@ read_list_delimiters(struct token *tokens) {
 		} else if (*head->data == ')') {
 			--balanced;
 		}
-
 		head = head->next;
 	}
 
-	if (balanced < 0) {
-		return Error("read_list_delimiters: missing open parenthesis");
-	}
-	if (balanced > 0) {
-		return Error("read_list_delimiters: missing closing parenthesis");
-	}
+	if (balanced < 0) return Error("read_list_delimiters: missing open parenthesis");
+	if (balanced > 0) return Error("read_list_delimiters: missing closing parenthesis");
 
-	return Nil();
+	return &Nil;
 }

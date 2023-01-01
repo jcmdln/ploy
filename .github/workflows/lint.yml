@@ -65,7 +65,7 @@ jobs:
           CC_LD: lld
         run: |
           meson --version
-          meson builddir -Dbuildtype=debugoptimized -Dwerror=true
+          meson builddir -Dbuildtype=debugoptimized -Dwerror=true -Db_sanitize=address,undefined
 
       - name: Build Ploy (Debug)
         run: |

@@ -46,16 +46,10 @@ struct object {
 	};
 };
 
-// Constructors
-struct object *Nil(void);
-struct object *Boolean(bool boolean);
-struct object *Error(const char *error);
-struct object *Keyword(const char *keyword);
-struct object *Lambda(struct object *env, struct object *args, struct object *body);
-struct object *List(struct object *car, struct object *cdr);
-struct object *Number(int64_t number);
-struct object *String(const char *string);
-struct object *Symbol(const char *symbol);
+// Constants
+static struct object Nil = { .type = OBJECT_NIL };
+static struct object False = { .type = OBJECT_BOOLEAN, .boolean = false };
+static struct object True = { .type = OBJECT_BOOLEAN, .boolean = true };
 
 // Core
 struct object *Append(struct object *list, struct object *object);
@@ -64,9 +58,11 @@ struct object *Car(struct object *object);
 struct object *Cdr(struct object *object);
 struct object *Cons(struct object *car, struct object *cdr);
 struct object *Define(struct object *env, struct object *symbol, struct object *value);
+struct object *Error(const char *error);
 struct object *Eval(struct object *object);
 struct object *For(struct object *expr, struct object *body);
 struct object *If(struct object *expr, struct object *body);
+struct object *Lambda(struct object *env, struct object *args, struct object *body);
 struct object *Print(struct object *object);
 struct object *Quasiquote(struct object *object);
 struct object *Quote(struct object *object);
