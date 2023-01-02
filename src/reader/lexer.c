@@ -101,6 +101,7 @@ struct token *lexer(const char *input) {
 		}
 
 		if (!token) return new_token(TOKEN_ERROR, 0, "lexer: token is NULL");
+		if (token->type == TOKEN_ERROR) return token;
 		tokens = token_append(tokens, token);
 	};
 
