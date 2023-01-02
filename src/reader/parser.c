@@ -103,8 +103,10 @@ Object *parse_form(Token **tokens) {
 }
 
 Object *parse_keyword(Token **token) {
+	if (!token) return Error("parse_keyword: token is NULL");
+
 	Token *head = *token;
-	if (!head) return Error("parse_keyword: token is NULL");
+	if (!head) return Error("parse_keyword: head is NULL");
 	if (head->type != TOKEN_KEYWORD) return Error("parse_keyword: invalid token->type");
 	*token = head->next;
 
@@ -118,8 +120,10 @@ Object *parse_keyword(Token **token) {
 }
 
 Object *parse_lambda(Token **token) {
+	if (!token) return Error("parse_lambda: token is NULL");
+
 	Token *head = *token;
-	if (!head) return Error("parse_lambda: token is NULL");
+	if (!head) return Error("parse_lambda: head is NULL");
 	*token = head->next;
 
 	// struct object *object = GC_MALLOC(sizeof(*object));
@@ -132,8 +136,10 @@ Object *parse_lambda(Token **token) {
 }
 
 Object *parse_list(Token **token) {
+	if (!token) return Error("parse_list: token is NULL");
+
 	Token *head = *token;
-	if (!head) return Error("parse_list: token is NULL");
+	if (!head) return Error("parse_list: head is NULL");
 	if (head->type != TOKEN_PAREN_L) return Error("parse_list: missing open parenthesis");
 	*token = head->next;
 
@@ -149,8 +155,10 @@ Object *parse_list(Token **token) {
 }
 
 Object *parse_number(Token **token) {
+	if (!token) return Error("parse_number: token is NULL");
+
 	Token *head = *token;
-	if (!head) return Error("parse_number: token is NULL");
+	if (!head) return Error("parse_number: head is NULL");
 	if (head->type != TOKEN_NUMBER) return Error("parse_number: invalid token->type");
 	*token = head->next;
 
@@ -161,8 +169,10 @@ Object *parse_number(Token **token) {
 }
 
 Object *parse_quasiquote(Token **token) {
+	if (!token) return Error("parse_quasiquote: token is NULL");
+
 	Token *head = *token;
-	if (!head) return Error("parse_quasiquote: token is NULL");
+	if (!head) return Error("parse_quasiquote: head is NULL");
 	if (head->type != TOKEN_BACKTICK) return Error("parse_quasiquote: missing backtick prefix");
 	head = head->next;
 
@@ -179,8 +189,10 @@ Object *parse_quasiquote(Token **token) {
 }
 
 Object *parse_quote(Token **token) {
+	if (!token) return Error("parse_quote: token is NULL");
+
 	Token *head = *token;
-	if (!head) return Error("parse_quote: token is NULL");
+	if (!head) return Error("parse_quote: head is NULL");
 	if (head->type != TOKEN_SINGLE_QUOTE) return Error("parse_quote: missing single_quote");
 	head = head->next;
 
@@ -198,8 +210,10 @@ Object *parse_quote(Token **token) {
 
 // FIXME: parse_string: Handle nested strings
 Object *parse_string(Token **token) {
+	if (!token) return Error("parse_string: token is NULL");
+
 	Token *head = *token;
-	if (!head) return Error("parse_string: token is NULL");
+	if (!head) return Error("parse_string: head is NULL");
 	if (head->type != TOKEN_STRING) return Error("parse_string: invalid token->type");
 	*token = head->next;
 
@@ -213,8 +227,10 @@ Object *parse_string(Token **token) {
 }
 
 Object *parse_symbol(Token **token) {
+	if (!token) return Error("parse_symbol: token is NULL");
+
 	Token *head = *token;
-	if (!head) return Error("parse_symbol: token is NULL");
+	if (!head) return Error("parse_symbol: head is NULL");
 	if (head->type != TOKEN_SYMBOL) return Error("parse_symbol: invalid token->type");
 	*token = head->next;
 
