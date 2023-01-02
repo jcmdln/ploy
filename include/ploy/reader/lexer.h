@@ -7,6 +7,6 @@
 
 #include <ploy/reader/token.h>
 
-struct token *lexer(const char *input);
+Token *lexer(const char *input);
 
 #endif // PLOY_READER_LEXER_H

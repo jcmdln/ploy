@@ -30,13 +30,13 @@ struct token *new_token(enum token_type type, size_t index, const char *data) {
 	return token;
 }
 
-void token_print(const struct token *tokens) {
+void token_print(Token *tokens) {
 	if (!tokens) {
 		fputs("error: token_print: tokens is NULL\n", stderr);
 		return;
 	}
 
-	const struct token *head = tokens;
+	Token *head = tokens;
 	while (head) {
 		printf("token: %16s: '%s'\n", token_type_as_char(head->type), head->data);
 		head = head->next;

@@ -18,7 +18,7 @@ struct token *lex_string(size_t *index, const char **input);
 struct token *lex_symbol(size_t *index, const char **input);
 struct token *lex_token(size_t *index, const char **input, size_t length);
 
-struct token *lexer(const char *input) {
+Token *lexer(const char *input) {
 	if (!input) return new_token(TOKEN_ERROR, 0, "lexer: input is NULL");
 
 	const char *cursor = input;
