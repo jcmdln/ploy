@@ -47,11 +47,14 @@ struct token *lexer(const char *input) {
 			token = lex_token(&index, &cursor, 1);
 			break;
 		case '-':
+			if (lexer_peek(cursor) == '>') {
+				token = lex_token(&index, &cursor, 2);
+				break;
+			};
+			// fallthrough
 		case '+':
 			if (isdigit(lexer_peek(cursor))) {
 				token = lex_number(&index, &cursor);
-			} else if (*cursor == '-' && lexer_peek(cursor) == '>') {
-				token = lex_token(&index, &cursor, 2);
 			} else {
 				token = lex_token(&index, &cursor, 1);
 			}
