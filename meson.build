@@ -21,9 +21,8 @@ project(
 #
 
 compiler = meson.get_compiler('c', native: true)
-compiler_args = []
 
-compiler_args += [
+compiler_args = [
   '-fshort-wchar',
   '-fstrict-aliasing',
   '-funsigned-char',
@@ -35,10 +34,10 @@ compiler_args += [
   '-Werror=vla',
   '-Werror=write-strings',
   '-Wno-error=pedantic',
-  '-Wno-unused-but-set-parameter',
-  '-Wno-unused-parameter',
-  '-Wno-unused-result',
-  '-Wno-unused-variable',
+  '-Wno-error=unused-but-set-parameter',
+  '-Wno-error=unused-parameter',
+  '-Wno-error=unused-result',
+  '-Wno-error=unused-variable',
 ]
 
 if compiler.get_id().startswith('clang')
@@ -53,6 +52,22 @@ elif compiler.get_id().startswith('gcc')
     '-Werror=switch-unreachable',
   ]
 endif
+
+# https://releases.llvm.org/7.0.0/tools/clang/docs/UndefinedBehaviorSanitizer.html
+# https://gcc.gnu.org/onlinedocs/gcc-8.1.0/gcc/Instrumentation-Options.html
+if get_option('b_sanitize').contains('undefined')
+  compiler_args += [
+    '-fsanitize=float-cast-overflow',
+    '-fsanitize=float-divide-by-zero',
+  ]
+
+  if compiler.get_id().startswith('clang')
+    compiler_args += ['-fsanitize=integer']
+  # elif compiler.get_id().startswith('gcc')
+  #   compiler_args += []
+  endif
+endif
+
 
 add_project_arguments(compiler.get_supported_arguments(compiler_args), language: 'c')
 
