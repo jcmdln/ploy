@@ -56,7 +56,7 @@ Error(const char *error)
 {
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_ERROR;
-	object->error = error;
+	object->atom = error;
 	return object;
 }
 

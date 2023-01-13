@@ -110,18 +110,19 @@ Object *
 parse_keyword(Token **token)
 {
 	if (!token) return Error("parse_keyword: token is NULL");
-
 	Token *head = *token;
 	if (!head) return Error("parse_keyword: head is NULL");
+
 	if (head->type != TOKEN_KEYWORD) return Error("parse_keyword: invalid token->type");
 	*token = head->next;
 
-	char *string = GC_MALLOC(sizeof(*string));
-	memcpy(string, head->data, strlen(head->data));
+	char *keyword = GC_MALLOC(sizeof(*keyword));
+	memcpy(keyword, head->data, strlen(head->data));
 
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_KEYWORD;
-	object->keyword = string;
+	object->atom = keyword;
+
 	return object;
 }
 
@@ -129,9 +130,9 @@ Object *
 parse_lambda(Token **token)
 {
 	if (!token) return Error("parse_lambda: token is NULL");
-
 	Token *head = *token;
 	if (!head) return Error("parse_lambda: head is NULL");
+
 	*token = head->next;
 
 	// struct object *object = GC_MALLOC(sizeof(*object));
@@ -161,6 +162,7 @@ parse_list(Token **token)
 	if (!head || head->type != TOKEN_PAREN_R)
 		return Error("parse_list: missing closing parenthesis");
 	*token = head->next;
+
 	return object;
 }
 
@@ -177,6 +179,7 @@ parse_number(Token **token)
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_NUMBER;
 	object->number = strtoll(head->data, NULL, 10);
+
 	return object;
 }
 
@@ -199,6 +202,7 @@ parse_quasiquote(Token **token)
 	}
 
 	*token = head->next;
+
 	return Error("parse_quasiquote: not implemented");
 }
 
@@ -221,6 +225,7 @@ parse_quote(Token **token)
 	}
 
 	*token = head->next;
+
 	return Error("parse_quote: not implemented");
 }
 
@@ -240,7 +245,8 @@ parse_string(Token **token)
 
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_STRING;
-	object->string = string;
+	object->atom = string;
+
 	return object;
 }
 
@@ -259,6 +265,7 @@ parse_symbol(Token **token)
 
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_SYMBOL;
-	object->symbol = symbol;
+	object->atom = symbol;
+
 	return object;
 }

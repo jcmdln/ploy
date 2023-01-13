@@ -23,10 +23,10 @@ printer(Object *object)
 		printf(object->boolean ? "true" : "false");
 		break;
 	case OBJECT_ERROR:
-		printf("error: %s\n", object->error);
+		printf("error: %s\n", object->atom);
 		break;
 	case OBJECT_KEYWORD:
-		printf(":%s", object->keyword);
+		printf(":%s", object->atom);
 		break;
 	case OBJECT_LAMBDA:
 		printf("<lambda>");
@@ -38,10 +38,10 @@ printer(Object *object)
 		printf("%ld", object->number);
 		break;
 	case OBJECT_STRING:
-		printf("\"%s\"", object->string);
+		printf("\"%s\"", object->atom);
 		break;
 	case OBJECT_SYMBOL:
-		printf("%s", object->symbol);
+		printf("%s", object->atom);
 		break;
 	}
 }

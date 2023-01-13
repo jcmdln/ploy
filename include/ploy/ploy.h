@@ -24,14 +24,11 @@ enum object_type {
 typedef struct object {
 	enum object_type type;
 	union {
+		const char *atom;
 		bool boolean;
-		const char *error;
-		const char *keyword;
 		struct lambda *lambda;
 		struct list *list;
 		int64_t number;
-		const char *string;
-		const char *symbol;
 	};
 } const Object;
 
