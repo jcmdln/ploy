@@ -18,7 +18,9 @@ struct token *lex_string(size_t *index, const char **input);
 struct token *lex_symbol(size_t *index, const char **input);
 struct token *lex_token(size_t *index, const char **input, size_t length);
 
-Token *lexer(const char *input) {
+Token *
+lexer(const char *input)
+{
 	if (!input) return new_token(TOKEN_ERROR, 0, "lexer: input is NULL");
 
 	const char *cursor = input;
@@ -109,12 +111,16 @@ Token *lexer(const char *input) {
 	return tokens;
 }
 
-char lexer_peek(const char *input) {
+char
+lexer_peek(const char *input)
+{
 	const char *cursor = input;
 	return *++cursor;
 }
 
-struct token *lex_comment(size_t *index, const char **input) {
+struct token *
+lex_comment(size_t *index, const char **input)
+{
 	if (!index) return new_token(TOKEN_ERROR, 0, "lex_comment: index is NULL");
 	if (!input) return new_token(TOKEN_ERROR, 0, "lex_comment: input is NULL");
 	if (strchr("#;", **input)) return new_token(TOKEN_ERROR, 0, "lex_comment: missing prefix");
@@ -133,7 +139,9 @@ struct token *lex_comment(size_t *index, const char **input) {
 	return token;
 }
 
-struct token *lex_keyword(size_t *index, const char **input) {
+struct token *
+lex_keyword(size_t *index, const char **input)
+{
 	if (!index) return new_token(TOKEN_ERROR, *index, "lex_keyword: index is NULL");
 	if (!input) return new_token(TOKEN_ERROR, *index, "lex_keyword: input is NULL");
 	if (**input != ':') return new_token(TOKEN_ERROR, *index, "lex_keyword: missing ':' prefix");
@@ -153,7 +161,9 @@ struct token *lex_keyword(size_t *index, const char **input) {
 	return token;
 }
 
-struct token *lex_number(size_t *index, const char **input) {
+struct token *
+lex_number(size_t *index, const char **input)
+{
 	if (!index) return new_token(TOKEN_ERROR, *index, "lex_number: index is NULL");
 	if (!input) return new_token(TOKEN_ERROR, *index, "lex_number: input is NULL");
 
@@ -172,7 +182,9 @@ struct token *lex_number(size_t *index, const char **input) {
 	return token;
 }
 
-struct token *lex_string(size_t *index, const char **input) {
+struct token *
+lex_string(size_t *index, const char **input)
+{
 	if (!index) return new_token(TOKEN_ERROR, *index, "lex_string: index is NULL");
 	if (!input) return new_token(TOKEN_ERROR, *index, "lex_string: input is NULL");
 	if (**input != '\"') return new_token(TOKEN_ERROR, *index, "lex_string: missing '\"' prefix");
@@ -193,7 +205,9 @@ struct token *lex_string(size_t *index, const char **input) {
 	return token;
 }
 
-struct token *lex_symbol(size_t *index, const char **input) {
+struct token *
+lex_symbol(size_t *index, const char **input)
+{
 	if (!index) return new_token(TOKEN_ERROR, *index, "lex_symbol: index is NULL");
 	if (!input) return new_token(TOKEN_ERROR, *index, "lex_symbol: input is NULL");
 
@@ -212,7 +226,9 @@ struct token *lex_symbol(size_t *index, const char **input) {
 	return token;
 }
 
-struct token *lex_token(size_t *index, const char **input, size_t length) {
+struct token *
+lex_token(size_t *index, const char **input, size_t length)
+{
 	if (!index) return new_token(TOKEN_ERROR, *index, "lex_token: index is NULL");
 	if (!input) return new_token(TOKEN_ERROR, *index, "lex_token: input is NULL");
 	if (length == 0) return new_token(TOKEN_ERROR, *index, "lex_token: length is zero");

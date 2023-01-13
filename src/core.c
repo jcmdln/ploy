@@ -10,7 +10,9 @@
 #include <ploy/printer.h>
 #include <ploy/reader.h>
 
-Object *Append(Object *list, Object *object) {
+Object *
+Append(Object *list, Object *object)
+{
 	if (!object) return Error("Append: object is NULL");
 	if (!list) return Cons(object, &Nil);
 
@@ -22,19 +24,25 @@ Object *Append(Object *list, Object *object) {
 	return list;
 }
 
-Object *Car(Object *object) {
+Object *
+Car(Object *object)
+{
 	if (!object) return Error("Cdr: object is NULL");
 	if (object->type != OBJECT_LIST) return Error("Cdr: object is not of type LIST");
 	return object->list->car;
 }
 
-Object *Cdr(Object *object) {
+Object *
+Cdr(Object *object)
+{
 	if (!object) return Error("Cdr: object is NULL");
 	if (object->type != OBJECT_LIST) return Error("Cdr: object is not of type LIST");
 	return object->list->cdr;
 }
 
-Object *Cons(Object *car, Object *cdr) {
+Object *
+Cons(Object *car, Object *cdr)
+{
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_LIST;
 	object->list = GC_MALLOC(sizeof(*object->list));
@@ -43,18 +51,24 @@ Object *Cons(Object *car, Object *cdr) {
 	return object;
 }
 
-Object *Error(const char *error) {
+Object *
+Error(const char *error)
+{
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_ERROR;
 	object->error = error;
 	return object;
 }
 
-Object *Eval(Object *object) {
+Object *
+Eval(Object *object)
+{
 	return object;
 }
 
-Object *Lambda(Object *env, Object *args, Object *body) {
+Object *
+Lambda(Object *env, Object *args, Object *body)
+{
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_LAMBDA;
 	object->lambda = GC_MALLOC(sizeof(*object->lambda));
@@ -64,7 +78,9 @@ Object *Lambda(Object *env, Object *args, Object *body) {
 	return object;
 }
 
-Object *Print(Object *object) {
+Object *
+Print(Object *object)
+{
 	Object *head = object;
 	if (head) {
 		printer(head);
@@ -73,11 +89,15 @@ Object *Print(Object *object) {
 	return object;
 }
 
-Object *Read(const char *input) {
+Object *
+Read(const char *input)
+{
 	return reader(input);
 }
 
-Object *Reverse(Object *object) {
+Object *
+Reverse(Object *object)
+{
 	if (!object) return Error("Reverse: object is NULL");
 	Object *head = object;
 	Object *reversed = Cons(NULL, NULL);

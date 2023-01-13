@@ -20,7 +20,7 @@ AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: WithoutElse
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: None
-AlwaysBreakAfterReturnType: None
+AlwaysBreakAfterReturnType: TopLevelDefinitions
 AlwaysBreakBeforeMultilineStrings: false
 BinPackArguments: true
 BinPackParameters: true
@@ -30,7 +30,7 @@ BraceWrapping:
   AfterControlStatement: Never
   AfterEnum: false
   AfterExternBlock: false
-  AfterFunction: false
+  AfterFunction: true
   AfterStruct: false
   AfterUnion: false
   BeforeElse: false

@@ -20,7 +20,9 @@ Object *parse_quote(Token **token);
 Object *parse_string(Token **token);
 Object *parse_symbol(Token **token);
 
-Object *parser(Token *tokens) {
+Object *
+parser(Token *tokens)
+{
 	if (!tokens) return Error("parser: tokens is NULL");
 	if (tokens->type == TOKEN_ERROR) return Error(tokens->data);
 
@@ -29,7 +31,9 @@ Object *parser(Token *tokens) {
 	return objects;
 }
 
-Object *parse_form(Token **tokens) {
+Object *
+parse_form(Token **tokens)
+{
 	if (!tokens) return Error("parse_form: tokens is NULL");
 
 	Object *objects = NULL;
@@ -102,7 +106,9 @@ Object *parse_form(Token **tokens) {
 	return objects;
 }
 
-Object *parse_keyword(Token **token) {
+Object *
+parse_keyword(Token **token)
+{
 	if (!token) return Error("parse_keyword: token is NULL");
 
 	Token *head = *token;
@@ -119,7 +125,9 @@ Object *parse_keyword(Token **token) {
 	return object;
 }
 
-Object *parse_lambda(Token **token) {
+Object *
+parse_lambda(Token **token)
+{
 	if (!token) return Error("parse_lambda: token is NULL");
 
 	Token *head = *token;
@@ -135,7 +143,9 @@ Object *parse_lambda(Token **token) {
 	return Error("parse_lambda: not implemented");
 }
 
-Object *parse_list(Token **token) {
+Object *
+parse_list(Token **token)
+{
 	if (!token) return Error("parse_list: token is NULL");
 
 	Token *head = *token;
@@ -154,7 +164,9 @@ Object *parse_list(Token **token) {
 	return object;
 }
 
-Object *parse_number(Token **token) {
+Object *
+parse_number(Token **token)
+{
 	if (!token) return Error("parse_number: token is NULL");
 
 	Token *head = *token;
@@ -168,7 +180,9 @@ Object *parse_number(Token **token) {
 	return object;
 }
 
-Object *parse_quasiquote(Token **token) {
+Object *
+parse_quasiquote(Token **token)
+{
 	if (!token) return Error("parse_quasiquote: token is NULL");
 
 	Token *head = *token;
@@ -188,7 +202,9 @@ Object *parse_quasiquote(Token **token) {
 	return Error("parse_quasiquote: not implemented");
 }
 
-Object *parse_quote(Token **token) {
+Object *
+parse_quote(Token **token)
+{
 	if (!token) return Error("parse_quote: token is NULL");
 
 	Token *head = *token;
@@ -209,7 +225,9 @@ Object *parse_quote(Token **token) {
 }
 
 // FIXME: parse_string: Handle nested strings
-Object *parse_string(Token **token) {
+Object *
+parse_string(Token **token)
+{
 	if (!token) return Error("parse_string: token is NULL");
 
 	Token *head = *token;
@@ -226,7 +244,9 @@ Object *parse_string(Token **token) {
 	return object;
 }
 
-Object *parse_symbol(Token **token) {
+Object *
+parse_symbol(Token **token)
+{
 	if (!token) return Error("parse_symbol: token is NULL");
 
 	Token *head = *token;
