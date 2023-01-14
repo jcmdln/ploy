@@ -44,6 +44,22 @@ meson builddir -Dbuildtype=debugoptimized -Dwerror=true -Db_sanitize=address,und
 ninja -C builddir
 ```
 
+When setting up the meson builddir, you may want to consider setting additional
+environment variables to specify an alternate compiler, linker or ninja
+implementation.
+
+```
+CC="clang" CC_LD="mold" NINJA="samu" \
+meson builddir -Dbuildtype=debugoptimized -Dwerror=true -Db_sanitize=address,undefined
+```
+
+You can also opt-in to showing debug info which will emit the internal
+representation of data, such as for the `reader`:
+
+```
+ninja -C builddir/ debug
+```
+
 ## Lint
 
 This section describes how various linters should be used.

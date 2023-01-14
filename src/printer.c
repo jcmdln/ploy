@@ -51,6 +51,8 @@ print_list(Object *list)
 {
 	putchar('(');
 
+	if (list->type == OBJECT_LIST) list = Car(list);
+
 	while (list && list->type != OBJECT_NIL) {
 		if (list->type != OBJECT_LIST) {
 			printf(" . ");

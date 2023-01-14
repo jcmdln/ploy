@@ -81,6 +81,10 @@ readline = dependency('readline', required: true)
 # Executables
 #
 
+if get_option('debug')
+  add_project_arguments('-DPLOY_DEBUG', language: 'c')
+endif
+
 ploy_includes = include_directories('include')
 ploy_sources = []
 subdir('src')

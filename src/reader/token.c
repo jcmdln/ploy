@@ -42,9 +42,11 @@ token_print(Token *tokens)
 		return;
 	}
 
+	puts("tokens:");
+
 	Token *head = tokens;
 	while (head) {
-		printf("token: %16s: '%s'\n", token_type_as_char(head->type), head->data);
+		printf("%16s: '%s'\n", token_type_as_char(head->type), head->data);
 		head = head->next;
 	}
 }

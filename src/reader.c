@@ -19,6 +19,10 @@ reader(const char *input)
 	if (!tokens) return Error("reader: tokens is NULL");
 	if (tokens->type == TOKEN_ERROR) return Error(tokens->data);
 
+#ifdef PLOY_DEBUG
+	token_print(tokens);
+#endif // PLOY_DEBUG
+
 	Object *object = read_list_delimiters(tokens);
 	if (object && object->type == OBJECT_ERROR) return object;
 	return parser(tokens);
