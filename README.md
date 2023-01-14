@@ -49,15 +49,16 @@ environment variables to specify an alternate compiler, linker or ninja
 implementation.
 
 ```
-CC="clang" CC_LD="mold" NINJA="samu" \
+CC="clang" CC_LD="mold" NINJA="samu" CPPFLAGS="-DPLOY_DEBUG" \
 meson builddir -Dbuildtype=debugoptimized -Dwerror=true -Db_sanitize=address,undefined
 ```
 
-You can also opt-in to showing debug info which will emit the internal
-representation of data, such as for the `reader`:
+You can also opt-in to emitting the internal representations of data, such as
+for the `reader` by setting `CPPFLAGS` (or CFLAGS if preferred):
 
 ```
-ninja -C builddir/ debug
+CPPFLAGS="-DPLOY_DEBUG" \
+meson builddir -Dbuildtype=debugoptimized -Dwerror=true -Db_sanitize=address,undefined
 ```
 
 ## Lint
