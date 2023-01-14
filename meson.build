@@ -68,14 +68,13 @@ if get_option('b_sanitize').contains('undefined')
   endif
 endif
 
-
 add_project_arguments(compiler.get_supported_arguments(compiler_args), language: 'c')
 
 #
 # Dependencies
 #
 
-bdw_gc = dependency('bdw-gc', required: true)
+bdwgc = dependency('bdw-gc', required: true)
 readline = dependency('readline', required: true)
 
 #
@@ -88,7 +87,7 @@ subdir('src')
 
 executable(
   'ploy',
-  dependencies: [bdw_gc, readline],
+  dependencies: [bdwgc, readline],
   include_directories: [ploy_includes],
   install: true,
   sources: [ploy_sources, src_main_c],

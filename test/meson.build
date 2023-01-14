@@ -4,7 +4,7 @@
 
 test('test_example', executable('test_example',
   build_by_default: false,
-  dependencies: bdw_gc,
+  dependencies: bdwgc,
   include_directories: ploy_includes,
   sources: [ploy_sources, files('example.c')]
 ))
