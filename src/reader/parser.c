@@ -34,7 +34,7 @@ parser(Token *tokens)
 Object *
 parse_form(Token **tokens)
 {
-	if (!tokens) return Error("parse_form: tokens is NULL");
+	if (!tokens || !*tokens) return Error("parse_form: tokens is NULL");
 
 	Object *objects = NULL;
 	Token *token = *tokens;
@@ -109,11 +109,10 @@ parse_form(Token **tokens)
 Object *
 parse_keyword(Token **token)
 {
-	if (!token) return Error("parse_keyword: token is NULL");
-	Token *head = *token;
-	if (!head) return Error("parse_keyword: head is NULL");
+	if (!token || !*token) return Error("parse_keyword: token is NULL");
+	if ((*token)->type != TOKEN_KEYWORD) return Error("parse_keyword: invalid token->type");
 
-	if (head->type != TOKEN_KEYWORD) return Error("parse_keyword: invalid token->type");
+	Token *head = *token;
 	*token = head->next;
 
 	char *keyword = GC_MALLOC(sizeof(*keyword));
@@ -129,10 +128,9 @@ parse_keyword(Token **token)
 Object *
 parse_lambda(Token **token)
 {
-	if (!token) return Error("parse_lambda: token is NULL");
-	Token *head = *token;
-	if (!head) return Error("parse_lambda: head is NULL");
+	if (!token || !*token) return Error("parse_lambda: token is NULL");
 
+	Token *head = *token;
 	*token = head->next;
 
 	// struct object *object = GC_MALLOC(sizeof(*object));
@@ -147,11 +145,10 @@ parse_lambda(Token **token)
 Object *
 parse_list(Token **token)
 {
-	if (!token) return Error("parse_list: token is NULL");
+	if (!token || !*token) return Error("parse_list: token is NULL");
+	if ((*token)->type != TOKEN_PAREN_L) return Error("parse_list: missing open parenthesis");
 
 	Token *head = *token;
-	if (!head) return Error("parse_list: head is NULL");
-	if (head->type != TOKEN_PAREN_L) return Error("parse_list: missing open parenthesis");
 	*token = head->next;
 
 	Object *object = parse_form(token);
@@ -169,11 +166,10 @@ parse_list(Token **token)
 Object *
 parse_number(Token **token)
 {
-	if (!token) return Error("parse_number: token is NULL");
+	if (!token || !*token) return Error("parse_number: token is NULL");
+	if ((*token)->type != OBJECT_NUMBER) return Error("parse_number: missing single_quote");
 
 	Token *head = *token;
-	if (!head) return Error("parse_number: head is NULL");
-	if (head->type != TOKEN_NUMBER) return Error("parse_number: invalid token->type");
 	*token = head->next;
 
 	struct object *object = GC_MALLOC(sizeof(*object));
@@ -186,11 +182,10 @@ parse_number(Token **token)
 Object *
 parse_quasiquote(Token **token)
 {
-	if (!token) return Error("parse_quasiquote: token is NULL");
+	if (!token || !*token) return Error("parse_quasiquote: token is NULL");
+	if ((*token)->type != TOKEN_BACKTICK) return Error("parse_quasiquote: missing single_quote");
 
 	Token *head = *token;
-	if (!head) return Error("parse_quasiquote: head is NULL");
-	if (head->type != TOKEN_BACKTICK) return Error("parse_quasiquote: missing backtick prefix");
 	head = head->next;
 
 	switch (head->type) {
@@ -209,11 +204,10 @@ parse_quasiquote(Token **token)
 Object *
 parse_quote(Token **token)
 {
-	if (!token) return Error("parse_quote: token is NULL");
+	if (!token || !*token) return Error("parse_quote: token is NULL");
+	if ((*token)->type != TOKEN_SINGLE_QUOTE) return Error("parse_quote: missing single_quote");
 
 	Token *head = *token;
-	if (!head) return Error("parse_quote: head is NULL");
-	if (head->type != TOKEN_SINGLE_QUOTE) return Error("parse_quote: missing single_quote");
 	head = head->next;
 
 	switch (head->type) {
@@ -233,19 +227,15 @@ parse_quote(Token **token)
 Object *
 parse_string(Token **token)
 {
-	if (!token) return Error("parse_string: token is NULL");
+	if (!token || !*token) return Error("parse_string: token is NULL");
+	if ((*token)->type != TOKEN_STRING) return Error("parse_string: invalid token->type");
 
 	Token *head = *token;
-	if (!head) return Error("parse_string: head is NULL");
-	if (head->type != TOKEN_STRING) return Error("parse_string: invalid token->type");
 	*token = head->next;
-
-	char *string = GC_MALLOC(sizeof(*string));
-	memcpy(string, head->data, strlen(head->data));
 
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_STRING;
-	object->atom = string;
+	object->atom = head->data;
 
 	return object;
 }
@@ -253,19 +243,15 @@ parse_string(Token **token)
 Object *
 parse_symbol(Token **token)
 {
-	if (!token) return Error("parse_symbol: token is NULL");
+	if (!token || !*token) return Error("parse_symbol: head is NULL");
+	if ((*token)->type != TOKEN_SYMBOL) return Error("parse_symbol: invalid token->type");
 
 	Token *head = *token;
-	if (!head) return Error("parse_symbol: head is NULL");
-	if (head->type != TOKEN_SYMBOL) return Error("parse_symbol: invalid token->type");
 	*token = head->next;
-
-	char *symbol = GC_MALLOC(sizeof(*symbol));
-	memcpy(symbol, head->data, strlen(head->data));
 
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_SYMBOL;
-	object->atom = symbol;
+	object->atom = head->data;
 
 	return object;
 }
