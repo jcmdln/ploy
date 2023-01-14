@@ -7,9 +7,9 @@ your platform isn't supported, please file an issue or submit a pull request.
 
 ## Build
 
-Building Ploy requires [Meson] and [Ninja] (or [Muon] and [Samurai]), and depends
-on [bdwgc] and [GNU Readline]. At some point the dependencies will be removed in
-favor of hand-written alternatives.
+Building Ploy requires [Meson] and [Ninja] (or [Muon] and [Samurai]), and
+depends on [bdwgc] and [GNU Readline][readline]. At some point the dependencies
+will be removed in favor of hand-written alternatives.
 
 [bdwgc]: https://github.com/ivmai/bdwgc
 [c17]: domain.tld
