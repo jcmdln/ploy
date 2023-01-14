@@ -78,11 +78,11 @@ ninja -C builddir test
 ## Run
 
 ```sh
-./builddir/ploy -h
-usage: ploy [-h] [-e STRING]
+$ ./builddir/ploy -h
+usage: ploy [-h] [-e EXPR]
 
-    -h      Show help output
     -e      Evaluate an expression
+    -h      Show help output
 ```
 
 ## Install
