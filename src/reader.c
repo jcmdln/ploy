@@ -27,14 +27,19 @@ reader(const char *input)
 Object *
 read_list_delimiters(Token *tokens)
 {
+	if (!tokens) return Error("read_list_delimiters: tokens is NULL");
+
 	Token *head = tokens;
-	int64_t balanced = 0;
+	int32_t balanced = 0;
 
 	while (head && head->data) {
-		if (*head->data == '(') {
+		switch (*head->data) {
+		case '(':
 			++balanced;
-		} else if (*head->data == ')') {
+			break;
+		case ')':
 			--balanced;
+			break;
 		}
 		head = head->next;
 	}
