@@ -49,8 +49,8 @@ environment variables to specify an alternate compiler, linker or ninja
 implementation.
 
 ```
-CC="clang" CC_LD="mold" NINJA="samu" CPPFLAGS="-DPLOY_DEBUG" \
-meson builddir -Dbuildtype=debugoptimized -Dwerror=true -Db_sanitize=address,undefined
+CC="clang" CC_LD="mold" NINJA="samu" \
+meson builddir -Dbuildtype=debug -Dwerror=true -Db_sanitize=address,undefined
 ```
 
 You can also opt-in to emitting the internal representations of data, such as
