@@ -77,12 +77,6 @@ parser_print_list(Object *list, int *indent)
 		return;
 	}
 
-	list = Car(list);
-	if (list->type == OBJECT_ERROR) {
-		parser_print(list, indent);
-		return;
-	};
-
 	printf("{ \"type\": \"OBJECT_LIST\", \"data\": [\n");
 
 	*indent += 2;
