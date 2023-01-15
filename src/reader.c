@@ -25,6 +25,7 @@ reader(const char *input)
 
 	Object *object = read_list_delimiters(tokens);
 	if (object && object->type == OBJECT_ERROR) return object;
+
 	return parser(tokens);
 }
 

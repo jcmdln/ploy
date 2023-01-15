@@ -42,13 +42,16 @@ token_print(Token *tokens)
 		return;
 	}
 
-	puts("tokens:");
+	puts("{\n  \"tokens\": [");
 
 	Token *head = tokens;
 	while (head) {
-		printf("%16s: '%s'\n", token_type_as_char(head->type), head->data);
+		printf("    { \"type\": \"%s\", \"index\": %ld, \"data\": \"%s\" },\n",
+			token_type_as_char(head->type), head->index, head->data);
 		head = head->next;
 	}
+
+	puts("  ]\n}");
 }
 
 const char *
@@ -56,69 +59,69 @@ token_type_as_char(enum token_type type)
 {
 	switch (type) {
 	case TOKEN_NIL:
-		return "nil";
+		return "TOKEN_NIL";
 	case TOKEN_ERROR:
-		return "error";
+		return "TOKEN_ERROR";
 
 	// Whitespace tokens
 	case TOKEN_CARRIAGE_RETURN:
-		return "carriage_return";
+		return "TOKEN_CARRIAGE_RETURN";
 	case TOKEN_NEWLINE:
-		return "newline";
+		return "TOKEN_NEWLINE";
 	case TOKEN_SPACE:
-		return "space";
+		return "TOKEN_SPACE";
 	case TOKEN_TAB:
-		return "tab";
+		return "TOKEN_TAB";
 	case TOKEN_VERTICAL_TAB:
-		return "vertical_tab";
+		return "TOKEN_VERTICAL_TAB";
 
 	// Character tokens
 	case TOKEN_ARROW:
-		return "arrow";
+		return "TOKEN_ARROW";
 	case TOKEN_ASTERISK:
-		return "asterisk";
+		return "TOKEN_ASTERISK";
 	case TOKEN_BACKTICK:
-		return "backtick";
+		return "TOKEN_BACKTICK";
 	case TOKEN_EQUAL:
-		return "equal";
+		return "TOKEN_EQUAL";
 	case TOKEN_CARET:
-		return "caret";
+		return "TOKEN_CARET";
 	case TOKEN_COLON:
-		return "colon";
+		return "TOKEN_COLON";
 	case TOKEN_FORWARD_SLASH:
-		return "forward_slash";
+		return "TOKEN_FORWARD_SLASH";
 	case TOKEN_GREATER_OR_EQUAL:
-		return "greater_or_equal";
+		return "TOKEN_GREATER_OR_EQUAL";
 	case TOKEN_GREATER_THAN:
-		return "greater_than";
+		return "TOKEN_GREATER_THAN";
 	case TOKEN_LESS_OR_EQUAL:
-		return "less_or_equal";
+		return "TOKEN_LESS_OR_EQUAL";
 	case TOKEN_LESS_THAN:
-		return "less_than";
+		return "TOKEN_LESS_THAN";
 	case TOKEN_MINUS:
-		return "minus";
+		return "TOKEN_MINUS";
 	case TOKEN_PAREN_L:
-		return "paren_l";
+		return "TOKEN_PAREN_L";
 	case TOKEN_PAREN_R:
-		return "paren_r";
+		return "TOKEN_PAREN_R";
 	case TOKEN_PERCENT:
-		return "percent";
+		return "TOKEN_PERCENT";
 	case TOKEN_PLUS:
-		return "plus";
+		return "TOKEN_PLUS";
 	case TOKEN_SINGLE_QUOTE:
-		return "single_quote";
+		return "TOKEN_SINGLE_QUOTE";
 
 	// Atoms
 	case TOKEN_COMMENT:
-		return "comment";
+		return "TOKEN_COMMENT";
 	case TOKEN_KEYWORD:
-		return "keyword";
+		return "TOKEN_KEYWORD";
 	case TOKEN_NUMBER:
-		return "number";
+		return "TOKEN_NUMBER";
 	case TOKEN_STRING:
-		return "string";
+		return "TOKEN_STRING";
 	case TOKEN_SYMBOL:
-		return "symbol";
+		return "TOKEN_SYMBOL";
 	}
 
 	return NULL;
