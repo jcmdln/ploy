@@ -246,7 +246,7 @@ Object *
 parse_number(Token **token)
 {
 	if (!token || !*token) return Error("parse_number: token is NULL");
-	if ((*token)->type != OBJECT_NUMBER) return Error("parse_number: missing single_quote");
+	if ((*token)->type != TOKEN_NUMBER) return Error("parse_number: not a number");
 
 	Token *head = *token;
 	*token = head->next;
