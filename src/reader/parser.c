@@ -10,19 +10,6 @@
 
 #include <ploy/reader/parser.h>
 
-void parser_print(Object *object);
-void parser_print_list(Object *list);
-
-Object *parse_form(Token **tokens);
-Object *parse_keyword(Token **token);
-Object *parse_lambda(Token **token);
-Object *parse_list(Token **token);
-Object *parse_number(Token **token);
-Object *parse_quasiquote(Token **token);
-Object *parse_quote(Token **token);
-Object *parse_string(Token **token);
-Object *parse_symbol(Token **token);
-
 Object *
 parser(Token *tokens)
 {
@@ -32,82 +19,90 @@ parser(Token *tokens)
 	Object *objects = parse_form(&tokens);
 	if (!objects) return Error("parser: objects is NULL");
 
-#ifdef PLOY_DEBUG
-	puts("objects:");
-	parser_print(objects);
-#endif // PLOY_DEBUG
-
 	return objects;
 }
 
 void
-parser_print(Object *object)
+parser_print(Object *object, int *indent)
 {
 	if (!object) {
 		fputs("error: parser_print: object is NULL\n", stderr);
 		return;
 	}
 
+	printf("%*s", *indent, "");
+
 	Object *head = object;
 	switch (head->type) {
 	case OBJECT_NIL:
-		printf("%16s: '%s'\n", "nil", "nil");
+		printf("{ \"type\": \"OBJECT_NIL\", \"data\": \"%s\" },\n", "nil");
 		break;
 	case OBJECT_BOOLEAN:
-		printf("%16s: '%s'\n", "boolean", head->boolean ? "true" : "false");
+		printf("{ \"type\": \"OBJECT_BOOLEAN\", \"data\": %s },\n",
+			head->boolean ? "true" : "false");
 		break;
 	case OBJECT_ERROR:
-		printf("%16s: '%s'\n", "error", head->atom);
+		printf("{ \"type\": \"OBJECT_ERROR\", \"data\": \"%s\" },\n", head->atom);
 		break;
 	case OBJECT_KEYWORD:
-		printf("%16s: '%s'\n", "keyword", head->atom);
+		printf("{ \"type\": \"OBJECT_KEYWORD\", \"data\": \"%s\" },\n", head->atom);
 		break;
 	case OBJECT_LAMBDA:
-		printf("%16s: '%s'\n", "lambda", "<lambda>");
+		printf("{ \"type\": \"OBJECT_LAMBDA\", \"data\": \"<lambda>\" },\n");
 		break;
 	case OBJECT_LIST:
-		parser_print_list(head);
+		parser_print_list(head, indent);
 		break;
 	case OBJECT_NUMBER:
-		printf("%16s: '%ld'\n", "number", head->number);
+		printf("{ \"type\": \"OBJECT_NUMBER\", \"data\": %ld },\n", head->number);
 		break;
 	case OBJECT_STRING:
-		printf("%16s: '%s'\n", "string", head->atom);
+		printf("{ \"type\": \"OBJECT_STRING\", \"data\": \"%s\" },\n", head->atom);
 		break;
 	case OBJECT_SYMBOL:
-		printf("%16s: '%s'\n", "symbol", head->atom);
+		printf("{ \"type\": \"OBJECT_SYMBOL\", \"data\": \"%s\" },\n", head->atom);
 		break;
 	}
 }
 
 void
-parser_print_list(Object *list)
+parser_print_list(Object *list, int *indent)
 {
-	printf("%16s: %s\n", "list", "(");
+	if (!list) {
+		fputs("error: parser_print_list: list is NULL\n", stderr);
+		return;
+	}
+	if (list->type != OBJECT_LIST) {
+		fputs("error: parser_print_list: invalid type\n", stderr);
+		return;
+	}
 
-	if (list->type == OBJECT_LIST) list = Car(list);
+	list = Car(list);
+	if (list->type == OBJECT_ERROR) {
+		parser_print(list, indent);
+		return;
+	};
 
+	printf("{ \"type\": \"OBJECT_LIST\", \"data\": [\n");
+
+	*indent += 2;
 	while (list && list->type != OBJECT_NIL) {
 		if (list->type != OBJECT_LIST) {
-			printf(" . ");
-			parser_print(list);
+			parser_print(list, indent);
 			break;
 		}
 
-		Object *car = Car(list);
+		parser_print(Car(list), indent);
+
 		Object *cdr = Cdr(list);
-
-		if (car->type == OBJECT_NIL && cdr->type == OBJECT_NIL) {
-			list = cdr;
-			continue;
-		}
-
-		parser_print(car);
+		if (cdr->type == OBJECT_NIL || Cdr(cdr)->type == OBJECT_NIL) break;
 
 		list = cdr;
 	}
 
-	printf("%16s: %s\n", "list", ")");
+	*indent -= 2;
+	printf("%*s", *indent, "");
+	printf("]},\n");
 }
 
 Object *

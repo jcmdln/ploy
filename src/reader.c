@@ -2,6 +2,8 @@
 //
 // Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 
+#include <stdio.h>
+
 #include <gc/gc.h>
 
 #include <ploy/ploy.h>
@@ -30,8 +32,15 @@ reader(const char *input)
 
 	Object *parsed = parser(tokens);
 
-	// FIXME: reader: freeing `const tokens *tokens` violates `-Wcast-qual`
-	GC_FREE((void *)tokens);
+#ifdef PLOY_DEBUG
+	puts("{\n  objects: [");
+	int initial_indent = 4;
+	int *indent = &initial_indent;
+	parser_print(parsed, indent);
+	puts("  ]\n}");
+#endif // PLOY_DEBUG
+
+	GC_FREE((void *)tokens); // FIXME: reader: freeing `Tokens *` violates `-Wcast-qual`
 
 	return parsed;
 }
