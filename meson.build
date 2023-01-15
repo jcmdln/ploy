@@ -2,9 +2,7 @@
 #
 # Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 
-project(
-  'ploy',
-  'c',
+project('ploy', 'c',
   default_options: [
     'buildtype=release',
     'c_std=c17',
@@ -86,12 +84,32 @@ ploy_includes = include_directories('include')
 ploy_sources = []
 subdir('src')
 
-executable(
-  'ploy',
+executable('ploy',
   dependencies: [bdwgc, readline],
-  include_directories: [ploy_includes],
+  include_directories: include_directories('include'),
   install: true,
   sources: [ploy_sources, src_main_c],
+)
+
+#
+# Lints
+#
+
+lint_includes = files(
+  'include/ploy/reader/lexer.h',
+  'include/ploy/reader/parser.h',
+  'include/ploy/reader/token.h',
+  'include/ploy/ploy.h',
+  'include/ploy/printer.h',
+  'include/ploy/reader.h',
+)
+
+run_target('clang-format',
+  command: ['clang-format', '--dry-run', '--Werror', lint_includes, ploy_sources, src_main_c]
+)
+
+run_target('clang-tidy',
+  command: ['clang-tidy', '-p', '.', lint_includes, ploy_sources, src_main_c]
 )
 
 #

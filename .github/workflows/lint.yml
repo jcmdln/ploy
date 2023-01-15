@@ -34,9 +34,7 @@ jobs:
       matrix:
         linter:
           - name: clang-format
-            args: --dry-run --Werror include/**/*.h src/*.c src/**/*.c
           - name: clang-tidy
-            args: -p ./builddir include/**/*.h src/*.c src/**/*.c
         os:
           - name: ubuntu-latest
             deps: libasan5 libgc-dev libreadline-dev libubsan1 meson pkgconf
@@ -73,4 +71,7 @@ jobs:
           ninja -C builddir
 
       - name: Run ${{ matrix.linter.name }}
-        run: ${{ matrix.linter.name }} ${{ matrix.linter.args }}
+        run: |
+          ninja --version
+          ${{ matrix.linter.name }} --version
+          ninja -C builddir ${{ matrix.linter.name }}

@@ -70,7 +70,7 @@ This section describes how various linters should be used.
 See [.clang-format](./.clang-format) for the settings:
 
 ```sh
-clang-format --dry-run --Werror include/**/*.h src/*.c src/**/*.c
+ninja -C clang-format
 ```
 
 ### clang-tidy
@@ -78,7 +78,7 @@ clang-format --dry-run --Werror include/**/*.h src/*.c src/**/*.c
 See [.clang-tidy](./.clang-tidy) for the settings:
 
 ```sh
-clang-tidy -p ./builddir include/**/*.h src/*.c src/**/*.c
+ninja -C clang-tidy
 ```
 
 ## Test
