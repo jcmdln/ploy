@@ -33,6 +33,7 @@ compiler_args = [
   '-Werror=strict-prototypes',
   '-Werror=vla',
   '-Werror=write-strings',
+  '-Wno-error=cast-qual',
   '-Wno-error=pedantic',
   '-Wno-error=unused-but-set-parameter',
   '-Wno-error=unused-parameter',

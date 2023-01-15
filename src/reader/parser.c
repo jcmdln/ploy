@@ -312,9 +312,12 @@ parse_string(Token **token)
 	Token *head = *token;
 	*token = head->next;
 
+	char *string = GC_MALLOC(sizeof(*string));
+	memcpy(string, head->data, strlen(head->data));
+
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_STRING;
-	object->atom = head->data;
+	object->atom = string;
 
 	return object;
 }
@@ -328,9 +331,12 @@ parse_symbol(Token **token)
 	Token *head = *token;
 	*token = head->next;
 
+	char *symbol = GC_MALLOC(sizeof(*symbol));
+	memcpy(symbol, head->data, strlen(head->data));
+
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_SYMBOL;
-	object->atom = head->data;
+	object->atom = symbol;
 
 	return object;
 }

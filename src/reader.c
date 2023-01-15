@@ -2,6 +2,8 @@
 //
 // Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 
+#include <gc/gc.h>
+
 #include <ploy/ploy.h>
 #include <ploy/reader.h>
 #include <ploy/reader/lexer.h>
@@ -23,10 +25,15 @@ reader(const char *input)
 	token_print(tokens);
 #endif // PLOY_DEBUG
 
-	Object *object = read_list_delimiters(tokens);
-	if (object && object->type == OBJECT_ERROR) return object;
+	Object *delim = read_list_delimiters(tokens);
+	if (delim->type == OBJECT_ERROR) return delim;
 
-	return parser(tokens);
+	Object *parsed = parser(tokens);
+
+	// FIXME: reader: freeing `const tokens *tokens` violates `-Wcast-qual`
+	GC_FREE((void *)tokens);
+
+	return parsed;
 }
 
 Object *
