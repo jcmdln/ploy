@@ -123,7 +123,7 @@ lex_comment(size_t *index, const char **input)
 {
 	if (!index) return new_token(TOKEN_ERROR, 0, "lex_comment: index is NULL");
 	if (!input || !*input) return new_token(TOKEN_ERROR, 0, "lex_comment: input is NULL");
-	if (strchr("#;", **input)) return new_token(TOKEN_ERROR, 0, "lex_comment: missing prefix");
+	if (!strchr("#;", **input)) return new_token(TOKEN_ERROR, 0, "lex_comment: missing prefix");
 
 	const char *cursor = *input;
 	size_t length = 0;
