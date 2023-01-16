@@ -1,4 +1,20 @@
-Ploy is a lisp-like language for my own fun and learning.
+Ploy is a (work-in-progress) lisp-like language for my own fun and learning.
+
+The purpose of Ploy is for me to learn about interpreters and compilers through
+a bespoke lisp-like language, and have fun doing it. From doing so I hope to
+gain a deeper understanding and appreciation for old and new programming
+languages by implementing these fundamental concepts, even if poorly.
+
+# Roadmap
+
+I have nothing concrete, but these are my thoughts on what I might do as long
+as I'm still having fun:
+
+- stage0: Minimal C implementation of the Ploy interpreter (aka `CPloy`)
+- stage1: Use CPloy to bootstrap a self-hosted Ploy interpreter (aka `Ploy`)
+- stage2: Use the Ploy interpreter to emit a self-hosted Ploy compiler
+- stage3: Use the Ploy compiler to build the final self-hosted Ploy toolchain
+- Create first-party tools such as `ployfmt`, `ploylsp`, `ploydap`
 
 # Usage
 
@@ -48,15 +64,15 @@ When setting up the meson builddir, you may want to consider setting additional
 environment variables to specify an alternate compiler, linker or ninja
 implementation.
 
-```
+```sh
 CC="clang" CC_LD="mold" NINJA="samu" \
 meson builddir -Dbuildtype=debug -Dwerror=true -Db_sanitize=address,undefined
 ```
 
 You can also opt-in to emitting the internal representations of data, such as
-for the `reader` by setting `CPPFLAGS` (or CFLAGS if preferred):
+for the `reader` by setting `CPPFLAGS=-DPLOY_DEBUG` (or CFLAGS if preferred):
 
-```
+```sh
 CPPFLAGS="-DPLOY_DEBUG" \
 meson builddir -Dbuildtype=debugoptimized -Dwerror=true -Db_sanitize=address,undefined
 ```
