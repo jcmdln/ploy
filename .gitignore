@@ -23,6 +23,7 @@
 !.github/workflows/*.yml
 !.vscode/
 !.vscode/extensions.json
+!.vscode/launch.json
 !.vscode/settings.json
 !docs/
 !docs/**/*.md

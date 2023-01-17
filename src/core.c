@@ -13,7 +13,6 @@
 Object *
 Append(Object *list, Object *object)
 {
-	if (!object) return Error("Append: object is NULL");
 	if (!list) return Cons(object, &Nil);
 
 	Object *head = list;
@@ -27,7 +26,6 @@ Append(Object *list, Object *object)
 Object *
 Car(Object *object)
 {
-	if (!object) return Error("Cdr: object is NULL");
 	if (object->type != OBJECT_LIST) return Error("Cdr: object is not of type LIST");
 	return object->list->car;
 }
@@ -35,7 +33,6 @@ Car(Object *object)
 Object *
 Cdr(Object *object)
 {
-	if (!object) return Error("Cdr: object is NULL");
 	if (object->type != OBJECT_LIST) return Error("Cdr: object is not of type LIST");
 	return object->list->cdr;
 }
@@ -81,9 +78,8 @@ Lambda(Object *env, Object *args, Object *body)
 Object *
 Print(Object *object)
 {
-	Object *head = object;
-	if (head) {
-		printer(head);
+	if (object) {
+		printer(object);
 		putchar('\n');
 	}
 	return object;
@@ -98,13 +94,11 @@ Read(const char *input)
 Object *
 Reverse(Object *object)
 {
-	if (!object) return Error("Reverse: object is NULL");
-	Object *head = object;
-	Object *reversed = Cons(NULL, NULL);
-	while (head && head->type == OBJECT_LIST && Car(head)) {
-		reversed = Cons(reversed, Car(head));
-		if (!Cdr(head)) break;
-		head = Cdr(head);
+	Object *reversed = Cons(&Nil, &Nil);
+	while (object && object->type == OBJECT_LIST && Car(object)) {
+		reversed = Cons(reversed, Car(object));
+		if (!Cdr(object)) break;
+		object = Cdr(object);
 	}
 	return reversed;
 }

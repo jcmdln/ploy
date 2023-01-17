@@ -12,13 +12,13 @@
 Token *
 lexer(const char *input)
 {
-	if (!input) return new_token(TOKEN_ERROR, 0, "lexer: input is NULL");
-
 	const char *cursor = input;
 	size_t index = 0;
 	struct token *tokens = NULL;
+
 	while (*cursor) {
 		struct token *token = NULL;
+
 		switch (*cursor) {
 		// Whitespace tokens
 		case ' ':
@@ -93,12 +93,10 @@ lexer(const char *input)
 			break;
 		}
 
-		if (!token) return new_token(TOKEN_ERROR, 0, "lexer: token is NULL");
 		if (token->type == TOKEN_ERROR) return token;
 		tokens = token_append(tokens, token);
 	};
 
-	if (!tokens) return new_token(TOKEN_ERROR, 0, "lexer: tokens is NULL");
 	return tokens;
 }
 
@@ -112,8 +110,6 @@ lexer_peek(const char *input)
 struct token *
 lex_comment(size_t *index, const char **input)
 {
-	if (!index) return new_token(TOKEN_ERROR, 0, "lex_comment: index is NULL");
-	if (!input || !*input) return new_token(TOKEN_ERROR, 0, "lex_comment: input is NULL");
 	if (!strchr("#;", **input)) return new_token(TOKEN_ERROR, 0, "lex_comment: missing prefix");
 
 	const char *cursor = *input;
@@ -133,8 +129,6 @@ lex_comment(size_t *index, const char **input)
 struct token *
 lex_keyword(size_t *index, const char **input)
 {
-	if (!index) return new_token(TOKEN_ERROR, *index, "lex_keyword: index is NULL");
-	if (!input || !*input) return new_token(TOKEN_ERROR, *index, "lex_keyword: input is NULL");
 	if (**input != ':') return new_token(TOKEN_ERROR, *index, "lex_keyword: missing ':' prefix");
 
 	const char *cursor = ++*input;
@@ -155,9 +149,6 @@ lex_keyword(size_t *index, const char **input)
 struct token *
 lex_number(size_t *index, const char **input)
 {
-	if (!index) return new_token(TOKEN_ERROR, *index, "lex_number: index is NULL");
-	if (!input || !*input) return new_token(TOKEN_ERROR, *index, "lex_number: input is NULL");
-
 	const char *cursor = *input;
 	size_t length = 0;
 	if (*cursor == '+' || *cursor == '-') ++cursor && ++length;
@@ -176,8 +167,6 @@ lex_number(size_t *index, const char **input)
 struct token *
 lex_string(size_t *index, const char **input)
 {
-	if (!index) return new_token(TOKEN_ERROR, *index, "lex_string: index is NULL");
-	if (!input || !*input) return new_token(TOKEN_ERROR, *index, "lex_string: input is NULL");
 	if (**input != '\"') return new_token(TOKEN_ERROR, *index, "lex_string: missing '\"' prefix");
 
 	const char *cursor = ++*input;
@@ -185,8 +174,7 @@ lex_string(size_t *index, const char **input)
 	while (*cursor && *cursor != '\"')
 		++cursor && ++length;
 
-	if (*cursor != '\"')
-		return new_token(TOKEN_ERROR, *index, "lex_string: missing closing double-quote '\"'");
+	if (*cursor != '\"') return new_token(TOKEN_ERROR, *index, "lex_string: missing '\"' postfix");
 	char *string = GC_MALLOC(sizeof(*string));
 	memcpy(string, *input, length);
 
@@ -199,9 +187,6 @@ lex_string(size_t *index, const char **input)
 struct token *
 lex_symbol(size_t *index, const char **input)
 {
-	if (!index) return new_token(TOKEN_ERROR, *index, "lex_symbol: index is NULL");
-	if (!input || !*input) return new_token(TOKEN_ERROR, *index, "lex_symbol: input is NULL");
-
 	const char *cursor = *input;
 	size_t length = 0;
 	while (*cursor && !strchr(TOKENS, *cursor))
@@ -220,8 +205,6 @@ lex_symbol(size_t *index, const char **input)
 struct token *
 lex_token(size_t *index, const char **input, size_t length)
 {
-	if (!index) return new_token(TOKEN_ERROR, *index, "lex_token: index is NULL");
-	if (!input || !*input) return new_token(TOKEN_ERROR, *index, "lex_token: input is NULL");
 	if (length == 0) return new_token(TOKEN_ERROR, *index, "lex_token: length is zero");
 
 	struct token *token = NULL;

@@ -62,19 +62,11 @@ ninja -C builddir
 
 When setting up the meson builddir, you may want to consider setting additional
 environment variables to specify an alternate compiler, linker or ninja
-implementation.
+implementation:
 
 ```sh
 CC="clang" CC_LD="mold" NINJA="samu" \
 meson builddir -Dbuildtype=debug -Dwerror=true -Db_sanitize=address,undefined
-```
-
-You can also opt-in to emitting the internal representations of data, such as
-for the `reader` by setting `CPPFLAGS=-DPLOY_DEBUG` (or CFLAGS if preferred):
-
-```sh
-CPPFLAGS="-DPLOY_DEBUG" \
-meson builddir -Dbuildtype=debugoptimized -Dwerror=true -Db_sanitize=address,undefined
 ```
 
 ## Lint

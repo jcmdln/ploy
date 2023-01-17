@@ -19,10 +19,7 @@ repl(void)
 
 	while (true) {
 		char *input = readline("λ ");
-		if (!input) {
-			fputs("error: main: input is NULL\n", stderr);
-			return EXIT_FAILURE;
-		}
+		if (!input || strlen(input) < 1) continue;
 
 		add_history(input);
 		Print(Eval(Read(input)));

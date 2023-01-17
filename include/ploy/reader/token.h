@@ -57,7 +57,5 @@ typedef struct token {
 struct token *new_token(enum token_type type, size_t index, const char *data);
 
 struct token *token_append(struct token *tokens, struct token *token);
-void token_print(Token *tokens);
-const char *token_type_as_char(enum token_type type);
 
 #endif // PLOY_READER_TOKEN_H
