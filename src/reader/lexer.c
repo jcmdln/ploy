@@ -117,10 +117,10 @@ lex_comment(size_t *index, const char **input)
 	while (*cursor && *cursor != '\n')
 		++cursor && ++length;
 
-	char *string = GC_MALLOC(sizeof(*string));
-	memcpy(string, *input, length);
+	char *comment = GC_MALLOC(sizeof(*comment));
+	memcpy(comment, *input, length);
 
-	struct token *token = new_token(TOKEN_COMMENT, *index, string);
+	struct token *token = new_token(TOKEN_COMMENT, *index, comment);
 	*input = cursor;
 	*index += length;
 	return token;
@@ -137,10 +137,10 @@ lex_keyword(size_t *index, const char **input)
 		++cursor && ++length;
 
 	if (length == 0) return new_token(TOKEN_ERROR, *index, "lex_keyword: length is zero");
-	char *string = GC_MALLOC(sizeof(*string));
-	memcpy(string, *input, length);
+	char *keyword = GC_MALLOC(sizeof(*keyword));
+	memcpy(keyword, *input, length);
 
-	struct token *token = new_token(TOKEN_KEYWORD, *index, string);
+	struct token *token = new_token(TOKEN_KEYWORD, *index, keyword);
 	*input = cursor;
 	*index += length;
 	return token;
@@ -155,10 +155,10 @@ lex_number(size_t *index, const char **input)
 	while (*cursor && isdigit(*cursor) && !strchr(TOKENS, *cursor))
 		++cursor && ++length;
 
-	char *string = GC_MALLOC(sizeof(*string));
-	memcpy(string, *input, length);
+	char *number = GC_MALLOC(sizeof(*number));
+	memcpy(number, *input, length);
 
-	struct token *token = new_token(TOKEN_NUMBER, *index, string);
+	struct token *token = new_token(TOKEN_NUMBER, *index, number);
 	*input = cursor;
 	*index += length;
 	return token;
@@ -167,14 +167,14 @@ lex_number(size_t *index, const char **input)
 struct token *
 lex_string(size_t *index, const char **input)
 {
-	if (**input != '\"') return new_token(TOKEN_ERROR, *index, "lex_string: missing '\"' prefix");
+	if (**input != '\"') return new_token(TOKEN_ERROR, *index, "lex_string: missing open '\"'");
 
 	const char *cursor = ++*input;
 	size_t length = 0;
 	while (*cursor && *cursor != '\"')
 		++cursor && ++length;
 
-	if (*cursor != '\"') return new_token(TOKEN_ERROR, *index, "lex_string: missing '\"' postfix");
+	if (*cursor != '\"') return new_token(TOKEN_ERROR, *index, "lex_string: missing closing '\"'");
 	char *string = GC_MALLOC(sizeof(*string));
 	memcpy(string, *input, length);
 
@@ -193,10 +193,10 @@ lex_symbol(size_t *index, const char **input)
 		++cursor && ++length;
 
 	if (length == 0) return new_token(TOKEN_ERROR, *index, "lex_symbol: length is zero");
-	char *string = GC_MALLOC(sizeof(*string));
-	memcpy(string, *input, length);
+	char *symbol = GC_MALLOC(sizeof(*symbol));
+	memcpy(symbol, *input, length);
 
-	struct token *token = new_token(TOKEN_SYMBOL, *index, string);
+	struct token *token = new_token(TOKEN_SYMBOL, *index, symbol);
 	*input = cursor;
 	*index += length;
 	return token;
