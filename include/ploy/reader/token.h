@@ -27,23 +27,24 @@ enum token_type {
 	TOKEN_CARET,            // `^`
 	TOKEN_COLON,            // `:`
 	TOKEN_EQUAL,            // `=`
-	TOKEN_FORWARD_SLASH,    // `/`
 	TOKEN_GREATER_OR_EQUAL, // `>=`
 	TOKEN_GREATER_THAN,     // `>`
 	TOKEN_LESS_OR_EQUAL,    // `<=`
 	TOKEN_LESS_THAN,        // `<`
 	TOKEN_MINUS,            // `-`
-	TOKEN_PAREN_L,          // `(`
-	TOKEN_PAREN_R,          // `)`
+	TOKEN_OCTOTHORPE,       // `#`
+	TOKEN_PAREN_LEFT,       // `(`
+	TOKEN_PAREN_RIGHT,      // `)`
 	TOKEN_PERCENT,          // `%`
 	TOKEN_PLUS,             // `+`
-	TOKEN_SINGLE_QUOTE,     // `'`
+	TOKEN_QUOTE_DOUBLE,     // `"`
+	TOKEN_QUOTE_SINGLE,     // `'`
+	TOKEN_SEMICOLON,        // `;`
+	TOKEN_SLASH_BACKWARD,   // `\`
+	TOKEN_SLASH_FORWARD,    // `/`
 
 	// Atoms
-	TOKEN_COMMENT,
-	TOKEN_KEYWORD,
-	TOKEN_NUMBER,
-	TOKEN_STRING,
+	TOKEN_NUMBER, // `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `0`
 	TOKEN_SYMBOL,
 };
 

@@ -40,7 +40,9 @@ parse_form(Token **tokens)
 		// case TOKEN_ASTERISK:
 		// case TOKEN_BACKTICK:
 		// case TOKEN_CARET:
-		// case TOKEN_COLON:
+		case TOKEN_COLON:
+			object = parse_keyword(&token);
+			break;
 		// case TOKEN_EQUAL:
 		// case TOKEN_FORWARD_SLASH:
 		// case TOKEN_GREATER_OR_EQUAL:
@@ -48,29 +50,27 @@ parse_form(Token **tokens)
 		// case TOKEN_LESS_OR_EQUAL:
 		// case TOKEN_LESS_THAN:
 		// case TOKEN_MINUS:
-		case TOKEN_PAREN_R:
+		case TOKEN_OCTOTHORPE:
+		case TOKEN_SEMICOLON:
+			// parse_comment(&token);
+			*tokens = token = token->next;
+			continue;
+		case TOKEN_PAREN_RIGHT:
 			object = &Nil;
 			break;
-		case TOKEN_PAREN_L:
+		case TOKEN_PAREN_LEFT:
 			object = parse_list(&token);
 			break;
 		// case TOKEN_PERCENT:
 		// case TOKEN_PLUS:
-		// case TOKEN_SINGLE_QUOTE:
+		case TOKEN_QUOTE_DOUBLE:
+			object = parse_string(&token);
+			break;
+			// case TOKEN_SINGLE_QUOTE:
 
 		// Atoms
-		case TOKEN_COMMENT:
-			// `parse_form` ignores comments
-			*tokens = token = token->next;
-			continue;
-		case TOKEN_KEYWORD:
-			object = parse_keyword(&token);
-			break;
 		case TOKEN_NUMBER:
 			object = parse_number(&token);
-			break;
-		case TOKEN_STRING:
-			object = parse_string(&token);
 			break;
 		case TOKEN_SYMBOL:
 			object = parse_symbol(&token);
@@ -92,44 +92,31 @@ parse_form(Token **tokens)
 Object *
 parse_keyword(Token **token)
 {
-	if ((*token)->type != TOKEN_KEYWORD) return Error("parse_keyword: invalid token->type");
+	if ((*token)->type != TOKEN_COLON || (*token)->next->type != TOKEN_SYMBOL) {
+		return Error("parse_keyword: invalid form");
+	}
 
 	char *keyword = GC_MALLOC(sizeof(*keyword));
-	memcpy(keyword, (*token)->data, strlen((*token)->data));
+	sprintf(keyword, "%s", (*token)->next->data);
+	*token = (*token)->next->next->next;
 
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_KEYWORD;
 	object->atom = keyword;
-	*token = (*token)->next;
 	return object;
-}
-
-Object *
-parse_lambda(Token **token)
-{
-	// Token *head = *token;
-	// *token = head->next;
-	// struct object *object = GC_MALLOC(sizeof(*object));
-	// object->type = OBJECT_LAMBDA;
-	// object->lambda = GC_MALLOC(sizeof(*object->lambda));
-	// object->lambda->env = NULL;
-	// object->lambda->args = NULL;
-	// object->lambda->body = NULL;
-
-	if (token) {
-	};
-	return Error("parse_lambda: not implemented");
 }
 
 Object *
 parse_list(Token **token)
 {
-	if ((*token)->type != TOKEN_PAREN_L) return Error("parse_list: missing open parenthesis");
+	if ((*token)->type != TOKEN_PAREN_LEFT) return Error("parse_list: missing open parenthesis");
 	*token = (*token)->next;
 
 	Object *object = parse_form(token);
 	if (object->type == OBJECT_ERROR) return object;
-	if ((*token)->type != TOKEN_PAREN_R) return Error("parse_list: missing closing parenthesis");
+	if ((*token)->type != TOKEN_PAREN_RIGHT)
+		return Error("parse_list: missing closing parenthesis");
+
 	*token = (*token)->next;
 	return object;
 }
@@ -142,45 +129,6 @@ parse_number(Token **token)
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_NUMBER;
 	object->number = strtoll((*token)->data, NULL, 10);
-	*token = (*token)->next;
-	return object;
-}
-
-Object *
-parse_quasiquote(Token **token)
-{
-	if ((*token)->type != TOKEN_BACKTICK) return Error("parse_quasiquote: missing single_quote");
-	*token = (*token)->next;
-
-	switch ((*token)->type) {
-	case TOKEN_PAREN_L:
-	case TOKEN_SYMBOL:
-		break;
-	default:
-		return Error("parse_quasiquote: invalid form");
-	}
-
-	*token = (*token)->next;
-	return Error("parse_quasiquote: not implemented");
-}
-
-Object *
-parse_quote(Token **token)
-{
-	if ((*token)->type != TOKEN_SINGLE_QUOTE) return Error("parse_quote: missing single_quote");
-	*token = (*token)->next;
-
-	Object *object = &Nil;
-	switch ((*token)->type) {
-	case TOKEN_PAREN_L:
-		object = parse_list(token);
-		break;
-	case TOKEN_SYMBOL:
-		object = parse_symbol(token);
-		break;
-	default:
-		return Error("parse_quote: invalid form");
-	}
 
 	*token = (*token)->next;
 	return object;
@@ -190,15 +138,24 @@ parse_quote(Token **token)
 Object *
 parse_string(Token **token)
 {
-	if ((*token)->type != TOKEN_STRING) return Error("parse_string: invalid token->type");
+	Token *form = *token;
+
+	if (form->type != TOKEN_QUOTE_DOUBLE) return Error("parse_string: invalid token->type");
+	form = form->next;
 
 	char *string = GC_MALLOC(sizeof(*string));
-	memcpy(string, (*token)->data, strlen((*token)->data));
+	while (form && form->type != TOKEN_QUOTE_DOUBLE) {
+		sprintf(string, "%s%s", string, form->data);
+		form = form->next;
+	}
+
+	if (!form || form->type != TOKEN_QUOTE_DOUBLE)
+		return Error("parse_string: missing closing '\"'");
+	*token = form->next;
 
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_STRING;
 	object->atom = string;
-	*token = (*token)->next;
 	return object;
 }
 
@@ -208,11 +165,11 @@ parse_symbol(Token **token)
 	if ((*token)->type != TOKEN_SYMBOL) return Error("parse_symbol: invalid token->type");
 
 	char *symbol = GC_MALLOC(sizeof(*symbol));
-	memcpy(symbol, (*token)->data, strlen((*token)->data));
+	sprintf(symbol, "%s", (*token)->data);
+	*token = (*token)->next;
 
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_SYMBOL;
 	object->atom = symbol;
-	*token = (*token)->next;
 	return object;
 }

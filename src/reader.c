@@ -17,7 +17,9 @@ Object *read_list_delimiters(Token *tokens);
 Object *
 reader(const char *input)
 {
+	if (!input) return Error("reader: input is NULL");
 	Token *tokens = lexer(input);
+	if (!tokens) return Error("reader: tokens is NULL");
 	if (tokens->type == TOKEN_ERROR) return Error(tokens->data);
 
 	Object *err = read_list_delimiters(tokens);

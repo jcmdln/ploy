@@ -11,6 +11,8 @@
 Object *parser(Token *token);
 
 Object *parse_form(Token **tokens);
+
+Object *parse_comment(Token **tokens);
 Object *parse_keyword(Token **token);
 Object *parse_lambda(Token **token);
 Object *parse_list(Token **token);
