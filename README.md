@@ -78,7 +78,7 @@ This section describes how various linters should be used.
 See [.clang-format](./.clang-format) for the settings:
 
 ```sh
-ninja -C clang-format
+ninja -C builddir clang-format
 ```
 
 ### clang-tidy
@@ -86,7 +86,7 @@ ninja -C clang-format
 See [.clang-tidy](./.clang-tidy) for the settings:
 
 ```sh
-ninja -C clang-tidy
+ninja -C builddir clang-tidy
 ```
 
 ## Test
