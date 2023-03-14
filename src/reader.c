@@ -17,16 +17,24 @@ Object *read_list_delimiters(Token *tokens);
 Object *
 reader(const char *input)
 {
-	if (!input) return Error("reader: input is NULL");
+	if (!input) {
+		return Error("reader: input is NULL");
+	}
+
 	Token *tokens = lexer(input);
-	if (!tokens) return Error("reader: tokens is NULL");
-	if (tokens->type == TOKEN_ERROR) return Error(tokens->data);
+	if (!tokens) {
+		return Error("reader: tokens is NULL");
+	}
+	if (tokens->type == TOKEN_ERROR) {
+		return Error(tokens->data);
+	}
 
 	Object *err = read_list_delimiters(tokens);
-	if (err->type == OBJECT_ERROR) return err;
+	if (err->type == OBJECT_ERROR) {
+		return err;
+	}
 
 	Object *parsed = parser(tokens);
-	GC_FREE((void *)tokens); // FIXME: reader: freeing `Tokens *` violates `-Wcast-qual`
 	return parsed;
 }
 
@@ -48,8 +56,12 @@ read_list_delimiters(Token *tokens)
 		head = head->next;
 	}
 
-	if (balanced < 0) return Error("read_list_delimiters: missing open parenthesis");
-	if (balanced > 0) return Error("read_list_delimiters: missing closing parenthesis");
+	if (balanced < 0) {
+		return Error("read_list_delimiters: missing open parenthesis");
+	}
+	if (balanced > 0) {
+		return Error("read_list_delimiters: missing closing parenthesis");
+	}
 
 	return &Nil;
 }

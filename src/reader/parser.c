@@ -80,9 +80,13 @@ parse_form(Token **tokens)
 			return Error("parse_form: unknown form");
 		}
 
-		if (object->type == OBJECT_ERROR) return object;
+		if (object->type == OBJECT_ERROR) {
+			return object;
+		}
 		objects = Append(objects, object);
-		if (!token || !token->next || object->type == OBJECT_NIL) break;
+		if (!token || !token->next || object->type == OBJECT_NIL) {
+			break;
+		}
 	}
 
 	*tokens = token;
@@ -109,13 +113,18 @@ parse_keyword(Token **token)
 Object *
 parse_list(Token **token)
 {
-	if ((*token)->type != TOKEN_PAREN_LEFT) return Error("parse_list: missing open parenthesis");
+	if ((*token)->type != TOKEN_PAREN_LEFT) {
+		return Error("parse_list: missing open parenthesis");
+	}
 	*token = (*token)->next;
 
 	Object *object = parse_form(token);
-	if (object->type == OBJECT_ERROR) return object;
-	if ((*token)->type != TOKEN_PAREN_RIGHT)
+	if (object->type == OBJECT_ERROR) {
+		return object;
+	}
+	if ((*token)->type != TOKEN_PAREN_RIGHT) {
 		return Error("parse_list: missing closing parenthesis");
+	}
 
 	*token = (*token)->next;
 	return object;
@@ -124,7 +133,9 @@ parse_list(Token **token)
 Object *
 parse_number(Token **token)
 {
-	if ((*token)->type != TOKEN_NUMBER) return Error("parse_number: not a number");
+	if ((*token)->type != TOKEN_NUMBER) {
+		return Error("parse_number: not a number");
+	}
 
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_NUMBER;
@@ -140,7 +151,9 @@ parse_string(Token **token)
 {
 	Token *form = *token;
 
-	if (form->type != TOKEN_QUOTE_DOUBLE) return Error("parse_string: invalid token->type");
+	if (form->type != TOKEN_QUOTE_DOUBLE) {
+		return Error("parse_string: invalid token->type");
+	}
 	form = form->next;
 
 	char *string = GC_MALLOC(sizeof(*string));
@@ -149,8 +162,9 @@ parse_string(Token **token)
 		form = form->next;
 	}
 
-	if (!form || form->type != TOKEN_QUOTE_DOUBLE)
+	if (!form || form->type != TOKEN_QUOTE_DOUBLE) {
 		return Error("parse_string: missing closing '\"'");
+	}
 	*token = form->next;
 
 	struct object *object = GC_MALLOC(sizeof(*object));
@@ -162,7 +176,9 @@ parse_string(Token **token)
 Object *
 parse_symbol(Token **token)
 {
-	if ((*token)->type != TOKEN_SYMBOL) return Error("parse_symbol: invalid token->type");
+	if ((*token)->type != TOKEN_SYMBOL) {
+		return Error("parse_symbol: invalid token->type");
+	}
 
 	char *symbol = GC_MALLOC(sizeof(*symbol));
 	sprintf(symbol, "%s", (*token)->data);

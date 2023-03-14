@@ -17,7 +17,6 @@ Checks: >
   -cert-err33-c,
   -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
   -misc-no-recursion,
-  -readability-braces-around-statements,
   -readability-magic-numbers,
 WarningsAsErrors: >
   -*,

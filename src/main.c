@@ -19,7 +19,9 @@ repl(void)
 
 	while (true) {
 		char *input = readline("λ ");
-		if (!input || strlen(input) < 1) continue;
+		if (!input || strlen(input) < 1) {
+			continue;
+		}
 
 		add_history(input);
 		Print(Eval(Read(input)));
@@ -58,7 +60,9 @@ main(int argc, char **argv)
 		}
 	}
 
-	if (opt_help) return usage(EXIT_SUCCESS);
+	if (opt_help) {
+		return usage(EXIT_SUCCESS);
+	}
 
 	if (opt_exec) {
 		Print(Eval(Read(argv[2])));

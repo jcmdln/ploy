@@ -13,11 +13,14 @@
 Object *
 Append(Object *list, Object *object)
 {
-	if (!list) return Cons(object, &Nil);
+	if (!list) {
+		return Cons(object, &Nil);
+	}
 
 	Object *head = list;
-	while (head && Car(head) && Cdr(head) && Cdr(head)->type == OBJECT_LIST)
+	while (head && Car(head) && Cdr(head) && Cdr(head)->type == OBJECT_LIST) {
 		head = Cdr(head);
+	}
 
 	head->list->cdr = Cons(object, &Nil);
 	return list;
@@ -26,14 +29,18 @@ Append(Object *list, Object *object)
 Object *
 Car(Object *object)
 {
-	if (object->type != OBJECT_LIST) return Error("Cdr: object is not of type LIST");
+	if (object->type != OBJECT_LIST) {
+		return Error("Cdr: object is not of type LIST");
+	}
 	return object->list->car;
 }
 
 Object *
 Cdr(Object *object)
 {
-	if (object->type != OBJECT_LIST) return Error("Cdr: object is not of type LIST");
+	if (object->type != OBJECT_LIST) {
+		return Error("Cdr: object is not of type LIST");
+	}
 	return object->list->cdr;
 }
 
@@ -97,7 +104,9 @@ Reverse(Object *object)
 	Object *reversed = Cons(&Nil, &Nil);
 	while (object && object->type == OBJECT_LIST && Car(object)) {
 		reversed = Cons(reversed, Car(object));
-		if (!Cdr(object)) break;
+		if (!Cdr(object)) {
+			break;
+		}
 		object = Cdr(object);
 	}
 	return reversed;

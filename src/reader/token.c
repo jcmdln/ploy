@@ -24,12 +24,14 @@ new_token(enum token_type type, size_t index, const char *data)
 struct token *
 token_append(struct token *tokens, struct token *token)
 {
-	if (!tokens) return token;
+	if (!tokens) {
+		return token;
+	}
 
 	struct token *head = tokens;
-	while (head && head->next)
+	while (head && head->next) {
 		head = head->next;
-
+	}
 	head->next = token;
 	return tokens;
 }

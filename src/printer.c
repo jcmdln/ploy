@@ -13,7 +13,9 @@ void print_list(Object *list);
 void
 printer(Object *object)
 {
-	if (!object) return;
+	if (!object) {
+		return;
+	}
 
 	switch (object->type) {
 	case OBJECT_NIL:
@@ -68,8 +70,11 @@ print_list(Object *list)
 
 		printer(car);
 
-		if (car->type != OBJECT_NIL && cdr->type != OBJECT_NIL)
-			if (Car(cdr)->type != OBJECT_NIL || Cdr(cdr)->type != OBJECT_NIL) putchar(' ');
+		if (car->type != OBJECT_NIL && cdr->type != OBJECT_NIL) {
+			if (Car(cdr)->type != OBJECT_NIL || Cdr(cdr)->type != OBJECT_NIL) {
+				putchar(' ');
+			}
+		}
 
 		list = cdr;
 	}

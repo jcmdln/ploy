@@ -173,7 +173,9 @@ lexer(const char *input)
 			break;
 		}
 
-		if (!token || token->type == TOKEN_ERROR) return token;
+		if (!token || token->type == TOKEN_ERROR) {
+			return token;
+		}
 		tokens = token_append(tokens, token);
 	};
 
@@ -184,7 +186,8 @@ char
 lexer_peek(const char *input)
 {
 	const char *cursor = input;
-	return *++cursor;
+	++cursor;
+	return *cursor;
 }
 
 struct token *
@@ -192,9 +195,14 @@ lex_number(size_t *index, const char **input)
 {
 	const char *cursor = *input;
 	size_t length = 0;
-	if (*cursor == '+' || *cursor == '-') ++cursor && ++length;
-	while (*cursor && isdigit(*cursor) && !strchr(TOKENS, *cursor))
-		++cursor && ++length;
+	if (*cursor == '+' || *cursor == '-') {
+		++cursor;
+		++length;
+	}
+	while (*cursor && isdigit(*cursor) && !strchr(TOKENS, *cursor)) {
+		++cursor;
+		++length;
+	}
 
 	char *number = GC_MALLOC(sizeof(*number));
 	memcpy(number, *input, length);
@@ -210,10 +218,14 @@ lex_symbol(size_t *index, const char **input)
 {
 	const char *cursor = *input;
 	size_t length = 0;
-	while (*cursor && !strchr(TOKENS, *cursor))
-		++cursor && ++length;
+	while (*cursor && !strchr(TOKENS, *cursor)) {
+		++cursor;
+		++length;
+	}
 
-	if (length == 0) return new_token(TOKEN_ERROR, *index, "lex_symbol: length is zero");
+	if (length == 0) {
+		return new_token(TOKEN_ERROR, *index, "lex_symbol: length is zero");
+	}
 	char *symbol = GC_MALLOC(sizeof(*symbol));
 	memcpy(symbol, *input, length);
 
