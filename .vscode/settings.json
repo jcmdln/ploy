@@ -5,8 +5,7 @@
     "--header-insertion=never"
   ],
 
-  // Set clang-tidy and meson build directory to "builddir"
-  "clang-tidy.buildPath": "builddir",
+  // Set meson build directory to "builddir"
   "mesonbuild.buildFolder": "builddir",
 
   // Make Prettier the default formatter
