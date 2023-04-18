@@ -102,7 +102,7 @@ parse_keyword(Token **token)
 
 	char *keyword = GC_MALLOC(sizeof(*keyword));
 	sprintf(keyword, "%s", (*token)->next->data);
-	*token = (*token)->next->next->next;
+	*token = (*token)->next->next;
 
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_KEYWORD;
