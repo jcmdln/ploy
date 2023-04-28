@@ -5,7 +5,7 @@
 #ifndef PLOY_READER_H
 #pragma once
 
-#include <ploy/ploy.h>
+#include <ploy/type.h>
 
 Object *reader(const char *input);
 

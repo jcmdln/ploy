@@ -10,7 +10,8 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 
-#include <ploy/ploy.h>
+#include <ploy/core.h>
+#include <ploy/type.h>
 
 int
 repl(void)

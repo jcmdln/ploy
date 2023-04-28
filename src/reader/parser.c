@@ -8,6 +8,7 @@
 
 #include <gc/gc.h>
 
+#include <ploy/core.h>
 #include <ploy/reader/parser.h>
 
 Object *

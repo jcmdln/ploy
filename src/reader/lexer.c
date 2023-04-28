@@ -195,10 +195,12 @@ lex_number(size_t *index, const char **input)
 {
 	const char *cursor = *input;
 	size_t length = 0;
+
 	if (*cursor == '+' || *cursor == '-') {
 		++cursor;
 		++length;
 	}
+
 	while (*cursor && isdigit(*cursor) && !strchr(TOKENS, *cursor)) {
 		++cursor;
 		++length;
@@ -206,7 +208,6 @@ lex_number(size_t *index, const char **input)
 
 	char *number = GC_MALLOC(sizeof(*number));
 	memcpy(number, *input, length);
-
 	struct token *token = new_token(TOKEN_NUMBER, *index, number);
 	*input = cursor;
 	*index += length;
@@ -218,6 +219,7 @@ lex_symbol(size_t *index, const char **input)
 {
 	const char *cursor = *input;
 	size_t length = 0;
+
 	while (*cursor && !strchr(TOKENS, *cursor)) {
 		++cursor;
 		++length;
@@ -226,9 +228,9 @@ lex_symbol(size_t *index, const char **input)
 	if (length == 0) {
 		return new_token(TOKEN_ERROR, *index, "lex_symbol: length is zero");
 	}
+
 	char *symbol = GC_MALLOC(sizeof(*symbol));
 	memcpy(symbol, *input, length);
-
 	struct token *token = new_token(TOKEN_SYMBOL, *index, symbol);
 	*input = cursor;
 	*index += length;

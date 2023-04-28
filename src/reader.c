@@ -2,15 +2,16 @@
 //
 // Copyright (c) 2022 Johnathan C Maudlin <jcmdln@gmail.com>
 
-#include <stdio.h>
+#include <stdlib.h>
 
 #include <gc/gc.h>
 
-#include <ploy/ploy.h>
+#include <ploy/core.h>
 #include <ploy/reader.h>
 #include <ploy/reader/lexer.h>
 #include <ploy/reader/parser.h>
 #include <ploy/reader/token.h>
+#include <ploy/type.h>
 
 Object *read_list_delimiters(Token *tokens);
 
