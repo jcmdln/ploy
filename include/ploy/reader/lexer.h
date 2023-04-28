@@ -7,7 +7,7 @@
 
 #include <ploy/reader/token.h>
 
-Token *lexer(const char *input);
+const struct token *lexer(const char *input);
 
 char lexer_peek(const char *input);
 

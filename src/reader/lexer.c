@@ -9,7 +9,7 @@
 
 #include <ploy/reader/lexer.h>
 
-Token *
+const struct token *
 lexer(const char *input)
 {
 	const char *cursor = input;

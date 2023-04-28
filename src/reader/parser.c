@@ -12,16 +12,16 @@
 #include <ploy/reader/parser.h>
 
 const struct object *
-parser(Token *tokens)
+parser(const struct token *tokens)
 {
 	return parse_form(&tokens);
 }
 
 const struct object *
-parse_form(Token **tokens)
+parse_form(const struct token **tokens)
 {
 	const struct object *objects = NULL;
-	Token *token = *tokens;
+	const struct token *token = *tokens;
 
 	while (token) {
 		const struct object *object = NULL;
@@ -95,7 +95,7 @@ parse_form(Token **tokens)
 }
 
 const struct object *
-parse_keyword(Token **token)
+parse_keyword(const struct token **token)
 {
 	if ((*token)->type != TOKEN_COLON || (*token)->next->type != TOKEN_SYMBOL) {
 		return Error("parse_keyword: invalid form");
@@ -112,7 +112,7 @@ parse_keyword(Token **token)
 }
 
 const struct object *
-parse_list(Token **token)
+parse_list(const struct token **token)
 {
 	if ((*token)->type != TOKEN_PAREN_LEFT) {
 		return Error("parse_list: missing open parenthesis");
@@ -132,7 +132,7 @@ parse_list(Token **token)
 }
 
 const struct object *
-parse_number(Token **token)
+parse_number(const struct token **token)
 {
 	if ((*token)->type != TOKEN_NUMBER) {
 		return Error("parse_number: not a number");
@@ -148,9 +148,9 @@ parse_number(Token **token)
 
 // FIXME: parse_string: Handle nested strings
 const struct object *
-parse_string(Token **token)
+parse_string(const struct token **token)
 {
-	Token *form = *token;
+	const struct token *form = *token;
 
 	if (form->type != TOKEN_QUOTE_DOUBLE) {
 		return Error("parse_string: invalid token->type");
@@ -175,7 +175,7 @@ parse_string(Token **token)
 }
 
 const struct object *
-parse_symbol(Token **token)
+parse_symbol(const struct token **token)
 {
 	if ((*token)->type != TOKEN_SYMBOL) {
 		return Error("parse_symbol: invalid token->type");

@@ -13,7 +13,7 @@
 #include <ploy/reader/token.h>
 #include <ploy/type.h>
 
-const struct object *read_list_delimiters(Token *tokens);
+const struct object *read_list_delimiters(const struct token *tokens);
 
 const struct object *
 reader(const char *input)
@@ -22,7 +22,7 @@ reader(const char *input)
 		return Error("reader: input is NULL");
 	}
 
-	Token *tokens = lexer(input);
+	const struct token *tokens = lexer(input);
 	if (!tokens) {
 		return Error("reader: tokens is NULL");
 	}
@@ -40,9 +40,9 @@ reader(const char *input)
 }
 
 const struct object *
-read_list_delimiters(Token *tokens)
+read_list_delimiters(const struct token *tokens)
 {
-	Token *head = tokens;
+	const struct token *head = tokens;
 	int32_t balanced = 0;
 
 	while (head && head->data) {
