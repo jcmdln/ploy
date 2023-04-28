@@ -18,7 +18,7 @@ Append(const struct object *list, const struct object *object)
 	}
 
 	Object *head = list;
-	while (head && Car(head) && Cdr(head) && Cdr(head)->type == OBJECT_LIST) {
+	while (head && Cdr(head) && Cdr(head)->type == OBJECT_LIST) {
 		head = Cdr(head);
 	}
 
