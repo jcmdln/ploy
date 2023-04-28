@@ -23,17 +23,20 @@ your platform isn't supported, please file an issue or submit a pull request.
 
 ## Build
 
-Building Ploy requires [Meson] and [Ninja] (or [Muon] and [Samurai]), and
-depends on [bdwgc] and [GNU Readline][readline]. At some point the dependencies
-will be removed in favor of hand-written alternatives.
+Building Ploy requires the following:
+
+- [c17]: [GCC 8.1.0][gcc], [Clang 7.0.0][clang], [MSVC 16.8.0][msvc] or later
+- [Meson] (or [Muon]) and [Ninja] (or [Samurai])
+- [bdwgc]
+- [GNU Readline][readline]
 
 [bdwgc]: https://github.com/ivmai/bdwgc
-[c17]: domain.tld
+[c17]: https://en.wikipedia.org/wiki/C17_(C_standard_revision)
 [clang]: https://releases.llvm.org/7.0.0/tools/clang/docs/UsersManual.html#differences-between-various-standard-modes
 [gcc]: https://gcc.gnu.org/onlinedocs/gcc-8.1.0/gcc/Standards.html#C-Language
 [meson]: https://mesonbuild.com/
 [muon]: https://muon.build/
-[msvc]: https://devblogs.microsoft.com/cppblog/c11-and-c17-standard-support-arriving-in-msvc/
+[msvc]: https://learn.microsoft.com/en-us/visualstudio/releases/2019/release-notes-v16.8
 [ninja]: https://ninja-build.org/
 [readline]: https://git.savannah.gnu.org/cgit/readline.git
 [samurai]: https://github.com/michaelforney/samurai
@@ -66,7 +69,7 @@ implementation:
 
 ```sh
 CC="clang" CC_LD="mold" NINJA="samu" \
-meson builddir -Dbuildtype=debug -Dwerror=true -Db_sanitize=address,undefined
+meson builddir -Dbuildtype=debugoptimized -Dwerror=true -Db_sanitize=address,undefined
 ```
 
 ## Lint
