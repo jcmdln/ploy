@@ -53,8 +53,9 @@ parse_form(const struct token **tokens)
 		// case TOKEN_MINUS:
 		case TOKEN_OCTOTHORPE:
 		case TOKEN_SEMICOLON:
-			// parse_comment(&token);
-			*tokens = token = token->next;
+			while (token->type != TOKEN_NEWLINE) {
+				token = token->next;
+			}
 			continue;
 		case TOKEN_PAREN_RIGHT:
 			object = &Nil;
