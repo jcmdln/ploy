@@ -84,7 +84,9 @@ repf(char *path)
 	size_t buffer_length = 0;
 	if (getdelim(&buffer, &buffer_length, EOF, file) == -1) {
 		printf("error: failed to read FILE\n");
-		free(buffer);
+		if (buffer) {
+			free(buffer);
+		}
 		return EXIT_FAILURE;
 	}
 

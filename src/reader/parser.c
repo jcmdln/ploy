@@ -98,13 +98,15 @@ parse_form(const struct token **tokens)
 const struct object *
 parse_keyword(const struct token **token)
 {
-	if ((*token)->type != TOKEN_COLON || (*token)->next->type != TOKEN_SYMBOL) {
+	const struct token *form = *token;
+
+	if (form->type != TOKEN_COLON || form->next->type != TOKEN_SYMBOL) {
 		return Error("parse_keyword: invalid form");
 	}
 
-	char *keyword = GC_MALLOC(sizeof(*keyword));
-	sprintf(keyword, "%s", (*token)->next->data);
-	*token = (*token)->next->next;
+	char *keyword = GC_MALLOC(strlen(form->data) + 1);
+	sprintf(keyword, "%s", form->next->data);
+	*token = form->next->next;
 
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_KEYWORD;
@@ -115,35 +117,39 @@ parse_keyword(const struct token **token)
 const struct object *
 parse_list(const struct token **token)
 {
-	if ((*token)->type != TOKEN_PAREN_LEFT) {
+	const struct token *form = *token;
+
+	if (form->type != TOKEN_PAREN_LEFT) {
 		return Error("parse_list: missing open parenthesis");
 	}
-	*token = (*token)->next;
+	form = form->next;
 
-	const struct object *object = parse_form(token);
+	const struct object *object = parse_form(&form);
 	if (object->type == OBJECT_ERROR) {
 		return object;
 	}
-	if ((*token)->type != TOKEN_PAREN_RIGHT) {
+	if (form->type != TOKEN_PAREN_RIGHT) {
 		return Error("parse_list: missing closing parenthesis");
 	}
 
-	*token = (*token)->next;
+	*token = form->next;
 	return object;
 }
 
 const struct object *
 parse_number(const struct token **token)
 {
-	if ((*token)->type != TOKEN_NUMBER) {
+	const struct token *form = *token;
+
+	if (form->type != TOKEN_NUMBER) {
 		return Error("parse_number: not a number");
 	}
 
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_NUMBER;
-	object->number = strtoll((*token)->data, NULL, 10);
+	object->number = strtoll(form->data, NULL, 10);
 
-	*token = (*token)->next;
+	*token = form->next;
 	return object;
 }
 
@@ -158,7 +164,7 @@ parse_string(const struct token **token)
 	}
 	form = form->next;
 
-	char *string = GC_MALLOC(sizeof(*string));
+	char *string = GC_MALLOC(strlen(form->data) + 1);
 	while (form && form->type != TOKEN_QUOTE_DOUBLE) {
 		sprintf(string, "%s%s", string, form->data);
 		form = form->next;
@@ -178,13 +184,15 @@ parse_string(const struct token **token)
 const struct object *
 parse_symbol(const struct token **token)
 {
-	if ((*token)->type != TOKEN_SYMBOL) {
+	const struct token *form = *token;
+
+	if (form->type != TOKEN_SYMBOL) {
 		return Error("parse_symbol: invalid token->type");
 	}
 
-	char *symbol = GC_MALLOC(sizeof(*symbol));
-	sprintf(symbol, "%s", (*token)->data);
-	*token = (*token)->next;
+	char *symbol = GC_MALLOC(strlen(form->data) + 1);
+	sprintf(symbol, "%s", form->data);
+	*token = form->next;
 
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_SYMBOL;

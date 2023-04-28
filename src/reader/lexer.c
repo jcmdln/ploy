@@ -206,7 +206,7 @@ lex_number(size_t *index, const char **input)
 		++length;
 	}
 
-	char *number = GC_MALLOC(sizeof(*number));
+	char *number = GC_MALLOC(length + 1);
 	memcpy(number, *input, length);
 	struct token *token = new_token(TOKEN_NUMBER, *index, number);
 	*input = cursor;
@@ -229,7 +229,7 @@ lex_symbol(size_t *index, const char **input)
 		return new_token(TOKEN_ERROR, *index, "lex_symbol: length is zero");
 	}
 
-	char *symbol = GC_MALLOC(sizeof(*symbol));
+	char *symbol = GC_MALLOC(length + 1);
 	memcpy(symbol, *input, length);
 	struct token *token = new_token(TOKEN_SYMBOL, *index, symbol);
 	*input = cursor;

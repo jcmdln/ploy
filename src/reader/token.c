@@ -16,7 +16,6 @@ new_token(enum token_type type, size_t index, const char *data)
 	struct token *token = GC_MALLOC(sizeof(*token));
 	token->type = type;
 	token->index = index;
-	token->data = GC_MALLOC(sizeof(*token->data));
 	token->data = data;
 	return token;
 }
@@ -29,7 +28,7 @@ token_append(struct token *tokens, struct token *token)
 	}
 
 	struct token *head = tokens;
-	while (head && head->next) {
+	while (head->next) {
 		head = head->next;
 	}
 	head->next = token;

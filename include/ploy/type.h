@@ -20,7 +20,7 @@ enum object_type {
 	OBJECT_SYMBOL,
 };
 
-typedef struct object {
+struct object {
 	enum object_type type;
 	union {
 		const char *atom;
@@ -29,17 +29,17 @@ typedef struct object {
 		struct list *list;
 		int64_t number;
 	};
-} const Object;
+};
 
 struct lambda {
-	Object *env;
-	Object *args;
-	Object *body;
+	const struct object *env;
+	const struct object *args;
+	const struct object *body;
 };
 
 struct list {
-	Object *car;
-	Object *cdr;
+	const struct object *car;
+	const struct object *cdr;
 };
 
 #endif // PLOY_TYPE_H

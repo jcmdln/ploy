@@ -17,7 +17,7 @@ Append(const struct object *list, const struct object *object)
 		return Cons(object, &Nil);
 	}
 
-	Object *head = list;
+	const struct object *head = list;
 	while (head && Cdr(head) && Cdr(head)->type == OBJECT_LIST) {
 		head = Cdr(head);
 	}
@@ -53,6 +53,17 @@ Cons(const struct object *car, const struct object *cdr)
 	object->list->car = car;
 	object->list->cdr = cdr;
 	return object;
+}
+
+const struct object *
+Define(const struct object *env, const struct object *symbol, const struct object *value)
+{
+	const struct object *object = Cons(symbol, value);
+	if (object->type == OBJECT_ERROR) {
+		return object;
+	}
+
+	return Append(env, object);
 }
 
 const struct object *
