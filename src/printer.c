@@ -8,10 +8,10 @@
 #include <ploy/ploy.h>
 #include <ploy/printer.h>
 
-void print_list(Object *list);
+void print_list(const struct object *list);
 
 void
-printer(Object *object)
+printer(const struct object *object)
 {
 	if (!object) {
 		return;
@@ -49,7 +49,7 @@ printer(Object *object)
 }
 
 void
-print_list(Object *list)
+print_list(const struct object *list)
 {
 	putchar('(');
 
@@ -60,8 +60,8 @@ print_list(Object *list)
 			break;
 		}
 
-		Object *car = Car(list);
-		Object *cdr = Cdr(list);
+		const struct object *car = Car(list);
+		const struct object *cdr = Cdr(list);
 
 		if (car->type == OBJECT_NIL && cdr->type == OBJECT_NIL) {
 			list = cdr;

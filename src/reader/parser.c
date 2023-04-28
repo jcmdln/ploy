@@ -11,20 +11,20 @@
 #include <ploy/core.h>
 #include <ploy/reader/parser.h>
 
-Object *
+const struct object *
 parser(Token *tokens)
 {
 	return parse_form(&tokens);
 }
 
-Object *
+const struct object *
 parse_form(Token **tokens)
 {
-	Object *objects = NULL;
+	const struct object *objects = NULL;
 	Token *token = *tokens;
 
 	while (token) {
-		Object *object = NULL;
+		const struct object *object = NULL;
 
 		switch (token->type) {
 		// Whitespace
@@ -94,7 +94,7 @@ parse_form(Token **tokens)
 	return objects;
 }
 
-Object *
+const struct object *
 parse_keyword(Token **token)
 {
 	if ((*token)->type != TOKEN_COLON || (*token)->next->type != TOKEN_SYMBOL) {
@@ -111,7 +111,7 @@ parse_keyword(Token **token)
 	return object;
 }
 
-Object *
+const struct object *
 parse_list(Token **token)
 {
 	if ((*token)->type != TOKEN_PAREN_LEFT) {
@@ -119,7 +119,7 @@ parse_list(Token **token)
 	}
 	*token = (*token)->next;
 
-	Object *object = parse_form(token);
+	const struct object *object = parse_form(token);
 	if (object->type == OBJECT_ERROR) {
 		return object;
 	}
@@ -131,7 +131,7 @@ parse_list(Token **token)
 	return object;
 }
 
-Object *
+const struct object *
 parse_number(Token **token)
 {
 	if ((*token)->type != TOKEN_NUMBER) {
@@ -147,7 +147,7 @@ parse_number(Token **token)
 }
 
 // FIXME: parse_string: Handle nested strings
-Object *
+const struct object *
 parse_string(Token **token)
 {
 	Token *form = *token;
@@ -174,7 +174,7 @@ parse_string(Token **token)
 	return object;
 }
 
-Object *
+const struct object *
 parse_symbol(Token **token)
 {
 	if ((*token)->type != TOKEN_SYMBOL) {

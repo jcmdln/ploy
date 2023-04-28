@@ -13,9 +13,9 @@
 #include <ploy/reader/token.h>
 #include <ploy/type.h>
 
-Object *read_list_delimiters(Token *tokens);
+const struct object *read_list_delimiters(Token *tokens);
 
-Object *
+const struct object *
 reader(const char *input)
 {
 	if (!input) {
@@ -30,16 +30,16 @@ reader(const char *input)
 		return Error(tokens->data);
 	}
 
-	Object *err = read_list_delimiters(tokens);
+	const struct object *err = read_list_delimiters(tokens);
 	if (err->type == OBJECT_ERROR) {
 		return err;
 	}
 
-	Object *parsed = parser(tokens);
+	const struct object *parsed = parser(tokens);
 	return parsed;
 }
 
-Object *
+const struct object *
 read_list_delimiters(Token *tokens)
 {
 	Token *head = tokens;

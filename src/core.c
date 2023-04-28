@@ -10,8 +10,8 @@
 #include <ploy/printer.h>
 #include <ploy/reader.h>
 
-Object *
-Append(Object *list, Object *object)
+const struct object *
+Append(const struct object *list, const struct object *object)
 {
 	if (!list) {
 		return Cons(object, &Nil);
@@ -26,8 +26,8 @@ Append(Object *list, Object *object)
 	return list;
 }
 
-Object *
-Car(Object *object)
+const struct object *
+Car(const struct object *object)
 {
 	if (object->type != OBJECT_LIST) {
 		return Error("Cdr: object is not of type LIST");
@@ -35,8 +35,8 @@ Car(Object *object)
 	return object->list->car;
 }
 
-Object *
-Cdr(Object *object)
+const struct object *
+Cdr(const struct object *object)
 {
 	if (object->type != OBJECT_LIST) {
 		return Error("Cdr: object is not of type LIST");
@@ -44,8 +44,8 @@ Cdr(Object *object)
 	return object->list->cdr;
 }
 
-Object *
-Cons(Object *car, Object *cdr)
+const struct object *
+Cons(const struct object *car, const struct object *cdr)
 {
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_LIST;
@@ -55,7 +55,7 @@ Cons(Object *car, Object *cdr)
 	return object;
 }
 
-Object *
+const struct object *
 Error(const char *error)
 {
 	struct object *object = GC_MALLOC(sizeof(*object));
@@ -64,14 +64,14 @@ Error(const char *error)
 	return object;
 }
 
-Object *
-Eval(Object *object)
+const struct object *
+Eval(const struct object *object)
 {
 	return object;
 }
 
-Object *
-Lambda(Object *env, Object *args, Object *body)
+const struct object *
+Lambda(const struct object *env, const struct object *args, const struct object *body)
 {
 	struct object *object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_LAMBDA;
@@ -82,8 +82,8 @@ Lambda(Object *env, Object *args, Object *body)
 	return object;
 }
 
-Object *
-Print(Object *object)
+const struct object *
+Print(const struct object *object)
 {
 	if (object) {
 		printer(object);
@@ -92,16 +92,16 @@ Print(Object *object)
 	return object;
 }
 
-Object *
+const struct object *
 Read(const char *input)
 {
 	return reader(input);
 }
 
-Object *
-Reverse(Object *object)
+const struct object *
+Reverse(const struct object *object)
 {
-	Object *reversed = Cons(&Nil, &Nil);
+	const struct object *reversed = Cons(&Nil, &Nil);
 	while (object && object->type == OBJECT_LIST && Car(object)) {
 		reversed = Cons(reversed, Car(object));
 		if (!Cdr(object)) {
