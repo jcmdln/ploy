@@ -7,6 +7,7 @@
 #include <ploy/ploy.h>
 
 int
-main(void) {
+main(void)
+{
 	return EXIT_SUCCESS;
 }
