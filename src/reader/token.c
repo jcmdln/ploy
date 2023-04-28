@@ -27,10 +27,14 @@ token_append(struct token *tokens, struct token *token)
 		return token;
 	}
 
-	struct token *head = tokens;
-	while (head->next) {
-		head = head->next;
+	if (!tokens->next) {
+		tokens->next = token;
+		tokens->tail = tokens->next;
+		return tokens;
 	}
-	head->next = token;
+
+	struct token *tail = tokens->tail;
+	tail->next = token;
+	tokens->tail = tail->next;
 	return tokens;
 }

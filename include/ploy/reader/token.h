@@ -53,6 +53,7 @@ struct token {
 	size_t index;
 	const char *data;
 	struct token *next;
+	struct token *tail;
 };
 
 struct token *new_token(enum token_type type, size_t index, const char *data);
