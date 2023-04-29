@@ -13,16 +13,22 @@
 const struct object *
 Append(const struct object *list, const struct object *object)
 {
-	if (!list) {
+	if (!list || !list->list) {
 		return Cons(object, &Nil);
 	}
 
-	const struct object *head = list;
-	while (head && Cdr(head) && Cdr(head)->type == OBJECT_LIST) {
-		head = Cdr(head);
+	if (!list->list->tail) {
+		const struct object *head = list;
+		const struct object *cdr = Cdr(list);
+		while (cdr && cdr->type == OBJECT_LIST) {
+			head = cdr;
+			cdr = Cdr(head);
+		}
+		list->list->tail = head;
 	}
 
-	head->list->cdr = Cons(object, &Nil);
+	list->list->tail->list->cdr = Cons(object, &Nil);
+	list->list->tail = list->list->tail->list->cdr;
 	return list;
 }
 

@@ -40,6 +40,7 @@ struct lambda {
 struct list {
 	const struct object *car;
 	const struct object *cdr;
+	const struct object *tail;
 };
 
 #endif // PLOY_TYPE_H
