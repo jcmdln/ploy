@@ -164,8 +164,9 @@ parse_string(const struct token **token)
 	}
 	form = form->next;
 
-	char *string = GC_MALLOC(strlen(form->data) + 1);
+	char *string = GC_MALLOC(sizeof(*string));
 	while (form && form->type != TOKEN_QUOTE_DOUBLE) {
+		string = GC_REALLOC(string, strlen(string) + strlen(form->data) + 1);
 		sprintf(string, "%s%s", string, form->data);
 		form = form->next;
 	}
