@@ -10,16 +10,16 @@
 #include <ploy/printer.h>
 #include <ploy/reader.h>
 
-const struct object *
-Append(const struct object *list, const struct object *object)
+struct object const *
+Append(struct object const *list, struct object const *object)
 {
 	if (!list || !list->list) {
 		return Cons(object, &Nil);
 	}
 
 	if (!list->list->tail) {
-		const struct object *head = list;
-		const struct object *cdr = Cdr(list);
+		struct object const *head = list;
+		struct object const *cdr = Cdr(list);
 		while (cdr && cdr->type == OBJECT_LIST) {
 			head = cdr;
 			cdr = Cdr(head);
@@ -32,8 +32,8 @@ Append(const struct object *list, const struct object *object)
 	return list;
 }
 
-const struct object *
-Car(const struct object *object)
+struct object const *
+Car(struct object const *object)
 {
 	if (object->type != OBJECT_LIST) {
 		return Error("Cdr: object is not of type LIST");
@@ -41,8 +41,8 @@ Car(const struct object *object)
 	return object->list->car;
 }
 
-const struct object *
-Cdr(const struct object *object)
+struct object const *
+Cdr(struct object const *object)
 {
 	if (object->type != OBJECT_LIST) {
 		return Error("Cdr: object is not of type LIST");
@@ -50,10 +50,10 @@ Cdr(const struct object *object)
 	return object->list->cdr;
 }
 
-const struct object *
-Cons(const struct object *car, const struct object *cdr)
+struct object const *
+Cons(struct object const *car, struct object const *cdr)
 {
-	struct object *object = GC_MALLOC(sizeof(*object));
+	struct object *const object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_LIST;
 	object->list = GC_MALLOC(sizeof(*object->list));
 	object->list->car = car;
@@ -61,10 +61,10 @@ Cons(const struct object *car, const struct object *cdr)
 	return object;
 }
 
-const struct object *
-Define(const struct object *env, const struct object *symbol, const struct object *value)
+struct object const *
+Define(struct object const *env, struct object const *symbol, struct object const *value)
 {
-	const struct object *object = Cons(symbol, value);
+	struct object const *const object = Cons(symbol, value);
 	if (object->type == OBJECT_ERROR) {
 		return object;
 	}
@@ -72,25 +72,25 @@ Define(const struct object *env, const struct object *symbol, const struct objec
 	return Append(env, object);
 }
 
-const struct object *
-Error(const char *error)
+struct object const *
+Error(char const *error)
 {
-	struct object *object = GC_MALLOC(sizeof(*object));
+	struct object *const object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_ERROR;
 	object->atom = error;
 	return object;
 }
 
-const struct object *
-Eval(const struct object *object)
+struct object const *
+Eval(struct object const *object)
 {
 	return object;
 }
 
-const struct object *
-Lambda(const struct object *env, const struct object *args, const struct object *body)
+struct object const *
+Lambda(struct object const *env, struct object const *args, struct object const *body)
 {
-	struct object *object = GC_MALLOC(sizeof(*object));
+	struct object *const object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_LAMBDA;
 	object->lambda = GC_MALLOC(sizeof(*object->lambda));
 	object->lambda->env = env;
@@ -99,8 +99,8 @@ Lambda(const struct object *env, const struct object *args, const struct object 
 	return object;
 }
 
-const struct object *
-Print(const struct object *object)
+struct object const *
+Print(struct object const *object)
 {
 	if (object) {
 		printer(object);
@@ -109,16 +109,16 @@ Print(const struct object *object)
 	return object;
 }
 
-const struct object *
-Read(const char *input)
+struct object const *
+Read(char const *input)
 {
 	return reader(input);
 }
 
-const struct object *
-Reverse(const struct object *object)
+struct object const *
+Reverse(struct object const *object)
 {
-	const struct object *reversed = Cons(&Nil, &Nil);
+	struct object const *reversed = Cons(&Nil, &Nil);
 	while (object && object->type == OBJECT_LIST && Car(object)) {
 		reversed = Cons(reversed, Car(object));
 		if (!Cdr(object)) {

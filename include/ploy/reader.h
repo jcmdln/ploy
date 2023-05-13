@@ -7,6 +7,6 @@
 
 #include <ploy/type.h>
 
-const struct object *reader(const char *input);
+struct object const *reader(char const *input);
 
 #endif // PLOY_READER_H

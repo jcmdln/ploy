@@ -5,7 +5,7 @@
 project('ploy', 'c',
   default_options: [
     'buildtype=release',
-    'c_std=c17',
+    'c_std=c11',
     'warning_level=3',
     'werror=false',
   ],
@@ -51,18 +51,21 @@ elif compiler.get_id().startswith('gcc')
   ]
 endif
 
-# https://releases.llvm.org/7.0.0/tools/clang/docs/UndefinedBehaviorSanitizer.html
-# https://gcc.gnu.org/onlinedocs/gcc-8.1.0/gcc/Instrumentation-Options.html
-if get_option('b_sanitize').contains('undefined')
-  compiler_args += [
-    '-fsanitize=float-cast-overflow',
-    '-fsanitize=float-divide-by-zero',
-  ]
+if get_option('b_sanitize').contains('address')
+  if compiler.get_id().startswith('gcc')
+    compiler_args += [
+      '-fsanitize=pointer-compare',
+      '-fsanitize=pointer-subtract',
+    ]
+  endif
+endif
 
+if get_option('b_sanitize').contains('undefined')
   if compiler.get_id().startswith('clang')
+    compiler_args += ['-fsanitize=float-divide-by-zero']
+    compiler_args += ['-fsanitize=implicit-conversion']
     compiler_args += ['-fsanitize=integer']
-  # elif compiler.get_id().startswith('gcc')
-  #   compiler_args += []
+    compiler_args += ['-fsanitize=nullability']
   endif
 endif
 
@@ -79,36 +82,29 @@ readline = dependency('readline', required: true)
 # Executables
 #
 
-ploy_includes = include_directories('include')
-ploy_sources = []
+ploy_include = []
+subdir('include')
+
+ploy_src = []
 subdir('src')
 
 executable('ploy',
   dependencies: [bdwgc, readline],
   include_directories: include_directories('include'),
   install: true,
-  sources: [ploy_sources, src_main_c],
+  sources: [ploy_src, src_main_c],
 )
 
 #
 # Lints
 #
 
-lint_includes = files(
-  'include/ploy/reader/lexer.h',
-  'include/ploy/reader/parser.h',
-  'include/ploy/reader/token.h',
-  'include/ploy/ploy.h',
-  'include/ploy/printer.h',
-  'include/ploy/reader.h',
-)
-
 run_target('clang-format',
-  command: ['clang-format', '--dry-run', '--Werror', lint_includes, ploy_sources, src_main_c]
+  command: ['clang-format', '--dry-run', '--Werror', ploy_include, ploy_src, src_main_c]
 )
 
 run_target('clang-tidy',
-  command: ['clang-tidy', '-p', '.', lint_includes, ploy_sources, src_main_c]
+  command: ['clang-tidy', '-p', '.', ploy_include, ploy_src, src_main_c]
 )
 
 #

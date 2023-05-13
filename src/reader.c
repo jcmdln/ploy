@@ -13,16 +13,16 @@
 #include <ploy/reader/token.h>
 #include <ploy/type.h>
 
-const struct object *read_list_delimiters(const struct token *tokens);
+struct object const *read_list_delimiters(struct token const *tokens);
 
-const struct object *
-reader(const char *input)
+struct object const *
+reader(char const *input)
 {
 	if (!input) {
 		return Error("reader: input is NULL");
 	}
 
-	const struct token *tokens = lexer(input);
+	struct token const *tokens = lexer(input);
 	if (!tokens) {
 		return Error("reader: tokens is NULL");
 	}
@@ -30,19 +30,18 @@ reader(const char *input)
 		return Error(tokens->data);
 	}
 
-	const struct object *err = read_list_delimiters(tokens);
+	struct object const *err = read_list_delimiters(tokens);
 	if (err->type == OBJECT_ERROR) {
 		return err;
 	}
 
-	const struct object *parsed = parser(tokens);
-	return parsed;
+	return parser(tokens);
 }
 
-const struct object *
-read_list_delimiters(const struct token *tokens)
+struct object const *
+read_list_delimiters(struct token const *tokens)
 {
-	const struct token *head = tokens;
+	struct token const *head = tokens;
 	int32_t balanced = 0;
 
 	while (head && head->data) {

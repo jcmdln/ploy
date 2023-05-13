@@ -1,45 +1,21 @@
 Ploy is a (work-in-progress) lisp-like language for my own fun and learning.
 
-The purpose of Ploy is for me to learn about interpreters and compilers through
-a bespoke lisp-like language, and have fun doing it. From doing so I hope to
-gain a deeper understanding and appreciation for old and new programming
-languages by implementing these fundamental concepts, even if poorly.
-
-# Roadmap
-
-I have nothing concrete, but these are my thoughts on what I might do as long
-as I'm still having fun:
-
-- stage0: Minimal C implementation of the Ploy interpreter (aka `CPloy`)
-- stage1: Use CPloy to bootstrap a self-hosted Ploy interpreter (aka `Ploy`)
-- stage2: Use the Ploy interpreter to emit a self-hosted Ploy compiler
-- stage3: Use the Ploy compiler to build the final self-hosted Ploy toolchain
-- Create first-party tools such as `ployfmt`, `ploylsp`, `ploydap`
-
-# Usage
-
-This section outlines using Ploy on Fedora, though it should work anywhere. If
-your platform isn't supported, please file an issue or submit a pull request.
-
-## Build
-
 Building Ploy requires the following:
 
-- [c17]: [GCC 8.1.0][gcc], [Clang 7.0.0][clang], [MSVC 16.8.0][msvc] or later
+- A [c11] compiler
 - [Meson] (or [Muon]) and [Ninja] (or [Samurai])
 - [bdwgc]
 - [GNU Readline][readline]
 
 [bdwgc]: https://github.com/ivmai/bdwgc
-[c17]: https://en.wikipedia.org/wiki/C17_(C_standard_revision)
-[clang]: https://releases.llvm.org/7.0.0/tools/clang/docs/UsersManual.html#differences-between-various-standard-modes
-[gcc]: https://gcc.gnu.org/onlinedocs/gcc-8.1.0/gcc/Standards.html#C-Language
+[c11]: https://en.wikipedia.org/wiki/C11_(C_standard_revision)
 [meson]: https://mesonbuild.com/
 [muon]: https://muon.build/
-[msvc]: https://learn.microsoft.com/en-us/visualstudio/releases/2019/release-notes-v16.8
 [ninja]: https://ninja-build.org/
 [readline]: https://git.savannah.gnu.org/cgit/readline.git
 [samurai]: https://github.com/michaelforney/samurai
+
+# Using
 
 ### Release (Default)
 
@@ -69,7 +45,8 @@ implementation:
 
 ```sh
 CC="clang" CC_LD="mold" NINJA="samu" \
-meson builddir -Dbuildtype=debugoptimized -Dwerror=true -Db_sanitize=address,undefined
+muon setup -Dbuildtype=debugoptimized -Dwerror=true -Db_sanitize=address,undefined builddir
+samu -C builddir
 ```
 
 ## Lint
@@ -107,10 +84,12 @@ ninja -C builddir test
 
 ```sh
 $ ./builddir/ploy -h
-usage: ploy [-h] [-e EXPR]
+usage: ploy [-h] [-e EXPR | -f FILE]
 
     -e      Evaluate an expression
+    -f      Evaluate contents of a FILE
     -h      Show help output
+
 ```
 
 ## Install
@@ -126,9 +105,6 @@ ninja -C builddir uninstall
 ```
 
 # Special Thanks
-
-This section gives thanks for resources that helped to inspire me and/or the
-design of Ploy.
 
 - http://www.paulgraham.com/lisp.html
 - https://github.com/kanaka/mal

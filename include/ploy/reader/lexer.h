@@ -7,11 +7,11 @@
 
 #include <ploy/reader/token.h>
 
-const struct token *lexer(const char *input);
+struct token const *lexer(char const *input);
 
-char lexer_peek(const char *input);
+char lexer_peek(char const *input);
 
-struct token *lex_number(size_t *index, const char **input);
-struct token *lex_symbol(size_t *index, const char **input);
+struct token *lex_number(size_t *index, char const **input);
+struct token *lex_symbol(size_t *index, char const **input);
 
 #endif // PLOY_READER_LEXER_H

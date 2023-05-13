@@ -51,12 +51,12 @@ enum token_type {
 struct token {
 	enum token_type type;
 	size_t index;
-	const char *data;
+	char const *data;
 	struct token *next;
 	struct token *tail;
 };
 
-struct token *new_token(enum token_type type, size_t index, const char *data);
+struct token *new_token(enum token_type type, size_t index, char const *data);
 
 struct token *token_append(struct token *tokens, struct token *token);
 

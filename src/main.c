@@ -19,7 +19,7 @@ int repl(void);
 int
 usage(int exit_code)
 {
-	const char *using = "usage: ploy [-h] [-e EXPR | -f FILE]\n\n"
+	char const *using = "usage: ploy [-h] [-e EXPR | -f FILE]\n\n"
 						"    -e      Evaluate an expression\n"
 						"    -f      Evaluate contents of a FILE\n"
 						"    -h      Show help output\n";

@@ -8,28 +8,28 @@
 #include <ploy/type.h>
 
 // Constants
-static const struct object Nil = { .type = OBJECT_NIL };
-static const struct object False = { .type = OBJECT_BOOLEAN, .boolean = false };
-static const struct object True = { .type = OBJECT_BOOLEAN, .boolean = true };
+static struct object const Nil = { .type = OBJECT_NIL };
+static struct object const False = { .type = OBJECT_BOOLEAN, .boolean = false };
+static struct object const True = { .type = OBJECT_BOOLEAN, .boolean = true };
 
 // Core
-const struct object *Append(const struct object *list, const struct object *object);
-const struct object *Apply(const struct object *object);
-const struct object *Car(const struct object *object);
-const struct object *Cdr(const struct object *object);
-const struct object *Cons(const struct object *car, const struct object *cdr);
-const struct object *Define(const struct object *env, const struct object *symbol,
-	const struct object *value);
-const struct object *Error(const char *error);
-const struct object *Eval(const struct object *object);
-const struct object *For(const struct object *expr, const struct object *body);
-const struct object *If(const struct object *expr, const struct object *body);
-const struct object *Lambda(const struct object *env, const struct object *args,
-	const struct object *body);
-const struct object *Print(const struct object *object);
-const struct object *Quasiquote(const struct object *object);
-const struct object *Quote(const struct object *object);
-const struct object *Read(const char *input);
-const struct object *Reverse(const struct object *object);
+struct object const *Append(struct object const *list, struct object const *object);
+struct object const *Apply(struct object const *object);
+struct object const *Car(struct object const *object);
+struct object const *Cdr(struct object const *object);
+struct object const *Cons(struct object const *car, struct object const *cdr);
+struct object const *Define(struct object const *env, struct object const *symbol,
+	struct object const *value);
+struct object const *Error(char const *error);
+struct object const *Eval(struct object const *object);
+struct object const *For(struct object const *expr, struct object const *body);
+struct object const *If(struct object const *expr, struct object const *body);
+struct object const *Lambda(struct object const *env, struct object const *args,
+	struct object const *body);
+struct object const *Print(struct object const *object);
+struct object const *Quasiquote(struct object const *object);
+struct object const *Quote(struct object const *object);
+struct object const *Read(char const *input);
+struct object const *Reverse(struct object const *object);
 
 #endif // PLOY_CORE_H

@@ -9,10 +9,10 @@
 
 #include <ploy/reader/lexer.h>
 
-const struct token *
-lexer(const char *input)
+struct token const *
+lexer(char const *input)
 {
-	const char *cursor = input;
+	char const *cursor = input;
 	size_t index = 0;
 	struct token *tokens = NULL;
 
@@ -183,17 +183,17 @@ lexer(const char *input)
 }
 
 char
-lexer_peek(const char *input)
+lexer_peek(char const *input)
 {
-	const char *cursor = input;
+	char const *cursor = input;
 	++cursor;
 	return *cursor;
 }
 
 struct token *
-lex_number(size_t *index, const char **input)
+lex_number(size_t *index, char const **input)
 {
-	const char *cursor = *input;
+	char const *cursor = *input;
 	size_t length = 0;
 
 	if (*cursor == '+' || *cursor == '-') {
@@ -206,7 +206,7 @@ lex_number(size_t *index, const char **input)
 		++length;
 	}
 
-	char *number = GC_MALLOC(length + 1);
+	char *const number = GC_MALLOC(length + 1);
 	memcpy(number, *input, length);
 	struct token *token = new_token(TOKEN_NUMBER, *index, number);
 	*input = cursor;
@@ -215,9 +215,9 @@ lex_number(size_t *index, const char **input)
 }
 
 struct token *
-lex_symbol(size_t *index, const char **input)
+lex_symbol(size_t *index, char const **input)
 {
-	const char *cursor = *input;
+	char const *cursor = *input;
 	size_t length = 0;
 
 	while (*cursor && !strchr(TOKENS, *cursor)) {
@@ -229,7 +229,7 @@ lex_symbol(size_t *index, const char **input)
 		return new_token(TOKEN_ERROR, *index, "lex_symbol: length is zero");
 	}
 
-	char *symbol = GC_MALLOC(length + 1);
+	char *const symbol = GC_MALLOC(length + 1);
 	memcpy(symbol, *input, length);
 	struct token *token = new_token(TOKEN_SYMBOL, *index, symbol);
 	*input = cursor;

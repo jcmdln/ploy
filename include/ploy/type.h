@@ -23,7 +23,7 @@ enum object_type {
 struct object {
 	enum object_type type;
 	union {
-		const char *atom;
+		char const *atom;
 		bool boolean;
 		struct lambda *lambda;
 		struct list *list;
@@ -32,15 +32,15 @@ struct object {
 };
 
 struct lambda {
-	const struct object *env;
-	const struct object *args;
-	const struct object *body;
+	struct object const *env;
+	struct object const *args;
+	struct object const *body;
 };
 
 struct list {
-	const struct object *car;
-	const struct object *cdr;
-	const struct object *tail;
+	struct object const *car;
+	struct object const *cdr;
+	struct object const *tail;
 };
 
 #endif // PLOY_TYPE_H

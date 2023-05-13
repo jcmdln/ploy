@@ -11,9 +11,9 @@
 #include <ploy/reader/token.h>
 
 struct token *
-new_token(enum token_type type, size_t index, const char *data)
+new_token(enum token_type type, size_t index, char const *data)
 {
-	struct token *token = GC_MALLOC(sizeof(*token));
+	struct token *const token = GC_MALLOC(sizeof(*token));
 	token->type = type;
 	token->index = index;
 	token->data = data;
@@ -21,7 +21,7 @@ new_token(enum token_type type, size_t index, const char *data)
 }
 
 struct token *
-token_append(struct token *tokens, struct token *token)
+token_append(struct token *const tokens, struct token *const token)
 {
 	if (!tokens) {
 		return token;
