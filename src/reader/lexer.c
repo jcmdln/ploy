@@ -160,6 +160,7 @@ lex_number(size_t *index, char const **input)
 
 	char *const number = GC_MALLOC(length + 1);
 	memcpy(number, *input, length);
+
 	struct token *const token = new_token(TOKEN_NUMBER, *index, number);
 	*input = cursor;
 	*index += length;
@@ -183,6 +184,7 @@ lex_symbol(size_t *index, char const **input)
 
 	char *const symbol = GC_MALLOC(length + 1);
 	memcpy(symbol, *input, length);
+
 	struct token *token = new_token(TOKEN_SYMBOL, *index, symbol);
 	*input = cursor;
 	*index += length;

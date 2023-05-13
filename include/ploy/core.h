@@ -13,7 +13,7 @@ static struct object const False = { .type = OBJECT_BOOLEAN, .boolean = false };
 static struct object const True = { .type = OBJECT_BOOLEAN, .boolean = true };
 
 // Core
-struct object const *Append(struct object const *list, struct object const *object);
+struct object const *Append(struct object const *target, struct object const *object);
 struct object const *Apply(struct object const *object);
 struct object const *Car(struct object const *object);
 struct object const *Cdr(struct object const *object);

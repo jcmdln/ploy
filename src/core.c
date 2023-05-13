@@ -11,25 +11,25 @@
 #include <ploy/reader.h>
 
 struct object const *
-Append(struct object const *const list, struct object const *const object)
+Append(struct object const *const target, struct object const *const object)
 {
-	if (!list || !list->list) {
+	if (!target || !target->list) {
 		return Cons(object, &Nil);
 	}
 
-	if (!list->list->tail) {
-		struct object const *head = list;
-		struct object const *cdr = Cdr(list);
+	if (!target->list->tail) {
+		struct object const *head = target;
+		struct object const *cdr = Cdr(target);
 		while (cdr && cdr->type == OBJECT_LIST) {
 			head = cdr;
 			cdr = Cdr(head);
 		}
-		list->list->tail = head;
+		target->list->tail = head;
 	}
 
-	list->list->tail->list->cdr = Cons(object, &Nil);
-	list->list->tail = list->list->tail->list->cdr;
-	return list;
+	target->list->tail->list->cdr = Cons(object, &Nil);
+	target->list->tail = target->list->tail->list->cdr;
+	return target;
 }
 
 struct object const *
