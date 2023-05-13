@@ -11,7 +11,7 @@
 #include <ploy/reader.h>
 
 struct object const *
-Append(struct object const *list, struct object const *object)
+Append(struct object const *const list, struct object const *const object)
 {
 	if (!list || !list->list) {
 		return Cons(object, &Nil);
@@ -33,7 +33,7 @@ Append(struct object const *list, struct object const *object)
 }
 
 struct object const *
-Car(struct object const *object)
+Car(struct object const *const object)
 {
 	if (object->type != OBJECT_LIST) {
 		return Error("Cdr: object is not of type LIST");
@@ -42,7 +42,7 @@ Car(struct object const *object)
 }
 
 struct object const *
-Cdr(struct object const *object)
+Cdr(struct object const *const object)
 {
 	if (object->type != OBJECT_LIST) {
 		return Error("Cdr: object is not of type LIST");
@@ -51,7 +51,7 @@ Cdr(struct object const *object)
 }
 
 struct object const *
-Cons(struct object const *car, struct object const *cdr)
+Cons(struct object const *const car, struct object const *const cdr)
 {
 	struct object *const object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_LIST;
@@ -62,7 +62,8 @@ Cons(struct object const *car, struct object const *cdr)
 }
 
 struct object const *
-Define(struct object const *env, struct object const *symbol, struct object const *value)
+Define(struct object const *const env, struct object const *const symbol,
+	struct object const *const value)
 {
 	struct object const *const object = Cons(symbol, value);
 	if (object->type == OBJECT_ERROR) {
@@ -82,13 +83,14 @@ Error(char const *error)
 }
 
 struct object const *
-Eval(struct object const *object)
+Eval(struct object const *const object)
 {
 	return object;
 }
 
 struct object const *
-Lambda(struct object const *env, struct object const *args, struct object const *body)
+Lambda(struct object const *const env, struct object const *const args,
+	struct object const *const body)
 {
 	struct object *const object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_LAMBDA;
@@ -100,7 +102,7 @@ Lambda(struct object const *env, struct object const *args, struct object const 
 }
 
 struct object const *
-Print(struct object const *object)
+Print(struct object const *const object)
 {
 	if (object) {
 		printer(object);
@@ -110,7 +112,7 @@ Print(struct object const *object)
 }
 
 struct object const *
-Read(char const *input)
+Read(char const *const input)
 {
 	return reader(input);
 }

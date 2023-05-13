@@ -98,17 +98,17 @@ parse_form(struct token const **tokens)
 struct object const *
 parse_keyword(struct token const **token)
 {
-	struct token const *form = *token;
+	struct token const *const form = *token;
 
 	if (form->type != TOKEN_COLON || form->next->type != TOKEN_SYMBOL) {
 		return Error("parse_keyword: invalid form");
 	}
 
-	char *keyword = GC_MALLOC(strlen(form->data) + 1);
+	char *const keyword = GC_MALLOC(strlen(form->data) + 1);
 	sprintf(keyword, "%s", form->next->data);
 	*token = form->next->next;
 
-	struct object *object = GC_MALLOC(sizeof(*object));
+	struct object *const object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_KEYWORD;
 	object->atom = keyword;
 	return object;
@@ -124,7 +124,7 @@ parse_list(struct token const **token)
 	}
 	form = form->next;
 
-	struct object const *object = parse_form(&form);
+	struct object const *const object = parse_form(&form);
 	if (object->type == OBJECT_ERROR) {
 		return object;
 	}
@@ -139,13 +139,13 @@ parse_list(struct token const **token)
 struct object const *
 parse_number(struct token const **token)
 {
-	struct token const *form = *token;
+	struct token const *const form = *token;
 
 	if (form->type != TOKEN_NUMBER) {
 		return Error("parse_number: not a number");
 	}
 
-	struct object *object = GC_MALLOC(sizeof(*object));
+	struct object *const object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_NUMBER;
 	object->number = strtoll(form->data, NULL, 10);
 
@@ -176,7 +176,7 @@ parse_string(struct token const **token)
 	}
 	*token = form->next;
 
-	struct object *object = GC_MALLOC(sizeof(*object));
+	struct object *const object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_STRING;
 	object->atom = string;
 	return object;
@@ -185,17 +185,17 @@ parse_string(struct token const **token)
 struct object const *
 parse_symbol(struct token const **token)
 {
-	struct token const *form = *token;
+	struct token const *const form = *token;
 
 	if (form->type != TOKEN_SYMBOL) {
 		return Error("parse_symbol: invalid token->type");
 	}
 
-	char *symbol = GC_MALLOC(strlen(form->data) + 1);
+	char *const symbol = GC_MALLOC(strlen(form->data) + 1);
 	sprintf(symbol, "%s", form->data);
 	*token = form->next;
 
-	struct object *object = GC_MALLOC(sizeof(*object));
+	struct object *const object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_SYMBOL;
 	object->atom = symbol;
 	return object;

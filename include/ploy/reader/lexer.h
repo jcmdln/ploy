@@ -13,5 +13,6 @@ char lexer_peek(char const *input);
 
 struct token *lex_number(size_t *index, char const **input);
 struct token *lex_symbol(size_t *index, char const **input);
+struct token *lex_token(enum token_type type, char const **cursor, size_t *index, char const *data);
 
 #endif // PLOY_READER_LEXER_H

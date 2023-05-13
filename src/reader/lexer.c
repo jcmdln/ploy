@@ -10,7 +10,7 @@
 #include <ploy/reader/lexer.h>
 
 struct token const *
-lexer(char const *input)
+lexer(char const *const input)
 {
 	char const *cursor = input;
 	size_t index = 0;
@@ -22,101 +22,63 @@ lexer(char const *input)
 		switch (*cursor) {
 		// Whitespace tokens
 		case ' ':
-			token = new_token(TOKEN_SPACE, index, " ");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_SPACE, &cursor, &index, " ");
 			break;
 		case '\n':
-			token = new_token(TOKEN_NEWLINE, index, "\\n");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_NEWLINE, &cursor, &index, "\n");
 			break;
 		case '\r':
-			token = new_token(TOKEN_CARRIAGE_RETURN, index, "\\r");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_CARRIAGE_RETURN, &cursor, &index, "\r");
 			break;
 		case '\t':
-			token = new_token(TOKEN_TAB, index, "\\t");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_TAB, &cursor, &index, "\t");
 			break;
 		case '\v':
-			token = new_token(TOKEN_VERTICAL_TAB, index, "\\v");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_VERTICAL_TAB, &cursor, &index, "\v");
 			break;
 
 		// Single-Character tokens
 		case '*':
-			token = new_token(TOKEN_ASTERISK, index, "*");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_ASTERISK, &cursor, &index, "*");
 			break;
 		case '`':
-			token = new_token(TOKEN_BACKTICK, index, "`");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_BACKTICK, &cursor, &index, "`");
 			break;
 		case '^':
-			token = new_token(TOKEN_CARET, index, "^");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_CARET, &cursor, &index, "^");
 			break;
 		case ':':
-			token = new_token(TOKEN_COLON, index, ":");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_COLON, &cursor, &index, ":");
 			break;
 		case '=':
-			token = new_token(TOKEN_EQUAL, index, "=");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_EQUAL, &cursor, &index, "=");
 			break;
 		case '#':
-			token = new_token(TOKEN_OCTOTHORPE, index, "#");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_OCTOTHORPE, &cursor, &index, "#");
 			break;
 		case '(':
-			token = new_token(TOKEN_PAREN_LEFT, index, "(");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_PAREN_LEFT, &cursor, &index, "(");
 			break;
 		case ')':
-			token = new_token(TOKEN_PAREN_RIGHT, index, ")");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_PAREN_RIGHT, &cursor, &index, ")");
 			break;
 		case '%':
-			token = new_token(TOKEN_PERCENT, index, "%");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_PERCENT, &cursor, &index, "%");
 			break;
 		case '\"':
-			token = new_token(TOKEN_QUOTE_DOUBLE, index, "\"");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_QUOTE_DOUBLE, &cursor, &index, "\"");
 			break;
 		case '\'':
-			token = new_token(TOKEN_QUOTE_SINGLE, index, "\'");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_QUOTE_SINGLE, &cursor, &index, "\'");
 			break;
 		case ';':
-			token = new_token(TOKEN_SEMICOLON, index, ";");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_SEMICOLON, &cursor, &index, ";");
 			break;
 		case '\\':
-			token = new_token(TOKEN_SLASH_BACKWARD, index, "\\");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_SLASH_BACKWARD, &cursor, &index, "\\");
 			break;
 		case '/':
-			token = new_token(TOKEN_SLASH_FORWARD, index, "/");
-			++cursor;
-			++index;
+			token = lex_token(TOKEN_SLASH_FORWARD, &cursor, &index, "/");
 			break;
 
 		// Multi-Character tokens
@@ -124,34 +86,24 @@ lexer(char const *input)
 			if (isdigit(lexer_peek(cursor))) {
 				token = lex_number(&index, &cursor);
 			} else if (lexer_peek(cursor) == '>') {
-				token = new_token(TOKEN_ARROW, index, "->");
-				cursor += 2;
-				index += 2;
+				token = lex_token(TOKEN_ARROW, &cursor, &index, "->");
 			} else {
-				token = new_token(TOKEN_MINUS, index, "-");
-				++cursor;
-				++index;
+				token = lex_token(TOKEN_MINUS, &cursor, &index, "-");
 			}
 			break;
 		case '+':
 			if (isdigit(lexer_peek(cursor))) {
 				token = lex_number(&index, &cursor);
 			} else {
-				token = new_token(TOKEN_PLUS, index, "+");
-				++cursor;
-				++index;
+				token = lex_token(TOKEN_PLUS, &cursor, &index, "+");
 			}
 			break;
 		case '<':
 		case '>':
 			if (lexer_peek(cursor) == '=') {
-				token = new_token(TOKEN_GREATER_OR_EQUAL, index, ">=");
-				cursor += 2;
-				index += 2;
+				token = lex_token(TOKEN_GREATER_OR_EQUAL, &cursor, &index, ">=");
 			} else {
-				new_token(TOKEN_GREATER_THAN, index, ">");
-				++cursor;
-				++index;
+				token = lex_token(TOKEN_GREATER_THAN, &cursor, &index, ">");
 			}
 			break;
 
@@ -208,7 +160,7 @@ lex_number(size_t *index, char const **input)
 
 	char *const number = GC_MALLOC(length + 1);
 	memcpy(number, *input, length);
-	struct token *token = new_token(TOKEN_NUMBER, *index, number);
+	struct token *const token = new_token(TOKEN_NUMBER, *index, number);
 	*input = cursor;
 	*index += length;
 	return token;
@@ -233,6 +185,16 @@ lex_symbol(size_t *index, char const **input)
 	memcpy(symbol, *input, length);
 	struct token *token = new_token(TOKEN_SYMBOL, *index, symbol);
 	*input = cursor;
+	*index += length;
+	return token;
+}
+
+struct token *
+lex_token(enum token_type type, char const **cursor, size_t *index, char const *const data)
+{
+	struct token *token = new_token(type, *index, data);
+	size_t length = strlen(data);
+	*cursor += length;
 	*index += length;
 	return token;
 }
