@@ -20,17 +20,21 @@ enum object_type {
 	OBJECT_SYMBOL,
 };
 
+struct lambda {
+	struct object const *env, *args, *body;
+};
+
+struct list {
+	struct object const *car, *cdr, *tail;
+};
+
 struct object {
 	enum object_type type;
 	union {
 		char const *atom;
 		bool boolean;
-		struct {
-			struct object const *env, *args, *body;
-		} *lambda;
-		struct {
-			struct object const *car, *cdr, *tail;
-		} *list;
+		struct lambda *lambda;
+		struct list *list;
 		int64_t number;
 	};
 };
