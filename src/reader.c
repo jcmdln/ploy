@@ -6,12 +6,11 @@
 
 #include <gc/gc.h>
 
-#include <ploy/core.h>
+#include <ploy/ploy.h>
 #include <ploy/reader.h>
 #include <ploy/reader/lexer.h>
 #include <ploy/reader/parser.h>
 #include <ploy/reader/token.h>
-#include <ploy/type.h>
 
 struct object const *read_list_delimiters(struct token const *tokens);
 

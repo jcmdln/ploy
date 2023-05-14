@@ -10,8 +10,8 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 
-#include <ploy/core.h>
-#include <ploy/type.h>
+#include <ploy/ploy.h>
+#include <ploy/reader/reader.h>
 
 int repf(char *path);
 int repl(void);

@@ -8,7 +8,7 @@
 
 #include <gc/gc.h>
 
-#include <ploy/core.h>
+#include <ploy/ploy.h>
 #include <ploy/reader/parser.h>
 
 struct object const *

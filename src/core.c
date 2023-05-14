@@ -8,7 +8,7 @@
 
 #include <ploy/ploy.h>
 #include <ploy/printer.h>
-#include <ploy/reader.h>
+#include <ploy/reader/reader.h>
 
 struct object const *
 Append(struct object const *const target, struct object const *const object)
