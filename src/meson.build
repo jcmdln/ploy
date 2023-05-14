@@ -7,7 +7,6 @@ src_main_c = files('main.c')
 ploy_src += files(
   'core.c',
   'printer.c',
-  'reader.c',
 )
 
 subdir('reader')
