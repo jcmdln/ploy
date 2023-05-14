@@ -19,11 +19,10 @@ int repl(void);
 int
 usage(int exit_code)
 {
-	char const *using = "usage: ploy [-h] [-e EXPR | -f FILE]\n\n"
-						"    -e      Evaluate an expression\n"
-						"    -f      Evaluate contents of a FILE\n"
-						"    -h      Show help output\n";
-	printf("%s\n", using);
+	printf("usage: ploy [-h] [-e EXPR] [-f FILE]\n\n"
+		   "  -h         Show help output\n"
+		   "  -e EXPR    Evaluate an expression\n"
+		   "  -f FILE    Evaluate contents of a FILE\n\n");
 	return exit_code;
 }
 
@@ -33,26 +32,20 @@ main(int argc, char **argv)
 	int opt = 0;
 	bool opt_exec = false;
 	bool opt_file = false;
-	bool opt_help = false;
 
-	while ((opt = getopt(argc, argv, "e:f:h")) != -1) {
+	while ((opt = getopt(argc, argv, "he:f:")) != -1) {
 		switch (opt) {
+		case 'h':
+			return usage(EXIT_SUCCESS);
 		case 'e':
 			opt_exec = true;
 			break;
 		case 'f':
 			opt_file = true;
 			break;
-		case 'h':
-			opt_help = true;
-			break;
 		default:
 			return usage(EXIT_FAILURE);
 		}
-	}
-
-	if (opt_help) {
-		return usage(EXIT_SUCCESS);
 	}
 
 	if (opt_exec && opt_file) {
