@@ -62,9 +62,6 @@ lexer(char const *const input)
 		case '%':
 			token = lex_token(TOKEN_PERCENT, &cursor, &index, "%");
 			break;
-		case '\"':
-			token = lex_token(TOKEN_QUOTE_DOUBLE, &cursor, &index, "\"");
-			break;
 		case '\'':
 			token = lex_token(TOKEN_QUOTE_SINGLE, &cursor, &index, "\'");
 			break;
@@ -114,6 +111,9 @@ lexer(char const *const input)
 		case '9':
 			token = lex_number(&index, &cursor);
 			break;
+		case '\"':
+			token = lex_string(&index, &cursor);
+			break;
 		default:
 			token = lex_symbol(&index, &cursor);
 			break;
@@ -154,6 +154,31 @@ lex_number(size_t *index, char const **input)
 	Token *const token = token_init(TOKEN_NUMBER, number);
 	*input = cursor;
 	*index += length;
+	return token;
+}
+
+Token *
+lex_string(size_t *index, char const **input)
+{
+	char const *cursor = *input;
+	size_t length = 0;
+
+	if (*cursor != '\"') return token_init(TOKEN_ERROR, "lex_string: Missing open '\"'");
+	cursor = ++*input;
+
+	while (*cursor && *cursor != '\"') {
+		++cursor;
+		++length;
+	}
+
+	if (*cursor != '\"') return token_init(TOKEN_ERROR, "lex_string: Missing close '\"'");
+
+	char *const string = GC_MALLOC(length + 1);
+	memcpy(string, *input, length);
+
+	Token *token = token_init(TOKEN_STRING, string);
+	*input = ++cursor;
+	*index += ++length;
 	return token;
 }
 

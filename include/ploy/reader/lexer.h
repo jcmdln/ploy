@@ -12,6 +12,7 @@ Token const *lexer(char const *input);
 char lexer_peek(char const *input);
 
 Token *lex_number(size_t *index, char const **input);
+Token *lex_string(size_t *index, char const **input);
 Token *lex_symbol(size_t *index, char const **input);
 Token *lex_token(TokenType type, char const **cursor, size_t *index, char const *data);
 

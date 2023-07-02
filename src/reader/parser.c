@@ -45,6 +45,9 @@ parse_form(Token const **tokens)
 		case TOKEN_NUMBER:
 			object = parse_number(&token);
 			break;
+		case TOKEN_STRING:
+			object = parse_string(&token);
+			break;
 		case TOKEN_SYMBOL:
 			object = parse_symbol(&token);
 			break;
@@ -108,28 +111,17 @@ parse_number(Token const **token)
 	return object;
 }
 
-// FIXME: parse_string: Handle nested strings
 Object const *
 parse_string(Token const **token)
 {
-	Token const *form = *token;
-	if (form->type != TOKEN_QUOTE_DOUBLE) return Error("parse_string: invalid token->type");
-	form = form->next;
-
-	char *string = GC_MALLOC(sizeof(*string));
-	while (form && form->type != TOKEN_QUOTE_DOUBLE) {
-		string = GC_REALLOC(string, strlen(string) + strlen(form->data) + 1);
-		(void)sprintf(string, "%s%s", string, form->data);
-		form = form->next;
-	}
-
-	if (!form || form->type != TOKEN_QUOTE_DOUBLE)
-		return Error("parse_string: missing closing '\"'");
-	*token = form->next;
+	Token const *const form = *token;
+	if (form->type != TOKEN_STRING) return Error("parse_string: invalid token->type");
 
 	Object *const object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_STRING;
-	object->string = string;
+	object->string = form->data;
+
+	*token = form->next;
 	return object;
 }
 
@@ -139,12 +131,10 @@ parse_symbol(Token const **token)
 	Token const *const form = *token;
 	if (form->type != TOKEN_SYMBOL) return Error("parse_symbol: invalid token->type");
 
-	char *const symbol = GC_MALLOC(strlen(form->data) + 1);
-	(void)sprintf(symbol, "%s", form->data);
-	*token = form->next;
-
 	Object *const object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_SYMBOL;
-	object->symbol = symbol;
+	object->symbol = form->data;
+
+	*token = form->next;
 	return object;
 }

@@ -45,6 +45,7 @@ typedef enum TokenType {
 
 	// Atoms
 	TOKEN_NUMBER, /* 0-9 */
+	TOKEN_STRING,
 	TOKEN_SYMBOL,
 } TokenType;
 
