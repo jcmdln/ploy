@@ -10,50 +10,49 @@
 #include <ploy/printer.h>
 #include <ploy/reader/reader.h>
 
-struct object const *
-Append(struct object const *const target, struct object const *const object)
+Object const *
+Append(Object const *const target, Object const *const object)
 {
-	if (!target || !target->list) {
-		return Cons(object, &Nil);
-	}
+	if (!target || !target->list) return Cons(object, &Nil);
 
 	if (!target->list->tail) {
-		struct object const *head = target;
-		struct object const *cdr = Cdr(target);
+		Object const *head = target;
+		Object const *cdr = Cdr(target);
+
 		while (cdr && cdr->type == OBJECT_LIST) {
 			head = cdr;
 			cdr = Cdr(head);
 		}
+
 		target->list->tail = head;
 	}
 
 	target->list->tail->list->cdr = Cons(object, &Nil);
 	target->list->tail = target->list->tail->list->cdr;
+
 	return target;
 }
 
-struct object const *
-Car(struct object const *const object)
+Object const *
+Car(Object const *const object)
 {
-	if (object->type != OBJECT_LIST) {
-		return Error("Cdr: object is not of type LIST");
-	}
+	if (!object) return Error("Car: object is NULL");
+	if (object->type != OBJECT_LIST) return Error("Car: object is not of type LIST");
 	return object->list->car;
 }
 
-struct object const *
-Cdr(struct object const *const object)
+Object const *
+Cdr(Object const *const object)
 {
-	if (object->type != OBJECT_LIST) {
-		return Error("Cdr: object is not of type LIST");
-	}
+	if (!object) return Error("Cdr: object is NULL");
+	if (object->type != OBJECT_LIST) return Error("Cdr: object is not of type LIST");
 	return object->list->cdr;
 }
 
-struct object const *
-Cons(struct object const *const car, struct object const *const cdr)
+Object const *
+Cons(Object const *const car, Object const *const cdr)
 {
-	struct object *const object = GC_MALLOC(sizeof(*object));
+	Object *const object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_LIST;
 	object->list = GC_MALLOC(sizeof(*object->list));
 	object->list->car = car;
@@ -61,48 +60,46 @@ Cons(struct object const *const car, struct object const *const cdr)
 	return object;
 }
 
-struct object const *
-Define(struct object const *const env, struct object const *const symbol,
-	struct object const *const value)
+Object const *
+Define(Object const *const env, Object const *const symbol, Object const *const value)
 {
-	struct object const *const object = Cons(symbol, value);
-	if (object->type == OBJECT_ERROR) {
-		return object;
-	}
+	Object const *const object = Cons(symbol, value);
+	if (object->type == OBJECT_ERROR) return object;
 
 	return Append(env, object);
 }
 
-struct object const *
+Object const *
 Error(char const *error)
 {
-	struct object *const object = GC_MALLOC(sizeof(*object));
+	Object *const object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_ERROR;
-	object->atom = error;
+	object->error = error;
 	return object;
 }
 
-struct object const *
-Eval(struct object const *const object)
+Object const *
+Eval(Object const *const object)
 {
 	return object;
 }
 
-struct object const *
-Lambda(struct object const *const env, struct object const *const args,
-	struct object const *const body)
+Object const *
+Lambda(Object const *const env, Object const *const args, Object const *const body)
 {
-	struct object *const object = GC_MALLOC(sizeof(*object));
+	if (env) {
+	}
+
+	Object *const object = GC_MALLOC(sizeof(*object));
 	object->type = OBJECT_LAMBDA;
 	object->lambda = GC_MALLOC(sizeof(*object->lambda));
-	object->lambda->env = env;
 	object->lambda->args = args;
 	object->lambda->body = body;
 	return object;
 }
 
-struct object const *
-Print(struct object const *const object)
+Object const *
+Print(Object const *const object)
 {
 	if (object) {
 		printer(object);
@@ -111,21 +108,19 @@ Print(struct object const *const object)
 	return object;
 }
 
-struct object const *
+Object const *
 Read(char const *const input)
 {
 	return reader(input);
 }
 
-struct object const *
-Reverse(struct object const *object)
+Object const *
+Reverse(Object const *object)
 {
-	struct object const *reversed = Cons(&Nil, &Nil);
+	Object const *reversed = Cons(&Nil, &Nil);
 	while (object && object->type == OBJECT_LIST && Car(object)) {
 		reversed = Cons(reversed, Car(object));
-		if (!Cdr(object)) {
-			break;
-		}
+		if (!Cdr(object)) break;
 		object = Cdr(object);
 	}
 	return reversed;

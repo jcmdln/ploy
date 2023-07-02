@@ -8,14 +8,12 @@
 #include <ploy/ploy.h>
 #include <ploy/printer.h>
 
-void print_list(struct object const *list);
+void print_list(Object const *list);
 
 void
-printer(struct object const *const object)
+printer(Object const *const object)
 {
-	if (!object) {
-		return;
-	}
+	if (!object) return;
 
 	switch (object->type) {
 	case OBJECT_NIL:
@@ -25,10 +23,10 @@ printer(struct object const *const object)
 		printf(object->boolean ? "true" : "false");
 		break;
 	case OBJECT_ERROR:
-		printf("error: %s\n", object->atom);
+		printf("error: %s\n", object->error);
 		break;
 	case OBJECT_KEYWORD:
-		printf(":%s", object->atom);
+		printf(":%s", object->keyword);
 		break;
 	case OBJECT_LAMBDA:
 		printf("<lambda>");
@@ -40,16 +38,16 @@ printer(struct object const *const object)
 		printf("%ld", object->number);
 		break;
 	case OBJECT_STRING:
-		printf("\"%s\"", object->atom);
+		printf("\"%s\"", object->string);
 		break;
 	case OBJECT_SYMBOL:
-		printf("%s", object->atom);
+		printf("%s", object->symbol);
 		break;
 	}
 }
 
 void
-print_list(struct object const *list)
+print_list(Object const *list)
 {
 	putchar('(');
 
@@ -60,8 +58,8 @@ print_list(struct object const *list)
 			break;
 		}
 
-		struct object const *const car = Car(list);
-		struct object const *const cdr = Cdr(list);
+		Object const *const car = Car(list);
+		Object const *const cdr = Cdr(list);
 
 		if (car->type == OBJECT_NIL && cdr->type == OBJECT_NIL) {
 			list = cdr;
@@ -70,11 +68,8 @@ print_list(struct object const *list)
 
 		printer(car);
 
-		if (car->type != OBJECT_NIL && cdr->type != OBJECT_NIL) {
-			if (Car(cdr)->type != OBJECT_NIL || Cdr(cdr)->type != OBJECT_NIL) {
-				putchar(' ');
-			}
-		}
+		if (car->type != OBJECT_NIL && cdr->type != OBJECT_NIL)
+			if (Car(cdr)->type != OBJECT_NIL || Cdr(cdr)->type != OBJECT_NIL) putchar(' ');
 
 		list = cdr;
 	}

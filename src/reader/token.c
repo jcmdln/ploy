@@ -10,30 +10,27 @@
 
 #include <ploy/reader/token.h>
 
-struct token *
-new_token(enum token_type type, size_t index, char const *const data)
+Token *
+token_init(TokenType type, size_t index, char const *const data)
 {
-	struct token *const token = GC_MALLOC(sizeof(*token));
+	Token *const token = GC_MALLOC(sizeof(*token));
 	token->type = type;
 	token->index = index;
 	token->data = data;
 	return token;
 }
 
-struct token *
-token_append(struct token *const tokens, struct token *const token)
+Token *
+token_append(Token *const tokens, Token *const token)
 {
-	if (!tokens) {
-		return token;
-	}
-
+	if (!tokens) return token;
 	if (!tokens->next) {
 		tokens->next = token;
 		tokens->tail = tokens->next;
 		return tokens;
 	}
 
-	struct token *const tail = tokens->tail;
+	Token *const tail = tokens->tail;
 	tail->next = token;
 	tokens->tail = tail->next;
 	return tokens;

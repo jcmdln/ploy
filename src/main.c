@@ -77,13 +77,12 @@ repf(char *path)
 	size_t buffer_length = 0;
 	if (getdelim(&buffer, &buffer_length, EOF, file) == -1) {
 		printf("error: failed to read FILE\n");
-		if (buffer) {
-			free(buffer);
-		}
+		if (buffer) free(buffer);
 		return EXIT_FAILURE;
 	}
 
 	Print(Eval(Read(buffer)));
+
 	free(buffer);
 	return EXIT_SUCCESS;
 }
@@ -95,9 +94,7 @@ repl(void)
 
 	while (true) {
 		char *input = readline("λ ");
-		if (!input || strlen(input) < 1) {
-			continue;
-		}
+		if (!input || strlen(input) < 1) continue;
 
 		add_history(input);
 		Print(Eval(Read(input)));

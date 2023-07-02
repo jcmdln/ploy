@@ -7,6 +7,6 @@
 
 #include <ploy/ploy.h>
 
-void printer(struct object const *object);
+void printer(Object const *object);
 
 #endif // PLOY_PRINTER_H

@@ -8,18 +8,18 @@
 #include <ploy/ploy.h>
 #include <ploy/reader/token.h>
 
-struct object const *parser(struct token const *token);
+Object const *parser(Token const *token);
 
-struct object const *parse_form(struct token const **tokens);
+Object const *parse_form(Token const **tokens);
 
-struct object const *parse_comment(struct token const **tokens);
-struct object const *parse_keyword(struct token const **token);
-struct object const *parse_lambda(struct token const **token);
-struct object const *parse_list(struct token const **token);
-struct object const *parse_number(struct token const **token);
-struct object const *parse_quasiquote(struct token const **token);
-struct object const *parse_quote(struct token const **token);
-struct object const *parse_string(struct token const **token);
-struct object const *parse_symbol(struct token const **token);
+Object const *parse_comment(Token const **tokens);
+Object const *parse_keyword(Token const **token);
+Object const *parse_lambda(Token const **token);
+Object const *parse_list(Token const **token);
+Object const *parse_number(Token const **token);
+Object const *parse_quasiquote(Token const **token);
+Object const *parse_quote(Token const **token);
+Object const *parse_string(Token const **token);
+Object const *parse_symbol(Token const **token);
 
 #endif // PLOY_READER_PARSER_H

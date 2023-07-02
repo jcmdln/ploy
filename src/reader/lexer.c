@@ -9,33 +9,33 @@
 
 #include <ploy/reader/lexer.h>
 
-struct token const *
+Token const *
 lexer(char const *const input)
 {
 	char const *cursor = input;
 	size_t index = 0;
-	struct token *tokens = NULL;
+	Token *tokens = NULL;
 
 	while (*cursor) {
-		struct token *token = NULL;
+		Token *token = NULL;
 
 		switch (*cursor) {
-		// Whitespace tokens
+		// Whitespace
 		case ' ':
-			token = lex_token(TOKEN_SPACE, &cursor, &index, " ");
-			break;
 		case '\n':
-			token = lex_token(TOKEN_NEWLINE, &cursor, &index, "\n");
-			break;
 		case '\r':
-			token = lex_token(TOKEN_CARRIAGE_RETURN, &cursor, &index, "\r");
-			break;
 		case '\t':
-			token = lex_token(TOKEN_TAB, &cursor, &index, "\t");
-			break;
 		case '\v':
-			token = lex_token(TOKEN_VERTICAL_TAB, &cursor, &index, "\v");
-			break;
+			++cursor;
+			++index;
+			continue;
+
+		// Comment
+		case '#':
+		case ';':
+			while (*cursor != '\0' && *cursor != '\n')
+				++cursor;
+			continue;
 
 		// Single-Character tokens
 		case '*':
@@ -53,9 +53,6 @@ lexer(char const *const input)
 		case '=':
 			token = lex_token(TOKEN_EQUAL, &cursor, &index, "=");
 			break;
-		case '#':
-			token = lex_token(TOKEN_OCTOTHORPE, &cursor, &index, "#");
-			break;
 		case '(':
 			token = lex_token(TOKEN_PAREN_LEFT, &cursor, &index, "(");
 			break;
@@ -70,9 +67,6 @@ lexer(char const *const input)
 			break;
 		case '\'':
 			token = lex_token(TOKEN_QUOTE_SINGLE, &cursor, &index, "\'");
-			break;
-		case ';':
-			token = lex_token(TOKEN_SEMICOLON, &cursor, &index, ";");
 			break;
 		case '\\':
 			token = lex_token(TOKEN_SLASH_BACKWARD, &cursor, &index, "\\");
@@ -125,9 +119,7 @@ lexer(char const *const input)
 			break;
 		}
 
-		if (!token || token->type == TOKEN_ERROR) {
-			return token;
-		}
+		if (!token || token->type == TOKEN_ERROR) return token;
 		tokens = token_append(tokens, token);
 	};
 
@@ -137,12 +129,10 @@ lexer(char const *const input)
 char
 lexer_peek(char const *input)
 {
-	char const *cursor = input;
-	++cursor;
-	return *cursor;
+	return input[1];
 }
 
-struct token *
+Token *
 lex_number(size_t *index, char const **input)
 {
 	char const *cursor = *input;
@@ -161,13 +151,13 @@ lex_number(size_t *index, char const **input)
 	char *const number = GC_MALLOC(length + 1);
 	memcpy(number, *input, length);
 
-	struct token *const token = new_token(TOKEN_NUMBER, *index, number);
+	Token *const token = token_init(TOKEN_NUMBER, *index, number);
 	*input = cursor;
 	*index += length;
 	return token;
 }
 
-struct token *
+Token *
 lex_symbol(size_t *index, char const **input)
 {
 	char const *cursor = *input;
@@ -178,23 +168,21 @@ lex_symbol(size_t *index, char const **input)
 		++length;
 	}
 
-	if (length == 0) {
-		return new_token(TOKEN_ERROR, *index, "lex_symbol: length is zero");
-	}
+	if (length == 0) return token_init(TOKEN_ERROR, *index, "lex_symbol: length is zero");
 
 	char *const symbol = GC_MALLOC(length + 1);
 	memcpy(symbol, *input, length);
 
-	struct token *token = new_token(TOKEN_SYMBOL, *index, symbol);
+	Token *token = token_init(TOKEN_SYMBOL, *index, symbol);
 	*input = cursor;
 	*index += length;
 	return token;
 }
 
-struct token *
-lex_token(enum token_type type, char const **cursor, size_t *index, char const *const data)
+Token *
+lex_token(TokenType type, char const **cursor, size_t *index, char const *const data)
 {
-	struct token *token = new_token(type, *index, data);
+	Token *token = token_init(type, *index, data);
 	size_t length = strlen(data);
 	*cursor += length;
 	*index += length;

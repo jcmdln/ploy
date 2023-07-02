@@ -36,6 +36,10 @@ compiler_args = [
   '-Wno-error=unused-parameter',
   '-Wno-error=unused-result',
   '-Wno-error=unused-variable',
+
+  # FIXME: These are temporarily downgraded to warnings
+  '-Wno-error=restrict',
+  '-Wno-error=switch',
 ]
 
 if compiler.get_id().startswith('clang')
@@ -83,36 +87,33 @@ readline = dependency('readline', required: true)
 #
 
 ploy_include = []
+ploy_include_dirs = include_directories('include')
 subdir('include')
 
 ploy_src = []
+ploy_src_main = files('src/main.c')
 subdir('src')
 
 executable('ploy',
   dependencies: [bdwgc, readline],
-  include_directories: include_directories('include'),
+  include_directories: ploy_include_dirs,
   install: true,
-  sources: [ploy_src, src_main_c],
+  sources: [ploy_src, ploy_src_main],
 )
 
-#
-# Lints
-#
-
-run_target('clang-format',
-  command: ['clang-format', '--dry-run', '--Werror', ploy_include, ploy_src, src_main_c]
-)
-
-run_target('clang-tidy',
-  command: ['clang-tidy', '-p', '.', ploy_include, ploy_src, src_main_c]
-)
 
 #
 # Tests
 #
 
-# FIXME: https://github.com/mesonbuild/meson/issues/2518
-# FIXME: https://github.com/mesonbuild/meson/pull/6511
-if get_option('test')
-  subdir('test')
-endif
+ploy_test = []
+subdir('test')
+
+#
+# Lints
+#
+
+ploy_files = [] + ploy_include + ploy_src + ploy_src_main + ploy_test
+
+run_target('clang-format', command: ['clang-format', '--dry-run', '--Werror', ploy_files])
+run_target('clang-tidy', command: ['clang-tidy', '-p', '.', ploy_files])

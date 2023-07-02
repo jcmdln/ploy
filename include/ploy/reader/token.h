@@ -7,9 +7,9 @@
 
 #include <sys/types.h>
 
-static char const TOKENS[24] = " \t\v\n\r*`^:=/><-#()%+;\'\"\0";
+static char const TOKENS[24] = "\r\n \t\v*`^:=><-#()%+\"\';\\/\0";
 
-enum token_type {
+typedef enum TokenType {
 	TOKEN_NIL = 0,
 	TOKEN_ERROR,
 
@@ -46,18 +46,19 @@ enum token_type {
 	// Atoms
 	TOKEN_NUMBER, /* 0-9 */
 	TOKEN_SYMBOL,
-};
+} TokenType;
 
-struct token {
-	enum token_type type;
+typedef struct Token {
+	TokenType type;
 	size_t index;
 	char const *data;
-	struct token *next;
-	struct token *tail;
-};
+	struct Token *next;
+	struct Token *tail;
+} Token;
 
-struct token *new_token(enum token_type type, size_t index, char const *data);
+Token *token_init(TokenType type, size_t index, char const *data);
+void token_free(Token *token);
 
-struct token *token_append(struct token *tokens, struct token *token);
+Token *token_append(Token *tokens, Token *token);
 
 #endif // PLOY_READER_TOKEN_H

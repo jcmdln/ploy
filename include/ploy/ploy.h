@@ -6,9 +6,10 @@
 #pragma once
 
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 
-enum object_type {
+typedef enum ObjectType {
 	OBJECT_NIL = 0,
 	OBJECT_BOOLEAN,
 	OBJECT_ERROR,
@@ -18,50 +19,47 @@ enum object_type {
 	OBJECT_NUMBER,
 	OBJECT_STRING,
 	OBJECT_SYMBOL,
-};
+} ObjectType;
 
-struct lambda {
-	struct object const *env, *args, *body;
-};
-
-struct list {
-	struct object const *car, *cdr, *tail;
-};
-
-struct object {
-	enum object_type type;
+typedef struct Object {
+	ObjectType type;
 	union {
-		char const *atom;
 		bool boolean;
-		struct lambda *lambda;
-		struct list *list;
+		char const *error;
+		char const *keyword;
+		struct {
+			struct Object const *args, *body;
+		} *lambda;
+		struct {
+			struct Object const *car, *cdr, *tail;
+		} *list;
 		int64_t number;
+		char const *string;
+		char const *symbol;
 	};
-};
+} Object;
 
 // Constants
-static struct object const Nil = { .type = OBJECT_NIL };
-static struct object const False = { .type = OBJECT_BOOLEAN, .boolean = false };
-static struct object const True = { .type = OBJECT_BOOLEAN, .boolean = true };
+static Object const Nil = { .type = OBJECT_NIL };
+static Object const False = { .type = OBJECT_BOOLEAN, .boolean = false };
+static Object const True = { .type = OBJECT_BOOLEAN, .boolean = true };
 
 // Core
-struct object const *Append(struct object const *target, struct object const *object);
-struct object const *Apply(struct object const *object);
-struct object const *Car(struct object const *object);
-struct object const *Cdr(struct object const *object);
-struct object const *Cons(struct object const *car, struct object const *cdr);
-struct object const *Define(struct object const *env, struct object const *symbol,
-	struct object const *value);
-struct object const *Error(char const *error);
-struct object const *Eval(struct object const *object);
-struct object const *For(struct object const *expr, struct object const *body);
-struct object const *If(struct object const *expr, struct object const *body);
-struct object const *Lambda(struct object const *env, struct object const *args,
-	struct object const *body);
-struct object const *Print(struct object const *object);
-struct object const *Quasiquote(struct object const *object);
-struct object const *Quote(struct object const *object);
-struct object const *Read(char const *input);
-struct object const *Reverse(struct object const *object);
+Object const *Append(Object const *target, Object const *object);
+Object const *Apply(Object const *object);
+Object const *Car(Object const *object);
+Object const *Cdr(Object const *object);
+Object const *Cons(Object const *car, Object const *cdr);
+Object const *Define(Object const *env, Object const *symbol, Object const *value);
+Object const *Error(char const *error);
+Object const *Eval(Object const *object);
+Object const *For(Object const *expr, Object const *body);
+Object const *If(Object const *expr, Object const *body);
+Object const *Lambda(Object const *env, Object const *args, Object const *body);
+Object const *Print(Object const *object);
+Object const *Quasiquote(Object const *object);
+Object const *Quote(Object const *object);
+Object const *Read(char const *input);
+Object const *Reverse(Object const *object);
 
 #endif // PLOY_H
