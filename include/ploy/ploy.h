@@ -21,18 +21,22 @@ typedef enum ObjectType {
 	OBJECT_SYMBOL,
 } ObjectType;
 
+struct Lambda {
+	struct Object const *args, *body;
+};
+
+struct List {
+	struct Object const *car, *cdr, *tail;
+};
+
 typedef struct Object {
 	ObjectType type;
 	union {
 		bool boolean;
 		char const *error;
 		char const *keyword;
-		struct {
-			struct Object const *args, *body;
-		} *lambda;
-		struct {
-			struct Object const *car, *cdr, *tail;
-		} *list;
+		struct Lambda *lambda;
+		struct List *list;
 		int64_t number;
 		char const *string;
 		char const *symbol;
