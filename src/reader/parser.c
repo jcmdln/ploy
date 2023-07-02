@@ -28,32 +28,18 @@ parse_form(Token const **tokens)
 
 		switch (token->type) {
 		// Character tokens
-		// case TOKEN_ARROW:
-		// case TOKEN_ASTERISK:
-		// case TOKEN_BACKTICK:
-		// case TOKEN_CARET:
 		case TOKEN_COLON:
 			object = parse_keyword(&token);
 			break;
-		// case TOKEN_EQUAL:
-		// case TOKEN_FORWARD_SLASH:
-		// case TOKEN_GREATER_OR_EQUAL:
-		// case TOKEN_GREATER_THAN:
-		// case TOKEN_LESS_OR_EQUAL:
-		// case TOKEN_LESS_THAN:
-		// case TOKEN_MINUS:
 		case TOKEN_PAREN_RIGHT:
 			object = &Nil;
 			break;
 		case TOKEN_PAREN_LEFT:
 			object = parse_list(&token);
 			break;
-		// case TOKEN_PERCENT:
-		// case TOKEN_PLUS:
 		case TOKEN_QUOTE_DOUBLE:
 			object = parse_string(&token);
 			break;
-			// case TOKEN_SINGLE_QUOTE:
 
 		// Atoms
 		case TOKEN_NUMBER:
