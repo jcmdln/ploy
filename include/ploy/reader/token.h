@@ -50,13 +50,12 @@ typedef enum TokenType {
 
 typedef struct Token {
 	TokenType type;
-	size_t index;
 	char const *data;
 	struct Token *next;
 	struct Token *tail;
 } Token;
 
-Token *token_init(TokenType type, size_t index, char const *data);
+Token *token_init(TokenType type, char const *data);
 void token_free(Token *token);
 
 Token *token_append(Token *tokens, Token *token);

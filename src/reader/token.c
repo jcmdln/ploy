@@ -11,11 +11,10 @@
 #include <ploy/reader/token.h>
 
 Token *
-token_init(TokenType type, size_t index, char const *const data)
+token_init(TokenType type, char const *const data)
 {
 	Token *const token = GC_MALLOC(sizeof(*token));
 	token->type = type;
-	token->index = index;
 	token->data = data;
 	return token;
 }

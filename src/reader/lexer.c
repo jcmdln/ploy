@@ -151,7 +151,7 @@ lex_number(size_t *index, char const **input)
 	char *const number = GC_MALLOC(length + 1);
 	memcpy(number, *input, length);
 
-	Token *const token = token_init(TOKEN_NUMBER, *index, number);
+	Token *const token = token_init(TOKEN_NUMBER, number);
 	*input = cursor;
 	*index += length;
 	return token;
@@ -168,12 +168,12 @@ lex_symbol(size_t *index, char const **input)
 		++length;
 	}
 
-	if (length == 0) return token_init(TOKEN_ERROR, *index, "lex_symbol: length is zero");
+	if (length == 0) return token_init(TOKEN_ERROR, "lex_symbol: length is zero");
 
 	char *const symbol = GC_MALLOC(length + 1);
 	memcpy(symbol, *input, length);
 
-	Token *token = token_init(TOKEN_SYMBOL, *index, symbol);
+	Token *token = token_init(TOKEN_SYMBOL, symbol);
 	*input = cursor;
 	*index += length;
 	return token;
@@ -182,7 +182,7 @@ lex_symbol(size_t *index, char const **input)
 Token *
 lex_token(TokenType type, char const **cursor, size_t *index, char const *const data)
 {
-	Token *token = token_init(type, *index, data);
+	Token *token = token_init(type, data);
 	size_t length = strlen(data);
 	*cursor += length;
 	*index += length;
