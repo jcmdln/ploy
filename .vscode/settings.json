@@ -1,4 +1,3 @@
-// SPDX-License-Identifier: ISC
 {
   "clangd.arguments": [
     // Don't automatically add missing headers

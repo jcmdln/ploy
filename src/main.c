@@ -10,10 +10,9 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 
-#include <ploy/ploy.h>
-#include <ploy/reader/reader.h>
+#include <ploy/core.h>
 
-int repf(char *path);
+int repf(char const *path);
 int repl(void);
 
 int
@@ -55,9 +54,9 @@ main(int argc, char **argv)
 
 	if (opt_exec) {
 		Print(Eval(Read(argv[2])));
-	} else if (opt_file) {
-		return repf(argv[2]);
+		putchar('\n');
 	} else {
+		if (opt_file) return repf(argv[2]);
 		return repl();
 	}
 
@@ -65,9 +64,9 @@ main(int argc, char **argv)
 }
 
 int
-repf(char *path)
+repf(char const *path)
 {
-	FILE *file = fopen(path, "r");
+	FILE *const file = fopen(path, "r");
 	if (!file) {
 		printf("error: failed to fopen '%s'\n", path);
 		return EXIT_FAILURE;
@@ -75,16 +74,19 @@ repf(char *path)
 
 	char *buffer = NULL;
 	size_t buffer_length = 0;
+	int retval = EXIT_SUCCESS;
 	if (getdelim(&buffer, &buffer_length, EOF, file) == -1) {
-		printf("error: failed to read FILE\n");
-		if (buffer) free(buffer);
-		return EXIT_FAILURE;
+		puts("error: failed to read FILE");
+		retval = EXIT_FAILURE;
+	} else {
+		Print(Eval(Read(buffer)));
+		putchar('\n');
 	}
 
-	Print(Eval(Read(buffer)));
+	if (buffer) free(buffer);
+	(void)fclose(file);
 
-	free(buffer);
-	return EXIT_SUCCESS;
+	return retval;
 }
 
 int
@@ -93,11 +95,14 @@ repl(void)
 	puts("ploy v0.0.0\n");
 
 	while (true) {
-		char *input = readline("λ ");
-		if (!input || strlen(input) < 1) continue;
+		char *const input = readline("λ ");
+		if (!input) continue;
 
 		add_history(input);
 		Print(Eval(Read(input)));
+		free(input);
+
+		putchar('\n');
 	}
 
 	return EXIT_SUCCESS;

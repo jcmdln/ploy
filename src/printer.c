@@ -3,45 +3,37 @@
 // Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
 
 #include <stdio.h>
-#include <string.h>
 
-#include <ploy/ploy.h>
-#include <ploy/printer.h>
+#include <ploy/core.h>
 
 void print_list(Object const *list);
 
 void
-printer(Object const *const object)
+printer(Object const *object)
 {
 	if (!object) return;
 
 	switch (object->type) {
-	case OBJECT_NIL:
+	case TYPE_NIL:
 		printf("nil");
 		break;
-	case OBJECT_BOOLEAN:
+	case TYPE_BOOLEAN:
 		printf(object->boolean ? "true" : "false");
 		break;
-	case OBJECT_ERROR:
-		printf("error: %s\n", object->error);
+	case TYPE_ERROR:
+		printf("error: %s\n", object->string);
 		break;
-	case OBJECT_KEYWORD:
-		printf(":%s", object->keyword);
-		break;
-	case OBJECT_LAMBDA:
-		printf("<lambda>");
-		break;
-	case OBJECT_LIST:
+	case TYPE_LIST:
 		print_list(object);
 		break;
-	case OBJECT_NUMBER:
+	case TYPE_NUMBER:
 		printf("%ld", object->number);
 		break;
-	case OBJECT_STRING:
+	case TYPE_STRING:
 		printf("\"%s\"", object->string);
 		break;
-	case OBJECT_SYMBOL:
-		printf("%s", object->symbol);
+	case TYPE_SYMBOL:
+		printf("%s", object->string);
 		break;
 	}
 }
@@ -51,27 +43,15 @@ print_list(Object const *list)
 {
 	putchar('(');
 
-	while (list && list->type != OBJECT_NIL) {
-		if (list->type != OBJECT_LIST) {
-			printf(" . ");
-			printer(list);
-			break;
-		}
-
+	while (list->type != TYPE_NIL) {
 		Object const *const car = Car(list);
-		Object const *const cdr = Cdr(list);
-
-		if (car->type == OBJECT_NIL && cdr->type == OBJECT_NIL) {
-			list = cdr;
-			continue;
-		}
-
+		if (car->type == TYPE_NIL) break;
 		printer(car);
 
-		if (car->type != OBJECT_NIL && cdr->type != OBJECT_NIL)
-			if (Car(cdr)->type != OBJECT_NIL || Cdr(cdr)->type != OBJECT_NIL) putchar(' ');
-
-		list = cdr;
+		Object const *const cdr = Cdr(list);
+		if (cdr->type == TYPE_NIL) break;
+		if (Car(cdr)->type != TYPE_NIL || Cdr(cdr)->type != TYPE_NIL) putchar(' ');
+		list = Cdr(list);
 	}
 
 	putchar(')');

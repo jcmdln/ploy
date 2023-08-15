@@ -8,6 +8,14 @@
       "program": "${workspaceFolder}/builddir/ploy",
       "args": [],
       "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Test Core",
+      "program": "${workspaceFolder}/builddir/test/core",
+      "args": [],
+      "cwd": "${workspaceFolder}"
     }
   ]
 }

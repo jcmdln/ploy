@@ -20,3 +20,7 @@ tab_width = 4
 [*.{json{,c},y{,a}ml}]
 indent_size = 2
 tab_width = 2
+
+[*.ploy]
+indent_size = 2
+tab_width = 2

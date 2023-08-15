@@ -40,12 +40,12 @@ ninja -C builddir
 ```
 
 When setting up the meson builddir, you may want to consider setting additional
-environment variables to specify an alternate compiler, linker or ninja
+environment variables to specify an alternate compiler, linker, meson or ninja
 implementation:
 
 ```sh
 CC="clang" CC_LD="mold" NINJA="samu" \
-muon setup -Dbuildtype=debugoptimized -Dwerror=true -Db_sanitize=address,undefined builddir
+muon setup -Db_sanitize=address,undefined -Dbuildtype=debugoptimized -Dwerror=true builddir
 samu -C builddir
 ```
 
@@ -71,13 +71,21 @@ ninja -C builddir clang-tidy
 
 ## Test
 
-No real tests are written, but the plumbing is workable.
+This section describes how to run tests.
+
+### meson
+
+- https://github.com/mesonbuild/meson/issues/2518
+- https://github.com/mesonbuild/meson/pull/6511
 
 ```sh
-# FIXME: https://github.com/mesonbuild/meson/issues/2518
-# FIXME: https://github.com/mesonbuild/meson/pull/6511
-meson configure builddir -Dtest=true
 ninja -C builddir test
+```
+
+### muon
+
+```sh
+muon -C builddir test
 ```
 
 ## Run
@@ -106,9 +114,9 @@ ninja -C builddir uninstall
 
 # Special Thanks
 
-- http://www.paulgraham.com/lisp.html
-- https://github.com/kanaka/mal
+- https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)
 - https://github.com/rui314/minilisp
 - https://github.com/krig/LISP
-- https://buildyourownlisp.com/
+- https://github.com/jart/sectorlisp
 - https://www.gnu.org/software/mes/
+- https://github.com/kanaka/mal

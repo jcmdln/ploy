@@ -28,7 +28,9 @@ compiler_args = [
   '-fno-trigraphs',
   '-Werror=cast-qual',
   '-Werror=implicit-int',
+  '-Werror=restrict',
   '-Werror=strict-prototypes',
+  '-Werror=switch',
   '-Werror=vla',
   '-Werror=write-strings',
   '-Wno-error=pedantic',
@@ -36,10 +38,6 @@ compiler_args = [
   '-Wno-error=unused-parameter',
   '-Wno-error=unused-result',
   '-Wno-error=unused-variable',
-
-  # FIXME: These are temporarily downgraded to warnings
-  '-Wno-error=restrict',
-  '-Wno-error=switch',
 ]
 
 if compiler.get_id().startswith('clang')
@@ -86,13 +84,20 @@ readline = dependency('readline', required: true)
 # Executables
 #
 
-ploy_include = []
 ploy_include_dirs = include_directories('include')
-subdir('include')
+ploy_include = files(
+  'include/ploy/core.h',
+  'include/ploy/type.h',
+)
 
-ploy_src = []
 ploy_src_main = files('src/main.c')
-subdir('src')
+ploy_src = files(
+  'src/core.c',
+  'src/math.c',
+  'src/printer.c',
+  'src/reader.c',
+  'src/type.c',
+)
 
 executable('ploy',
   dependencies: [bdwgc, readline],
@@ -100,7 +105,6 @@ executable('ploy',
   install: true,
   sources: [ploy_src, ploy_src_main],
 )
-
 
 #
 # Tests

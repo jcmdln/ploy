@@ -15,4 +15,4 @@ configuring other editors.
 
 1. Install the [debug dependencies](../README.md#debug)
 2. Install `@recommended` VSCode extensions in `Workspace Recommendations`
-3. Reload VSCode
+3. Reload VSCode if prompted
