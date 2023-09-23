@@ -11,6 +11,7 @@
 #include <readline/readline.h>
 
 #include <ploy/core.h>
+#include <ploy/math.h>
 
 int repf(char const *path);
 int repl(void);

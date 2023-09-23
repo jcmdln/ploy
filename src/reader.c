@@ -10,7 +10,6 @@
 
 #include <ploy/core.h>
 
-// static Object const *SYMBOLS = &NIL;
 static char const TOKENS[11] = " \n\r\t\v;()\"\0";
 
 Object const *read_delimiters(char const *input, char begin, char end);
@@ -56,7 +55,7 @@ read_delimiters(char const *const input, char const begin, char const end)
 }
 
 Object const *
-read_form(size_t const *index, char const **input)
+read_form(size_t const *index, char const **const input)
 {
 	if (!input) return Error("reader: input is NULL");
 
@@ -80,6 +79,7 @@ read_form(size_t const *index, char const **input)
 
 		// Comment
 		case ';':
+		case '#':
 			while (*cursor && *++cursor != '\n')
 				++length;
 			continue;
@@ -95,11 +95,10 @@ read_form(size_t const *index, char const **input)
 		// Number
 		case '-':
 		case '+':
-			if (isdigit(cursor[1])) {
+			if (isdigit(cursor[1]))
 				object = read_number(&length, &cursor);
-			} else {
+			else
 				object = read_symbol(&length, &cursor);
-			}
 			break;
 		case '0':
 		case '1':
@@ -182,7 +181,7 @@ read_number(size_t *const index, char const **const input)
 }
 
 Object const *
-read_string(size_t *const index, char const **input)
+read_string(size_t *const index, char const **const input)
 {
 	char const *cursor = *input;
 	size_t length = 0;
@@ -209,7 +208,7 @@ read_string(size_t *const index, char const **input)
 }
 
 Object const *
-read_symbol(size_t *const index, char const **input)
+read_symbol(size_t *const index, char const **const input)
 {
 	char const *cursor = *input;
 	size_t length = 0;

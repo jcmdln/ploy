@@ -19,11 +19,15 @@ main(void)
 	assert(nil != NULL);
 	assert(nil->type == TYPE_ERROR);
 
-	// (* 2 3 7)
-	Object const *multiply = Multiply(Cons(Number(2), Cons(Number(3), Cons(Number(7), &NIL))));
+	Object const *multiply = Multiply(Read("2 3 7"));
 	assert(multiply != NULL);
 	assert(multiply->type == TYPE_NUMBER);
 	assert(multiply->number == 42);
+
+	Object const *multiply_alt = Multiply(Cons(Number(2), Cons(Number(3), Cons(Number(7), &NIL))));
+	assert(multiply_alt != NULL);
+	assert(multiply_alt->type == TYPE_NUMBER);
+	assert(multiply->number == multiply_alt->number);
 
 	return EXIT_SUCCESS;
 }

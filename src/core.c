@@ -8,15 +8,16 @@
 #include <gc/gc.h>
 
 #include <ploy/core.h>
-
-void printer(Object const *object);
-Object const *reader(char const *input);
+#include <ploy/evaluator.h>
+#include <ploy/printer.h>
+#include <ploy/reader.h>
 
 Object const *
 Append(Object const *target, Object const *const object)
 {
 	if (!object) return Error("Append: object is NULL");
 	if (!target || target->type == TYPE_NIL) return Cons(object, &NIL);
+
 	if (target->type != TYPE_LIST) target = Cons(target, &NIL);
 
 	Object const *head = target;
@@ -27,6 +28,7 @@ Append(Object const *target, Object const *const object)
 	}
 
 	if (cdr->type != TYPE_NIL) return Error("Append: cdr->type not of TYPE_NIL");
+
 	head->list->cdr = Cons(object, &NIL);
 	return target;
 }
@@ -68,7 +70,7 @@ Eval(Object const *const object)
 {
 	if (!object) return Error("Eval: object is NULL");
 
-	return object;
+	return evaluator(object);
 }
 
 Object const *

@@ -23,6 +23,9 @@ printer(Object const *object)
 	case TYPE_ERROR:
 		printf("error: %s\n", object->string);
 		break;
+	// case TYPE_LAMBDA:
+	// 	printf("lambda");
+	// 	break;
 	case TYPE_LIST:
 		print_list(object);
 		break;

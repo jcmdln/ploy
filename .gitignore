@@ -31,6 +31,9 @@
 !include/**/
 !include/**/*.h
 !include/**/meson.build
+!ploy/
+!ploy/**/
+!ploy/**/*.ploy
 !src/
 !src/**/
 !src/**/*.c

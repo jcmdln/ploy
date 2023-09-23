@@ -9,6 +9,7 @@ on:
     paths:
       - .clang-format
       - .clang-tidy
+      - .clangd
       - .github/workflows/lint.yml
       - .prettierrc.yml
       - include/**/*.h
@@ -19,6 +20,7 @@ on:
     paths:
       - .clang-format
       - .clang-tidy
+      - .clangd
       - .github/workflows/lint.yml
       - .prettierrc.yml
       - include/**/*.h
@@ -28,7 +30,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  lint:
     strategy:
       fail-fast: false
       matrix:
@@ -37,7 +39,9 @@ jobs:
           - name: clang-tidy
         os:
           - name: ubuntu-latest
-            deps: libasan5 libgc-dev libreadline-dev libubsan1 meson pkgconf
+            deps: >
+              clang clang-format clang-tidy libasan5 libubsan1 lld meson
+              libgc-dev libreadline-dev
 
     name: ${{ matrix.linter.name }} (${{ matrix.os.name }})
     runs-on: ${{ matrix.os.name }}
@@ -55,23 +59,17 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y ${{ matrix.os.deps }}
+          sudo apt-get install -y --no-install-recommends --no-install-suggests ${{ matrix.os.deps }}
 
-      - name: Run Meson
+      - name: Test Ploy (Debug)
         env:
           CC: clang
           CC_LD: lld
+          NINJA: ninja
         run: |
-          meson --version
-          meson builddir -Dbuildtype=debugoptimized -Dwerror=true -Db_sanitize=address,undefined
-
-      - name: Build Ploy (Debug)
-        run: |
-          ninja --version
-          ninja -C builddir
+          meson setup builddir -Db_sanitize=address,undefined -Dbuildtype=debugoptimized -Dwerror=true
+          ninja -C builddir test
 
       - name: Run ${{ matrix.linter.name }}
         run: |
-          ninja --version
-          ${{ matrix.linter.name }} --version
           ninja -C builddir ${{ matrix.linter.name }}

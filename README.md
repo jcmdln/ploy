@@ -24,7 +24,7 @@ By default, Meson will perform a simple release build. See `default_options` in
 
 ```sh
 sudo dnf install -y gc-devel meson pkgconf readline-devel
-meson builddir
+meson setup builddir
 ninja -C builddir
 ```
 
@@ -35,7 +35,7 @@ the specified options with Meson:
 
 ```sh
 sudo dnf install -y clang-tools-extra gc-devel libasan libubsan meson pkgconf readline-devel
-meson builddir -Dbuildtype=debugoptimized -Dwerror=true -Db_sanitize=address,undefined
+meson setup builddir -Db_sanitize=address,undefined -Dbuildtype=debugoptimized -Dwerror=true
 ninja -C builddir
 ```
 

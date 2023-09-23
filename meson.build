@@ -87,12 +87,17 @@ readline = dependency('readline', required: true)
 ploy_include_dirs = include_directories('include')
 ploy_include = files(
   'include/ploy/core.h',
+  'include/ploy/evaluator.h',
+  'include/ploy/math.h',
+  'include/ploy/printer.h',
+  'include/ploy/reader.h',
   'include/ploy/type.h',
 )
 
 ploy_src_main = files('src/main.c')
 ploy_src = files(
   'src/core.c',
+  'src/evaluator.c',
   'src/math.c',
   'src/printer.c',
   'src/reader.c',
@@ -117,7 +122,10 @@ subdir('test')
 # Lints
 #
 
-ploy_files = [] + ploy_include + ploy_src + ploy_src_main + ploy_test
+run_target('clang-format', command: [
+  'clang-format', '--dry-run', '--verbose', '--Werror',
+  ploy_include, ploy_src, ploy_src_main, ploy_test])
 
-run_target('clang-format', command: ['clang-format', '--dry-run', '--Werror', ploy_files])
-run_target('clang-tidy', command: ['clang-tidy', '-p', '.', ploy_files])
+run_target('clang-tidy', command: [
+  'clang-tidy', '--quiet', '-p', 'builddir/',
+  ploy_include, ploy_src, ploy_src_main, ploy_test])
