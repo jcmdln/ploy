@@ -41,11 +41,10 @@ read_delimiters(char const *const input, char const begin, char const end)
 	int64_t balanced = 0;
 
 	do {
-		if (*cursor == begin) {
+		if (*cursor == begin)
 			++balanced;
-		} else if (*cursor == end) {
+		else if (*cursor == end)
 			--balanced;
-		}
 	} while (*++cursor);
 
 	if (balanced < 0) return Error("read_delimiters: missing begin");

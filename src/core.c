@@ -100,7 +100,10 @@ Reverse(Object const *const object)
 	Object const *reversed = &NIL;
 	while (head->type == TYPE_LIST) {
 		Object const *car = Car(head);
-		reversed = (car->type == TYPE_LIST) ? Cons(Reverse(car), reversed) : Cons(car, reversed);
+		if (car->type == TYPE_LIST)
+			reversed = Cons(Reverse(car), reversed);
+		else
+			reversed = Cons(car, reversed);
 		head = Cdr(head);
 	}
 	return reversed;

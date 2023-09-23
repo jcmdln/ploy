@@ -18,7 +18,10 @@ printer(Object const *object)
 		printf("nil");
 		break;
 	case TYPE_BOOLEAN:
-		printf(object->boolean ? "true" : "false");
+		if (object->boolean)
+			printf("true");
+		else
+			printf("false");
 		break;
 	case TYPE_ERROR:
 		printf("error: %s\n", object->string);
