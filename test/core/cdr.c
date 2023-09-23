@@ -18,7 +18,7 @@ main(void)
 	assert(nil != NULL);
 	assert(nil->type == TYPE_ERROR);
 
-	Object const *cdr = Cdr(Read("42 \"wew\""));
+	Object const *cdr = Cdr(Cons(Number(42), Cons(String("wew"), &NIL)));
 	assert(cdr != NULL);
 	assert(cdr->type == TYPE_LIST);
 

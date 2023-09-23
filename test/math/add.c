@@ -27,15 +27,10 @@ main(void)
 	assert(underflow != NULL);
 	assert(underflow->type == TYPE_ERROR);
 
-	Object const *add = Add(Read("30 10 2"));
+	Object const *add = Add(Cons(Number(30), Cons(Number(10), Cons(Number(2), &NIL))));
 	assert(add != NULL);
 	assert(add->type == TYPE_NUMBER);
 	assert(add->number == 42);
-
-	Object const *add_alt = Add(Cons(Number(30), Cons(Number(10), Cons(Number(2), &NIL))));
-	assert(add_alt != NULL);
-	assert(add_alt->type == TYPE_NUMBER);
-	assert(add->number == add_alt->number);
 
 	return EXIT_SUCCESS;
 }

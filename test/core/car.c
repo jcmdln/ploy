@@ -18,7 +18,7 @@ main(void)
 	assert(nil != NULL);
 	assert(nil->type == TYPE_ERROR);
 
-	Object const *car = Car(Read("42 \"wew\""));
+	Object const *car = Car(Cons(Number(42), Cons(String("wew"), &NIL)));
 	assert(car != NULL);
 	assert(car->type == TYPE_NUMBER);
 

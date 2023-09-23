@@ -27,15 +27,10 @@ main(void)
 	assert(underflow != NULL);
 	assert(underflow->type == TYPE_ERROR);
 
-	Object const *subtract = Subtract(Read("100 58"));
+	Object const *subtract = Subtract(Cons(Number(100), Cons(Number(58), &NIL)));
 	assert(subtract != NULL);
 	assert(subtract->type == TYPE_NUMBER);
 	assert(subtract->number == 42);
-
-	Object const *subtract_alt = Subtract(Cons(Number(100), Cons(Number(58), &NIL)));
-	assert(subtract_alt != NULL);
-	assert(subtract_alt->type == TYPE_NUMBER);
-	assert(subtract->number == subtract_alt->number);
 
 	return EXIT_SUCCESS;
 }

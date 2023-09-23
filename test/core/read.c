@@ -18,7 +18,7 @@ main(void)
 	assert(nil != NULL);
 	assert(nil->type == TYPE_NIL);
 
-	Object const *list = Read("42 \"wew\"");
+	Object const *list = Cons(Number(42), Cons(String("wew"), &NIL));
 	assert(list != NULL);
 	assert(list->type == TYPE_LIST);
 

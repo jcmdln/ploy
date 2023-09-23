@@ -18,7 +18,7 @@ main(void)
 	assert(nil != NULL);
 	assert(nil->type == TYPE_NIL);
 
-	Object const *list = Reverse(Read("42 \"wew\""));
+	Object const *list = Reverse(Cons(Number(42), Cons(String("wew"), &NIL)));
 	assert(list != NULL);
 	assert(list->type == TYPE_LIST);
 
