@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Linux-Clang",
+    "compilers": {
+      "C": "/usr/bin/clang",
+      "CXX": "/usr/bin/clang++"
+    }
+  },
+  {
+    "name": "Linux-Clang-Mold",
+    "compilers": {
+      "C": "/usr/bin/clang",
+      "CXX": "/usr/bin/clang++",
+      "LD": "/usr/bin/mold"
+    }
+  },
+  {
+    "name": "Linux-GCC",
+    "compilers": {
+      "C": "/usr/bin/gcc",
+      "CXX": "/usr/bin/g++"
+    }
+  },
+  {
+    "name": "Linux-GCC-Mold",
+    "compilers": {
+      "C": "/usr/bin/gcc",
+      "CXX": "/usr/bin/g++",
+      "LD": "/usr/bin/mold"
+    }
+  }
+]

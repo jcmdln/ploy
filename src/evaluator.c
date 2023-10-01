@@ -4,8 +4,6 @@
 
 #include <stdlib.h>
 
-#include <gc/gc.h>
-
 #include <ploy/core.h>
 
 Object const *

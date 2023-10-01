@@ -39,37 +39,40 @@ jobs:
           - name: clang-tidy
         os:
           - name: ubuntu-latest
-            deps: >
-              clang clang-format clang-tidy libasan5 libubsan1 lld meson
-              libgc-dev libreadline-dev
+            deps: clang clang-format clang-tidy cmake git libasan5 libubsan1 lld ninja
 
     name: ${{ matrix.linter.name }} (${{ matrix.os.name }})
     runs-on: ${{ matrix.os.name }}
 
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup meson cache
-        uses: actions/cache@v3
-        id: meson
+      - uses: actions/checkout@v4
         with:
-          key: meson-${{ hashFiles('**/meson.build', 'meson_options.txt') }}
-          path: builddir/
+          submodules: true
+
+      - name: Setup build cache
+        uses: actions/cache@v3
+        id: build
+        with:
+          key: build-${{ hashFiles('**/CMakeLists.txt', '**/*.c', '**/*.h') }}
+          path: build/
 
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends --no-install-suggests ${{ matrix.os.deps }}
+          sudo apt-get install -y --no-install-{recommends,suggests} ${{ matrix.os.deps }}
 
-      - name: Test Ploy (Debug)
+      # TODO(jcmdln): Test ploy
+      - name: Build Ploy (Debug)
         env:
           CC: clang
           CC_LD: lld
           NINJA: ninja
         run: |
-          meson setup builddir -Db_sanitize=address,undefined -Dbuildtype=debugoptimized -Dwerror=true
-          ninja -C builddir test
+          mkdir build
+          cd build
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug
+          ninja -C build
 
       - name: Run ${{ matrix.linter.name }}
         run: |
-          ninja -C builddir ${{ matrix.linter.name }}
+          ninja -C build ${{ matrix.linter.name }}

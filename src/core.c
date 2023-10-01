@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <gc/gc.h>
+#include <gc.h>
 
 #include <ploy/core.h>
 #include <ploy/evaluator.h>

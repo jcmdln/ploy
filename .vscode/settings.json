@@ -4,8 +4,10 @@
     "--header-insertion=never"
   ],
 
-  // Set meson build directory to "builddir"
-  "mesonbuild.buildFolder": "builddir",
+  // Don't immediately pester the user on open of the project
+  "cmake.configureOnOpen": false,
+  // Stop focusing CMake logs
+  "cmake.revealLog": "never",
 
   // Make Prettier the default formatter
   "editor.defaultFormatter": "esbenp.prettier-vscode",

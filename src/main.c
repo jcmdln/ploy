@@ -6,9 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <gc/gc.h>
-#include <readline/history.h>
-#include <readline/readline.h>
+#include <bestline.h>
+#include <gc.h>
 
 #include <ploy/core.h>
 #include <ploy/math.h>
@@ -96,10 +95,9 @@ repl(void)
 	puts("ploy v0.0.0\n");
 
 	while (true) {
-		char *const input = readline("λ ");
+		char *const input = bestlineWithHistory("λ ", "ploy");
 		if (!input) continue;
 
-		add_history(input);
 		Print(Eval(Read(input)));
 		free(input);
 

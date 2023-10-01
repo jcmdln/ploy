@@ -2,7 +2,7 @@
 //
 // Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
 
-#include <gc/gc.h>
+#include <gc.h>
 
 #include <ploy/type.h>
 

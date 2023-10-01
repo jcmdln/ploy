@@ -21,6 +21,10 @@ tab_width = 4
 indent_size = 2
 tab_width = 2
 
+[*.{markdown,md,mkdn}]
+indent_size = 2
+tab_width = 2
+
 [*.ploy]
 indent_size = 2
 tab_width = 2
