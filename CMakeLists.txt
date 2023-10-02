@@ -18,8 +18,6 @@ add_executable(ploy
 target_include_directories(ploy
 PUBLIC
     ${PROJECT_SOURCE_DIR}/include
-PRIVATE
-    ${PROJECT_SOURCE_DIR}/src
 )
 
 #
@@ -132,7 +130,7 @@ COMMAND
 
 add_custom_target(clang-tidy
 COMMAND
-    clang-tidy -p ${PROJECT_SOURCE_DIR}/build/
+    clang-tidy -p ${PROJECT_SOURCE_DIR}/build
         ${PROJECT_SOURCE_DIR}/include/**/*.h
         ${PROJECT_SOURCE_DIR}/src/*.c
 )

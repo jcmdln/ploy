@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
+---
+FormatStyle: file
+HeaderFilterRegex: "*"
+InheritParentConfig: true
+
+Checks: -*
+WarningsAsErrors: -*

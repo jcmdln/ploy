@@ -39,7 +39,7 @@ jobs:
           - name: clang-tidy
         os:
           - name: ubuntu-latest
-            deps: clang clang-format clang-tidy cmake git libasan5 libubsan1 lld ninja
+            deps: clang clang-format clang-tidy cmake git libasan5 libubsan1 lld ninja-build
 
     name: ${{ matrix.linter.name }} (${{ matrix.os.name }})
     runs-on: ${{ matrix.os.name }}
@@ -65,14 +65,17 @@ jobs:
       - name: Build Ploy (Debug)
         env:
           CC: clang
-          CC_LD: lld
-          NINJA: ninja
+          CXX: clang++
+          LD: lld
         run: |
-          mkdir build
+          [ ! -e build ] && mkdir build
           cd build
-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug
-          ninja -C build
+          cmake -G Ninja .. \
+            -DCMAKE_BUILD_TYPE:STRING=Debug \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE
+          ninja
 
+      # TODO(jcmdln): Only in actions, clang-tidy warns about suppressed warnings
       - name: Run ${{ matrix.linter.name }}
         run: |
           ninja -C build ${{ matrix.linter.name }}
