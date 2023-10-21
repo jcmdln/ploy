@@ -3,134 +3,96 @@
 # Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
 
 cmake_minimum_required(VERSION 3.13)
-project(Ploy LANGUAGES C VERSION 0.0.0)
+project(Ploy LANGUAGES C VERSION 0.0.1)
 
 add_executable(ploy
+    src/main.c
     src/core.c
     src/evaluator.c
-    src/main.c
     src/math.c
     src/printer.c
     src/reader.c
     src/type.c
 )
 
-target_include_directories(ploy
-PUBLIC
-    ${PROJECT_SOURCE_DIR}/include
-)
+target_include_directories(ploy PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 #
 # Compilation
 #
 
-target_compile_features(ploy
-PRIVATE
-    c_std_11
-)
+target_compile_features(ploy PRIVATE c_std_11)
 
-target_compile_options(ploy
-PRIVATE
-    -flto
+target_compile_options(ploy PRIVATE
+    -DPLOY_VERSION=\"${CMAKE_PROJECT_VERSION}\"
     -fshort-wchar -fstrict-aliasing -funsigned-char
     -Wall -Wextra -pedantic
     -Werror=cast-qual
+    -Werror=conversion
     -Werror=implicit-int
     -Werror=strict-prototypes
     -Werror=switch
     -Werror=vla
     -Werror=write-strings
-    -Wno-error=pedantic
-    -Wno-error=unused-but-set-parameter
-    -Wno-error=unused-parameter
-    -Wno-error=unused-result
-    -Wno-error=unused-variable
 )
 
-target_link_options(ploy
-PRIVATE
-    -flto
-)
-
-if (CMAKE_C_COMPILER_ID MATCHES "Clang")
-    target_compile_options(ploy
-    PRIVATE
-        -Werror=ignored-qualifiers
-        -Werror=unreachable-code-break
-        -Werror=unreachable-code-return
-    )
-elseif (CMAKE_C_COMPILER_ID MATCHES "GNU")
-    target_compile_options(ploy
-    PRIVATE
-        -Werror=discarded-qualifiers
-        -Werror=switch-unreachable
-    )
+option(PLOY_LTO "Build ploy with link-time optimization" OFF)
+if (PLOY_LTO)
+    target_compile_options(ploy PRIVATE -flto)
+    target_link_options(ploy PRIVATE -flto)
 endif()
 
-if (CMAKE_BUILD_TYPE MATCHES "Debug")
-    target_compile_options(ploy
-    PRIVATE
-        -fsanitize=address
-        -fsanitize=undefined
-    )
-    target_link_options(ploy
-    PRIVATE
-        -fsanitize=address
-        -fsanitize=undefined
-    )
+option(PLOY_USE_ASAN "Build ploy with AddressSanitizer" OFF)
+if (PLOY_USE_ASAN)
+    target_compile_options(ploy PRIVATE -fsanitize=address,undefined)
+    target_link_options(ploy PRIVATE -fsanitize=address,undefined)
+endif()
 
-    if (CMAKE_C_COMPILER_ID MATCHES "Clang")
-        target_compile_options(ploy
-        PRIVATE
-            -fsanitize=float-divide-by-zero
-            -fsanitize=implicit-conversion
-            -fsanitize=integer
-            -fsanitize=nullability
-        )
-    elseif (CMAKE_C_COMPILER_ID MATCHES "GNU")
-        target_compile_options(ploy
-        PRIVATE
-            -fsanitize=pointer-compare
-            -fsanitize=pointer-subtract
-        )
-    endif()
+option(PLOY_USE_TSAN "Build ploy with ThreadSanitizer" OFF)
+if (PLOY_USE_TSAN)
+    target_compile_options(ploy PRIVATE -fsanitize=thread,undefined)
+    target_link_options(ploy PRIVATE -fsanitize=thread,undefined)
 endif()
 
 #
 # Dependencies
 #
 
-# https://github.com/ivmai/bdwgc
-# TODO(jcmdln): Find something smaller? Build my own GC?
-# TODO(jcmdln): Read https://github.com/orangeduck/tgc
-# TODO(jcmdln): Read https://github.com/bullno1/ugc
-# TODO(jcmdln): Read https://github.com/nyuichi/gc.h
-add_subdirectory(${PROJECT_SOURCE_DIR}/vendor/bdwgc)
+find_package(PkgConfig)
+if (PKG_CONFIG_FOUND)
+    pkg_check_modules(bdwgc REQUIRED IMPORTED_TARGET bdw-gc>=8)
+    pkg_check_modules(readline REQUIRED IMPORTED_TARGET readline>=8)
 
-# https://github.com/jart/bestline
-add_library(bestline SHARED ${PROJECT_SOURCE_DIR}/vendor/bestline/bestline.c)
-target_include_directories(bestline PUBLIC ${PROJECT_SOURCE_DIR}/vendor/bestline)
+    target_link_libraries(ploy PUBLIC
+        PkgConfig::bdwgc
+        PkgConfig::readline
+    )
+endif()
 
-target_link_libraries(ploy
-PRIVATE
-    bestline
-    gc
-)
+#
+# Ploy
+#
+
+# -DPLOY_BIN_DIR
+# -DPLOY_LIB_DIR
+# -DPLOY_VERSION
 
 #
 # Lints
 #
 
 add_custom_target(clang-format
-COMMAND
-    clang-format --dry-run --verbose --Werror
-        ${PROJECT_SOURCE_DIR}/include/**/*.h
-        ${PROJECT_SOURCE_DIR}/src/*.c
+COMMAND clang-format --dry-run --verbose --Werror
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/**/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
 )
 
 add_custom_target(clang-tidy
-COMMAND
-    clang-tidy -p ${PROJECT_SOURCE_DIR}/build
-        ${PROJECT_SOURCE_DIR}/include/**/*.h
-        ${PROJECT_SOURCE_DIR}/src/*.c
+COMMAND clang-tidy -p "${CMAKE_CURRENT_SOURCE_DIR}/build"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/**/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
 )
+
+#
+# Tests
+#

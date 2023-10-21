@@ -35,47 +35,40 @@ jobs:
       fail-fast: false
       matrix:
         linter:
-          - name: clang-format
-          - name: clang-tidy
+          - clang-format
+          - clang-tidy
         os:
           - name: ubuntu-latest
-            deps: clang clang-format clang-tidy cmake git libasan5 libubsan1 lld ninja-build
+            deps: clang{,-{format,tidy}} cmake git libasan5 libubsan1 lld ninja-build
 
-    name: ${{ matrix.linter.name }} (${{ matrix.os.name }})
+    name: ${{ matrix.linter }} (${{ matrix.os.name }})
     runs-on: ${{ matrix.os.name }}
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: true
-
-      - name: Setup build cache
-        uses: actions/cache@v3
-        id: build
-        with:
-          key: build-${{ hashFiles('**/CMakeLists.txt', '**/*.c', '**/*.h') }}
-          path: build/
+        with: { submodules: true }
 
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-{recommends,suggests} ${{ matrix.os.deps }}
 
-      # TODO(jcmdln): Test ploy
+      - name: Setup build cache
+        uses: actions/cache@v3
+        id: build
+        with:
+          key: ${{ hashFiles('**/CMakeLists.txt', 'src/*.c', 'include/**/*.h') }}
+          path: build/
+
       - name: Build Ploy (Debug)
-        env:
-          CC: clang
-          CXX: clang++
-          LD: lld
+        env: { CC: clang, CXX: clang++, LD: lld }
         run: |
           [ ! -e build ] && mkdir build
-          cd build
-          cmake -G Ninja .. \
-            -DCMAKE_BUILD_TYPE:STRING=Debug \
-            -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE
-          ninja
+          cmake -G Ninja -B build/ -S ./ \
+            -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"
+          ninja -C build/
 
       # TODO(jcmdln): Only in actions, clang-tidy warns about suppressed warnings
-      - name: Run ${{ matrix.linter.name }}
+      - name: Run ${{ matrix.linter }}
         run: |
-          ninja -C build ${{ matrix.linter.name }}
+          ninja -C build ${{ matrix.linter }}

@@ -1,6 +1,0 @@
-[submodule "vendor/bestline"]
-	path = vendor/bestline
-	url = https://github.com/jart/bestline
-[submodule "vendor/bdwgc"]
-	path = vendor/bdwgc
-	url = https://github.com/ivmai/bdwgc

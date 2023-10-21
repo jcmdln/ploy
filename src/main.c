@@ -6,11 +6,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <bestline.h>
-#include <gc.h>
+#include <gc/gc.h>
+#include <readline/history.h>
+#include <readline/readline.h>
 
 #include <ploy/core.h>
 #include <ploy/math.h>
+
+#ifndef PLOY_VERSION
+#define PLOY_VERSION "undefined"
+#endif
 
 int repf(char const *path);
 int repl(void);
@@ -23,6 +28,13 @@ usage(int exit_code)
 		   "  -e EXPR    Evaluate an expression\n"
 		   "  -f FILE    Evaluate contents of a FILE\n\n");
 	return exit_code;
+}
+
+void
+version(void)
+{
+	const char *version = (const char *)PLOY_VERSION;
+	printf("ploy version %s\n", version);
 }
 
 int
@@ -92,11 +104,12 @@ repf(char const *path)
 int
 repl(void)
 {
-	puts("ploy v0.0.0\n");
+	version();
 
 	while (true) {
-		char *const input = bestlineWithHistory("λ ", "ploy");
+		char *const input = readline("λ ");
 		if (!input) continue;
+		add_history(input);
 
 		Print(Eval(Read(input)));
 		free(input);

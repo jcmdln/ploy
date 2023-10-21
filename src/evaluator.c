@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include <ploy/core.h>
+#include <ploy/evaluator.h>
 
 Object const *
 evaluator(Object const *object)

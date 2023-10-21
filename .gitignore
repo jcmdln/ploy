@@ -14,6 +14,7 @@
 !.prettierrc.yml
 !LICENSE
 !CMakeLists.txt
+!Makefile
 !README.md
 
 # Include specific files from specific directories
@@ -34,9 +35,13 @@
 !include/**/
 !include/**/*.h
 
-!ploy/
-!ploy/**/
-!ploy/**/*.ploy
+!lib/
+!lib/ploy/
+!lib/ploy/**/
+!lib/ploy/**/*.ploy
+
+!man/
+!man/**
 
 !src/
 !src/**/
