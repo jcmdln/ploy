@@ -2,7 +2,7 @@
 #
 # Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
 ---
-name: Lint
+name: Test
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ on:
       - .clang-format
       - .clang-tidy
       - .clangd
-      - .github/workflows/lint.yml
+      - .github/workflows/test.yml
       - meson.build
       - include/**/*.h
       - src/**/*.c
@@ -20,7 +20,7 @@ on:
       - .clang-format
       - .clang-tidy
       - .clangd
-      - .github/workflows/lint.yml
+      - .github/workflows/test.yml
       - meson.build
       - include/**/*.h
       - src/**/*.c
@@ -28,27 +28,18 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint:
-    strategy:
-      fail-fast: false
-      matrix:
-        linter: [clang-format, clang-tidy]
-        os:
-          - name: ubuntu-latest
-            deps: >
-              clang{,-{format,tidy}} git lld meson ninja-build
-              libgc-dev libreadline-dev libasan5 libubsan1
-
-    name: ${{ matrix.linter }} (${{ matrix.os.name }})
-    runs-on: ${{ matrix.os.name }}
-
+  linux:
+    name: linux
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-{recommends,suggests} ${{ matrix.os.deps }}
+          sudo apt-get install -y --no-install-{recommends,suggests} \
+            clang{,-{format,tidy}} git lld meson ninja-build \
+            libgc-dev libreadline-dev libasan5 libubsan1
 
       - name: Build Ploy
         env: { CC: clang, CC_LD: lld, NINJA: ninja }
@@ -59,6 +50,9 @@ jobs:
       - name: Test Ploy
         run: ninja -C builddir test
 
+      - name: clang-format
+        run: ninja -C builddir clang-format
+
       # TODO(jcmdln): Only in actions, clang-tidy warns about suppressed warnings
-      - name: Run ${{ matrix.linter }}
-        run: ninja -C builddir ${{ matrix.linter }}
+      - name: clang-tidy
+        run: ninja -C builddir clang-tidy
