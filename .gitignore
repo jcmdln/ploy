@@ -13,7 +13,7 @@
 !.gitignore
 !.prettierrc.yml
 !LICENSE
-!CMakeLists.txt
+!meson.build
 !Makefile
 !README.md
 

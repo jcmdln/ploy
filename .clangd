@@ -3,7 +3,7 @@
 # Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
 ---
 CompileFlags:
-  CompilationDatabase: build
+  CompilationDatabase: builddir
 
 Diagnostics:
   UnusedIncludes: Strict

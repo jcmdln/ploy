@@ -3,15 +3,17 @@ Ploy is a (work-in-progress) lisp-like language for my own fun and learning.
 Building Ploy requires the following:
 
 - A [c11] compiler
-- [CMake] and [Ninja]
+- [Meson] (or [Muon]) and [Ninja] (or [Samurai])
 - [bdwgc]
-- [linenoise]
+- [GNU Readline][readline]
 
-[bdwgc]: http://www.hboehm.info/gc/
+[bdwgc]: https://github.com/ivmai/bdwgc
 [c11]: https://en.wikipedia.org/wiki/C11_(C_standard_revision)
-[cmake]: https://cmake.org/
+[meson]: https://mesonbuild.com/
+[muon]: https://muon.build/
 [ninja]: https://ninja-build.org/
-[linenoise]: https://github.com/antirez/linenoise
+[readline]: https://git.savannah.gnu.org/cgit/readline.git
+[samurai]: https://github.com/michaelforney/samurai
 
 # Using
 
@@ -19,48 +21,37 @@ This section describes various ways of using Ploy.
 
 ## Build
 
-This section describes building Ploy.
-
-```sh
-git clone --origin upstream --recurse-submodules https://github.com/jcmdln/ploy
-cd ploy
-```
-
 ### Release
-
-This section describes performing a release build of Ploy.
 
 ```sh
 # Fedora
-sudo dnf install -y cmake git ninja
+sudo dnf install -y gc-devel meson ninja-build pkgconf readline-devel
 ```
 
 ```sh
-mkdir build
-cd build
-cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release
-ninja
+meson setup builddir
+ninja -C builddir
 ```
 
 ### Debug
 
-This section describes performing a debug build of Ploy.
-
-If you don't want [ASan]/[UBSan], use `-DCMAKE_BUILD_TYPE=RelWithDebInfo`.
-
-[ASan]: https://clang.llvm.org/docs/AddressSanitizer.html
-[UBSan]: https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html
+When performing a debug build, install additional sanitizers and manually set
+the specified options with Meson:
 
 ```sh
-# Fedora
-sudo dnf install -y libasan libubsan
+sudo dnf install -y clang-tools-extra libasan libubsan
+meson setup builddir -Db_sanitize=address,undefined -Dbuildtype=debugoptimized
+ninja -C builddir
 ```
 
+When setting up the meson builddir, you may want to consider setting additional
+environment variables to specify an alternate compiler, linker, meson or ninja
+implementation:
+
 ```sh
-mkdir build
-cd build
-cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug
-ninja
+CC="clang" CC_LD="mold" NINJA="samu" \
+muon setup -Db_sanitize=address,undefined -Dbuildtype=debugoptimized builddir
+samu -C builddir
 ```
 
 ## Lint
@@ -77,7 +68,7 @@ sudo dnf install -y clang-tools-extra
 See [.clang-format](./.clang-format) for the settings:
 
 ```sh
-ninja -C build clang-format
+ninja -C builddir clang-format
 ```
 
 ### clang-tidy
@@ -85,19 +76,19 @@ ninja -C build clang-format
 See [.clang-tidy](./.clang-tidy) for the settings:
 
 ```sh
-ninja -C build clang-tidy
+ninja -C builddir clang-tidy
 ```
 
 ## Test
 
-This section describes how to run tests.
+```sh
+ninja -C builddir test
+```
 
 ## Run
 
-This section describes running Ploy
-
 ```sh
-$ ./build/ploy -h
+$ ./builddir/ploy -h
 usage: ploy [-h] [-e EXPR | -f FILE]
 
     -e      Evaluate an expression
@@ -107,18 +98,14 @@ usage: ploy [-h] [-e EXPR | -f FILE]
 
 ## Install
 
-This section describes installing Ploy.
-
 ```sh
-ninja -C build install
+ninja -C builddir install
 ```
 
 ## Uninstall
 
-This section describes uninstalling Ploy.
-
 ```sh
-ninja -C build uninstall
+ninja -C builddir uninstall
 ```
 
 # Special Thanks

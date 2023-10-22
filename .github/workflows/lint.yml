@@ -11,9 +11,8 @@ on:
       - .clang-tidy
       - .clangd
       - .github/workflows/lint.yml
-      - .prettierrc.yml
-      - include/**/*.h
       - meson.build
+      - include/**/*.h
       - src/**/*.c
       - src/**/meson.build
   push:
@@ -22,9 +21,8 @@ on:
       - .clang-tidy
       - .clangd
       - .github/workflows/lint.yml
-      - .prettierrc.yml
-      - include/**/*.h
       - meson.build
+      - include/**/*.h
       - src/**/*.c
       - src/**/meson.build
   workflow_dispatch:
@@ -34,41 +32,33 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        linter:
-          - clang-format
-          - clang-tidy
+        linter: [clang-format, clang-tidy]
         os:
           - name: ubuntu-latest
-            deps: clang{,-{format,tidy}} cmake git libasan5 libubsan1 lld ninja-build
+            deps: >
+              clang{,-{format,tidy}} git lld meson ninja-build
+              libgc-dev libreadline-dev libasan5 libubsan1
 
     name: ${{ matrix.linter }} (${{ matrix.os.name }})
     runs-on: ${{ matrix.os.name }}
 
     steps:
       - uses: actions/checkout@v4
-        with: { submodules: true }
 
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-{recommends,suggests} ${{ matrix.os.deps }}
 
-      - name: Setup build cache
-        uses: actions/cache@v3
-        id: build
-        with:
-          key: ${{ hashFiles('**/CMakeLists.txt', 'src/*.c', 'include/**/*.h') }}
-          path: build/
-
-      - name: Build Ploy (Debug)
-        env: { CC: clang, CXX: clang++, LD: lld }
+      - name: Build Ploy
+        env: { CC: clang, CC_LD: lld, NINJA: ninja }
         run: |
-          [ ! -e build ] && mkdir build
-          cmake -G Ninja -B build/ -S ./ \
-            -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"
-          ninja -C build/
+          meson setup builddir -Db_sanitize=address,undefined -Dbuildtype=debugoptimized
+          ninja -C builddir
+
+      - name: Test Ploy
+        run: ninja -C builddir test
 
       # TODO(jcmdln): Only in actions, clang-tidy warns about suppressed warnings
       - name: Run ${{ matrix.linter }}
-        run: |
-          ninja -C build ${{ matrix.linter }}
+        run: ninja -C builddir ${{ matrix.linter }}
