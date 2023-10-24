@@ -1,7 +1,3 @@
-// SPDX-License-Identifier: ISC
-//
-// Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
-
 #include <assert.h>
 #include <stdlib.h>
 
@@ -11,26 +7,26 @@
 int
 main(void)
 {
-	Object const *null = Add(NULL);
+	Object *null = Add(NULL);
 	assert(null != NULL);
-	assert(null->type == TYPE_ERROR);
+	assert(null->type == ERROR);
 
-	Object const *nil = Add(&NIL);
+	Object *nil = Add(Nil);
 	assert(nil != NULL);
-	assert(nil->type == TYPE_ERROR);
+	assert(nil->type == ERROR);
 
-	Object const *overflow = Add(Cons(Number(INT64_MAX), Cons(Number(1), &NIL)));
+	Object const *overflow = Add(Cons(Number(INT64_MAX), Cons(Number(1), Nil)));
 	assert(overflow != NULL);
-	assert(overflow->type == TYPE_ERROR);
+	assert(overflow->type == ERROR);
 
-	Object const *underflow = Add(Cons(Number(INT64_MIN), Cons(Number(-1), &NIL)));
+	Object const *underflow = Add(Cons(Number(INT64_MIN), Cons(Number(-1), Nil)));
 	assert(underflow != NULL);
-	assert(underflow->type == TYPE_ERROR);
+	assert(underflow->type == ERROR);
 
-	Object const *add = Add(Cons(Number(30), Cons(Number(10), Cons(Number(2), &NIL))));
+	Object const *add = Add(Cons(Number(30), Cons(Number(10), Cons(Number(2), Nil))));
 	assert(add != NULL);
-	assert(add->type == TYPE_NUMBER);
-	assert(add->number == 42);
+	assert(add->type == I64);
+	assert(add->i64 == 42);
 
 	return EXIT_SUCCESS;
 }

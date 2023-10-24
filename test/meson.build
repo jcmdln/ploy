@@ -1,6 +1,2 @@
-# SPDX-License-Identifier: ISC
-#
-# Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
-
 subdir('core')
 subdir('math')

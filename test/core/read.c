@@ -1,42 +1,40 @@
-// SPDX-License-Identifier: ISC
-//
-// Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
-
 #include <assert.h>
 #include <stdlib.h>
+
+#include <gc/gc.h>
 
 #include <ploy/core.h>
 
 int
 main(void)
 {
-	Object const *null = Read(NULL);
+	Object *null = Read(NULL);
 	assert(null != NULL);
-	assert(null->type == TYPE_ERROR);
+	assert(null->type == ERROR);
 
-	Object const *nil = Read("\0");
+	Object *nil = Read("\0");
 	assert(nil != NULL);
-	assert(nil->type == TYPE_NIL);
+	assert(nil->type == NIL);
 
-	Object const *list = Cons(Number(42), Cons(String("wew"), &NIL));
+	Object *list = Cons(Number(42), Cons(String("wew"), Nil));
 	assert(list != NULL);
-	assert(list->type == TYPE_LIST);
+	assert(list->type == LIST);
 
-	Object const *car = Car(list);
+	Object *car = Car(list);
 	assert(car != NULL);
-	assert(car->type == TYPE_NUMBER);
+	assert(car->type == I64);
 
-	Object const *cdr = Cdr(list);
+	Object *cdr = Cdr(list);
 	assert(cdr != NULL);
-	assert(cdr->type == TYPE_LIST);
+	assert(cdr->type == LIST);
 
-	Object const *cadr = Car(cdr);
+	Object *cadr = Car(cdr);
 	assert(cadr != NULL);
-	assert(cadr->type == TYPE_STRING);
+	assert(cadr->type == STRING);
 
-	Object const *cddr = Cdr(cdr);
+	Object *cddr = Cdr(cdr);
 	assert(cddr != NULL);
-	assert(cddr->type == TYPE_NIL);
+	assert(cddr->type == NIL);
 
 	return EXIT_SUCCESS;
 }

@@ -1,50 +1,36 @@
-// SPDX-License-Identifier: ISC
-//
-// Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
-
-#ifndef PLOY_TYPE_H
-#define PLOY_TYPE_H
 #pragma once
 
+#include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
 
-typedef enum Type {
-	TYPE_NIL = 0,
-	TYPE_BOOLEAN,
-	TYPE_ERROR,
-	// TYPE_LAMBDA,
-	TYPE_LIST,
-	TYPE_NUMBER,
-	TYPE_STRING,
-	TYPE_SYMBOL,
-} Type;
+typedef struct object Object;
+struct object {
+	enum {
+		NIL = 0,
+		BOOLEAN,
+		ERROR,
+		// LAMBDA,
+		LIST,
+		STRING,
+		SYMBOL,
 
-// struct Lambda {
-// 	struct Object const *args, *body;
-// };
-
-struct List {
-	struct Object const *car, *cdr;
-};
-
-typedef struct Object {
-	Type type;
+		// F64,
+		I64,
+		// U64,
+	} type;
 	union {
 		bool boolean;
-		// struct Lambda *lambda;
-		struct List *list;
-		int64_t number;
-		char const *string;
+		struct /* lambda */ {
+			Object *args, *body;
+		};
+		struct /* list */ {
+			Object *car, *cdr;
+		};
+		char *string;
+
+		double_t f64;
+		int64_t i64;
+		uint64_t u64;
 	};
-} Object;
-
-static Object const NIL = { .type = TYPE_NIL };
-
-Object *Boolean(bool boolean);
-Object *Error(char const *error);
-Object *Number(int64_t number);
-Object *String(char const *string);
-Object *Symbol(char const *symbol);
-
-#endif // PLOY_TYPE_H
+};

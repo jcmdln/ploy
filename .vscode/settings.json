@@ -4,11 +4,6 @@
     "--header-insertion=never"
   ],
 
-  // Don't immediately pester the user on open of the project
-  "cmake.configureOnOpen": false,
-  // Stop focusing CMake logs
-  "cmake.revealLog": "never",
-
   // Make Prettier the default formatter
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.insertSpaces": true,
@@ -27,13 +22,9 @@
     "**/builddir/**": true
   },
 
-  // mesonbuild: Don't pester about or download a random binary
+  // Don't pester about or download a random binary
   "mesonbuild.downloadLanguageServer": false,
   "mesonbuild.languageServer": null,
-
-  "mesonbuild.formatting.enabled": false,
-  "mesonbuild.linter.muon.enabled": true,
-  "mesonbuild.muonPath": "muon",
 
   // Associate YAML schemas with targets
   "yaml.schemas": {

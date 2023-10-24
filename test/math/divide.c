@@ -1,7 +1,3 @@
-// SPDX-License-Identifier: ISC
-//
-// Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
-
 #include <assert.h>
 #include <stdlib.h>
 
@@ -11,18 +7,18 @@
 int
 main(void)
 {
-	Object const *null = Divide(NULL);
+	Object *null = Divide(NULL);
 	assert(null != NULL);
-	assert(null->type == TYPE_ERROR);
+	assert(null->type == ERROR);
 
-	Object const *nil = Divide(&NIL);
+	Object *nil = Divide(Nil);
 	assert(nil != NULL);
-	assert(nil->type == TYPE_ERROR);
+	assert(nil->type == ERROR);
 
-	Object const *divide = Divide(Cons(Number(42), Cons(Number(7), Cons(Number(3), &NIL))));
+	Object const *divide = Divide(Cons(Number(42), Cons(Number(7), Cons(Number(3), Nil))));
 	assert(divide != NULL);
-	assert(divide->type == TYPE_NUMBER);
-	assert(divide->number == 2);
+	assert(divide->type == I64);
+	assert(divide->i64 == 2);
 
 	return EXIT_SUCCESS;
 }

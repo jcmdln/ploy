@@ -10,3 +10,7 @@
 (greet greeting)
 
 (print (format "The answer is {}." (+ 40 2)))
+
+(+ 1 1)
+
+(+ 43 -1)

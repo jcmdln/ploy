@@ -1,7 +1,3 @@
-// SPDX-License-Identifier: ISC
-//
-// Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
-
 #include <assert.h>
 #include <stdlib.h>
 
@@ -11,18 +7,18 @@
 int
 main(void)
 {
-	Object const *null = Multiply(NULL);
+	Object *null = Multiply(NULL);
 	assert(null != NULL);
-	assert(null->type == TYPE_ERROR);
+	assert(null->type == ERROR);
 
-	Object const *nil = Multiply(&NIL);
+	Object *nil = Multiply(Nil);
 	assert(nil != NULL);
-	assert(nil->type == TYPE_ERROR);
+	assert(nil->type == ERROR);
 
-	Object const *multiply = Multiply(Cons(Number(2), Cons(Number(3), Cons(Number(7), &NIL))));
+	Object const *multiply = Multiply(Cons(Number(2), Cons(Number(3), Cons(Number(7), Nil))));
 	assert(multiply != NULL);
-	assert(multiply->type == TYPE_NUMBER);
-	assert(multiply->number == 42);
+	assert(multiply->type == I64);
+	assert(multiply->i64 == 42);
 
 	return EXIT_SUCCESS;
 }

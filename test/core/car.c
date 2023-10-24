@@ -1,7 +1,3 @@
-// SPDX-License-Identifier: ISC
-//
-// Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
-
 #include <assert.h>
 #include <stdlib.h>
 
@@ -10,17 +6,17 @@
 int
 main(void)
 {
-	Object const *null = Car(NULL);
+	Object *null = Car(NULL);
 	assert(null != NULL);
-	assert(null->type == TYPE_ERROR);
+	assert(null->type == ERROR);
 
-	Object const *nil = Car(&NIL);
+	Object *nil = Car(Nil);
 	assert(nil != NULL);
-	assert(nil->type == TYPE_ERROR);
+	assert(nil->type == ERROR);
 
-	Object const *car = Car(Cons(Number(42), Cons(String("wew"), &NIL)));
+	Object *car = Car(Cons(Number(42), Cons(String("wew"), Nil)));
 	assert(car != NULL);
-	assert(car->type == TYPE_NUMBER);
+	assert(car->type == I64);
 
 	return EXIT_SUCCESS;
 }

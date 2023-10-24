@@ -1,7 +1,3 @@
-// SPDX-License-Identifier: ISC
-//
-// Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
-
 #include <assert.h>
 #include <stdlib.h>
 
@@ -10,21 +6,21 @@
 int
 main(void)
 {
-	Object const *null = Cdr(NULL);
+	Object *null = Cdr(NULL);
 	assert(null != NULL);
-	assert(null->type == TYPE_ERROR);
+	assert(null->type == ERROR);
 
-	Object const *nil = Cdr(&NIL);
+	Object *nil = Cdr(Nil);
 	assert(nil != NULL);
-	assert(nil->type == TYPE_ERROR);
+	assert(nil->type == ERROR);
 
-	Object const *cdr = Cdr(Cons(Number(42), Cons(String("wew"), &NIL)));
+	Object *cdr = Cdr(Cons(Number(42), Cons(String("wew"), Nil)));
 	assert(cdr != NULL);
-	assert(cdr->type == TYPE_LIST);
+	assert(cdr->type == LIST);
 
-	Object const *cadr = Car(cdr);
+	Object *cadr = Car(cdr);
 	assert(cadr != NULL);
-	assert(cadr->type == TYPE_STRING);
+	assert(cadr->type == STRING);
 
 	return EXIT_SUCCESS;
 }

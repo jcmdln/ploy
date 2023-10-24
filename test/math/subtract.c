@@ -1,7 +1,3 @@
-// SPDX-License-Identifier: ISC
-//
-// Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
-
 #include <assert.h>
 #include <stdlib.h>
 
@@ -11,26 +7,26 @@
 int
 main(void)
 {
-	Object const *null = Subtract(NULL);
+	Object *null = Subtract(NULL);
 	assert(null != NULL);
-	assert(null->type == TYPE_ERROR);
+	assert(null->type == ERROR);
 
-	Object const *nil = Subtract(&NIL);
+	Object *nil = Subtract(Nil);
 	assert(nil != NULL);
-	assert(nil->type == TYPE_ERROR);
+	assert(nil->type == ERROR);
 
-	Object const *overflow = Subtract(Cons(Number(INT64_MAX), Cons(Number(-1), &NIL)));
+	Object *overflow = Subtract(Cons(Number(INT64_MAX), Cons(Number(-1), Nil)));
 	assert(overflow != NULL);
-	assert(overflow->type == TYPE_ERROR);
+	assert(overflow->type == ERROR);
 
-	Object const *underflow = Subtract(Cons(Number(INT64_MIN), Cons(Number(1), &NIL)));
+	Object *underflow = Subtract(Cons(Number(INT64_MIN), Cons(Number(1), Nil)));
 	assert(underflow != NULL);
-	assert(underflow->type == TYPE_ERROR);
+	assert(underflow->type == ERROR);
 
-	Object const *subtract = Subtract(Cons(Number(100), Cons(Number(58), &NIL)));
+	Object *subtract = Subtract(Cons(Number(100), Cons(Number(58), Nil)));
 	assert(subtract != NULL);
-	assert(subtract->type == TYPE_NUMBER);
-	assert(subtract->number == 42);
+	assert(subtract->type == I64);
+	assert(subtract->i64 == 42);
 
 	return EXIT_SUCCESS;
 }

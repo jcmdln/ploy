@@ -1,7 +1,3 @@
-// SPDX-License-Identifier: ISC
-//
-// Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
-
 #include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,24 +13,25 @@
 #define PLOY_VERSION "undefined"
 #endif
 
-int repf(char const *path);
+int repf(char *path);
 int repl(void);
 
 int
 usage(int exit_code)
 {
-	printf("usage: ploy [-h] [-e EXPR] [-f FILE]\n\n"
+	printf("usage: ploy [-h] [-v] [-e EXPR] [-f FILE]\n\n"
 		   "  -h         Show help output\n"
+		   "  -v         Show ploy version\n"
 		   "  -e EXPR    Evaluate an expression\n"
 		   "  -f FILE    Evaluate contents of a FILE\n\n");
 	return exit_code;
 }
 
-void
+int
 version(void)
 {
-	const char *version = (const char *)PLOY_VERSION;
-	printf("ploy version %s\n", version);
+	printf("ploy version %s\n", PLOY_VERSION);
+	return EXIT_SUCCESS;
 }
 
 int
@@ -44,10 +41,12 @@ main(int argc, char **argv)
 	bool opt_exec = false;
 	bool opt_file = false;
 
-	while ((opt = getopt(argc, argv, "he:f:")) != -1) {
+	while ((opt = getopt(argc, argv, "hve:f:")) != -1) {
 		switch (opt) {
 		case 'h':
 			return usage(EXIT_SUCCESS);
+		case 'v':
+			return version();
 		case 'e':
 			opt_exec = true;
 			break;
@@ -76,9 +75,9 @@ main(int argc, char **argv)
 }
 
 int
-repf(char const *path)
+repf(char *path)
 {
-	FILE *const file = fopen(path, "r");
+	FILE *file = fopen(path, "r");
 	if (!file) {
 		printf("error: failed to fopen '%s'\n", path);
 		return EXIT_FAILURE;
@@ -107,14 +106,12 @@ repl(void)
 	version();
 
 	while (true) {
-		char *const input = readline("λ ");
-		if (!input) continue;
+		char *input = readline("λ ");
+		if (!input || strcmp(input, "") == 0) continue;
 		add_history(input);
-
 		Print(Eval(Read(input)));
-		free(input);
-
 		putchar('\n');
+		free(input);
 	}
 
 	return EXIT_SUCCESS;

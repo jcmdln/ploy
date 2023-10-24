@@ -1,7 +1,3 @@
-# SPDX-License-Identifier: ISC
-#
-# Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
-
 # Ignore everything
 *
 
@@ -43,9 +39,9 @@
 !man/
 !man/**
 
-!src/
-!src/**/
-!src/**/*.c
+!source/
+!source/**/
+!source/**/*.c
 
 !test/
 !test/**/

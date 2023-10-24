@@ -1,69 +1,69 @@
-// SPDX-License-Identifier: ISC
-//
-// Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
-
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include <gc.h>
+#include <gc/gc.h>
 
 #include <ploy/core.h>
 
-static char const TOKENS[11] = " \n\r\t\v;()\"\0";
+static char TOKENS[11] = " \n\r\t\v;()\"\0";
 
-Object const *read_delimiters(char const *input, char begin, char end);
-Object const *read_form(size_t const *index, char const **input);
-Object const *read_list(size_t const *index, char const **input);
-Object const *read_number(size_t *index, char const **input);
-Object const *read_string(size_t *index, char const **input);
-Object const *read_symbol(size_t *index, char const **input);
+Object *read_delimiters(char *input, char begin, char end);
+Object *read_form(size_t *index, char **input);
+Object *read_list(size_t *index, char **input);
+Object *read_number(size_t *index, char **input);
+Object *read_string(size_t *index, char **input);
+Object *read_symbol(size_t *index, char **input);
 
-Object const *
-reader(char const *input)
+Object *
+reader(char *input)
 {
 	if (!input) return Error("reader: input is NULL");
 
-	Object const *const delims = read_delimiters(input, '(', ')');
-	if (delims->type != TYPE_NIL) return delims;
+	Object *delims = read_delimiters(input, '(', ')');
+	if (delims->type != NIL) return delims;
 
 	size_t index = 0;
-	Object const *forms = read_form(&index, &input);
-	if (forms->type == TYPE_ERROR) return forms;
+	Object *forms = read_form(&index, &input);
+	if (forms->type == ERROR) return forms;
 
 	return Reverse(forms);
 }
 
-Object const *
-read_delimiters(char const *const input, char const begin, char const end)
+Object *
+read_delimiters(char *input, char begin, char end)
 {
-	char const *cursor = input;
+	if (!input) return Error("read_delimiters: input is NULL");
+
+	char *cursor = input;
 	int64_t balanced = 0;
 
-	do {
+	while (*cursor) {
 		if (*cursor == begin)
 			++balanced;
 		else if (*cursor == end)
 			--balanced;
-	} while (*++cursor);
+		++cursor;
+	}
 
 	if (balanced < 0) return Error("read_delimiters: missing begin");
 	if (balanced > 0) return Error("read_delimiters: missing end");
 
-	return &NIL;
+	return Nil;
 }
 
-Object const *
-read_form(size_t const *index, char const **const input)
+Object *
+read_form(size_t *index, char **input)
 {
-	if (!input) return Error("reader: input is NULL");
+	if (!index) return Error("read_form: Index is NULL");
+	if (!input) return Error("read_form: input is NULL");
 
-	char const *cursor = *input;
+	char *cursor = *input;
 	size_t length = *index;
-	Object const *objects = &NIL;
+	Object *objects = Nil;
 
 	while (*cursor) {
-		Object const *object = &NIL;
+		Object *object = Nil;
 
 		switch (*cursor) {
 		// Whitespace
@@ -85,7 +85,7 @@ read_form(size_t const *index, char const **const input)
 
 		// List
 		case ')':
-			object = &NIL;
+			object = Nil;
 			break;
 		case '(':
 			object = read_list(&length, &cursor);
@@ -123,10 +123,10 @@ read_form(size_t const *index, char const **const input)
 		}
 
 		if (!object) return Error("read_form: object is NULL");
-		if (object->type == TYPE_ERROR) return object;
+		if (object->type == ERROR) return object;
 
 		objects = Cons(object, objects);
-		if (object->type == TYPE_NIL) break;
+		if (object->type == NIL) break;
 	}
 
 	*input = cursor;
@@ -134,27 +134,33 @@ read_form(size_t const *index, char const **const input)
 	return objects;
 }
 
-Object const *
-read_list(size_t const *const index, char const **const input)
+Object *
+read_list(size_t *index, char **input)
 {
-	char const *cursor = *input;
+	if (!index) return Error("read_list: Index is NULL");
+	if (!input) return Error("read_list: input is NULL");
+
+	char *cursor = *input;
 	size_t length = 0;
 
 	if (*cursor != '(') return Error("read_list: missing open parenthesis `(`");
 	cursor = ++*input;
 	length = *index;
 
-	Object const *object = read_form(&length, &cursor);
+	Object *object = read_form(&length, &cursor);
 	if (*cursor != ')') return Error("read_list: missing close parenthesis `)`");
 	*input = ++cursor;
 
 	return object;
 }
 
-Object const *
-read_number(size_t *const index, char const **const input)
+Object *
+read_number(size_t *index, char **input)
 {
-	char const *cursor = *input;
+	if (!index) return Error("read_number: Index is NULL");
+	if (!input) return Error("read_number: input is NULL");
+
+	char *cursor = *input;
 	size_t length = 0;
 
 	if (*cursor == '+' || *cursor == '-') {
@@ -167,22 +173,25 @@ read_number(size_t *const index, char const **const input)
 		++length;
 	}
 
-	char *const number = GC_MALLOC(length + 1);
+	char *number = GC_MALLOC(length + 1);
 	memcpy(number, *input, length);
 	number[length] = '\0';
 
-	Object *const object = Number(strtoll(number, NULL, 10));
+	Object *obj = Number(strtoll(number, NULL, 10));
 	GC_FREE(number);
 
 	*input = cursor;
 	*index += length;
-	return object;
+	return obj;
 }
 
-Object const *
-read_string(size_t *const index, char const **const input)
+Object *
+read_string(size_t *index, char **input)
 {
-	char const *cursor = *input;
+	if (!index) return Error("read_string: Index is NULL");
+	if (!input) return Error("read_string: input is NULL");
+
+	char *cursor = *input;
 	size_t length = 0;
 
 	if (*cursor != '\"') return Error("read_string: Missing open '\"'");
@@ -197,7 +206,7 @@ read_string(size_t *const index, char const **const input)
 	if (*cursor != '\"') return Error("read_string: Missing close '\"'");
 	++cursor;
 
-	char *const string = GC_MALLOC(length + 1);
+	char *string = GC_MALLOC(length + 1);
 	memcpy(string, *input, length);
 	string[length] = '\0';
 
@@ -206,10 +215,13 @@ read_string(size_t *const index, char const **const input)
 	return String(string);
 }
 
-Object const *
-read_symbol(size_t *const index, char const **const input)
+Object *
+read_symbol(size_t *index, char **input)
 {
-	char const *cursor = *input;
+	if (!index) return Error("read_symbol: Index is NULL");
+	if (!input) return Error("read_symbol: input is NULL");
+
+	char *cursor = *input;
 	size_t length = 0;
 
 	while (*cursor && !strchr(TOKENS, *cursor)) {
@@ -218,7 +230,7 @@ read_symbol(size_t *const index, char const **const input)
 	}
 	if (length == 0) return Error("read_symbol: invalid length 0");
 
-	char *const symbol = GC_MALLOC(length + 1);
+	char *symbol = GC_MALLOC(length + 1);
 	memcpy(symbol, *input, length);
 	symbol[length] = '\0';
 

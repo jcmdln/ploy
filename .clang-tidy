@@ -1,6 +1,3 @@
-# SPDX-License-Identifier: ISC
-#
-# Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
 ---
 FormatStyle: file
 HeaderFilterRegex: ""
@@ -9,26 +6,28 @@ InheritParentConfig: false
 Checks: |
   -*
   bugprone-*
-  -bugprone-easily-swappable-parameters
   cert-*-c
   clang-analyzer-core
-  -clang-analyzer-core.uninitialized.NewArraySize
   clang-analyzer-deadcode
   clang-analyzer-nullability
   clang-analyzer-security
-  -clang-analyzer-security.insecureAPI.decodeValueOfObjCType
-  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling
   clang-analyzer-unix
   clang-analyzer-valist
   misc-*
-  -misc-no-recursion
   performance-*
   portability-*
   readability-*
+  -bugprone-branch-clone
+  -bugprone-easily-swappable-parameters
+  -clang-analyzer-core.uninitialized.NewArraySize
+  -clang-analyzer-security.insecureAPI.decodeValueOfObjCType
+  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling
+  -misc-no-recursion
   -readability-braces-around-statements
   -readability-function-cognitive-complexity
   -readability-identifier-length
   -readability-magic-numbers
+  -readability-non-const-parameter
 
 WarningsAsErrors: |
   -*

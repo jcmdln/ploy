@@ -1,7 +1,3 @@
-# SPDX-License-Identifier: ISC
-#
-# Copyright (c) 2023 Johnathan C Maudlin <jcmdln@gmail.com>
-
 project('ploy', 'c',
   default_options: [
     'buildtype=release',
@@ -19,32 +15,32 @@ project('ploy', 'c',
 #
 
 compiler = meson.get_compiler('c', native: true)
-add_project_arguments(compiler.get_supported_arguments([
-  '-fshort-wchar',
-  '-fstrict-aliasing',
-  '-funsigned-char',
-  '-Werror=cast-qual',
-  '-Werror=implicit-int',
-  '-Werror=restrict',
-  '-Werror=strict-prototypes',
-  '-Werror=switch',
-  '-Werror=vla',
-  '-Werror=write-strings',
-]), language: 'c')
-
-#
-# Dependencies
-#
 
 bdwgc = dependency('bdw-gc', required: true)
 readline = dependency('readline', required: true)
+
+add_project_arguments(
+  '-DPLOY_VERSION="@0@"'.format(meson.project_version()),
+  compiler.get_supported_arguments([
+    '-fshort-wchar',
+    '-fstrict-aliasing',
+    '-funsigned-char',
+    '-Wno-implicitly-unsigned-literal',
+    '-Werror=cast-qual',
+    '-Werror=implicit-int',
+    '-Werror=strict-prototypes',
+    '-Werror=vla',
+    '-Werror=write-strings',
+  ]),
+  language: 'c'
+)
 
 #
 # Executables
 #
 
-ploy_include = include_directories('include')
-ploy_includes = files(
+include = include_directories('include')
+includes = files(
   'include/ploy/core.h',
   'include/ploy/evaluator.h',
   'include/ploy/math.h',
@@ -53,28 +49,27 @@ ploy_includes = files(
   'include/ploy/type.h',
 )
 
-ploy_main = files('src/main.c')
-ploy_src = files(
-  'src/core.c',
-  'src/evaluator.c',
-  'src/math.c',
-  'src/printer.c',
-  'src/reader.c',
-  'src/type.c',
+main = files('source/main.c')
+sources = files(
+  'source/core.c',
+  'source/evaluator.c',
+  'source/math.c',
+  'source/printer.c',
+  'source/reader.c',
 )
 
 executable('ploy',
   dependencies: [bdwgc, readline],
-  include_directories: ploy_include,
+  include_directories: include,
   install: true,
-  sources: [ploy_src, ploy_main],
+  sources: [sources, main],
 )
 
 #
 # Tests
 #
 
-ploy_tests = []
+tests = []
 subdir('test')
 
 #
@@ -83,8 +78,10 @@ subdir('test')
 
 run_target('clang-format', command: [
   'clang-format', '--dry-run', '--verbose', '--Werror',
-  ploy_includes, ploy_src, ploy_main, ploy_tests])
+  includes, sources, main, tests
+])
 
 run_target('clang-tidy', command: [
   'clang-tidy', '--quiet', '-p', 'builddir/',
-  ploy_includes, ploy_src, ploy_main, ploy_tests])
+  includes, sources, main, tests
+])
