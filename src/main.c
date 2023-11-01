@@ -6,8 +6,7 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 
-#include <ploy/core.h>
-#include <ploy/math.h>
+#include <ploy.h>
 
 #ifndef PLOY_VERSION
 #define PLOY_VERSION "undefined"

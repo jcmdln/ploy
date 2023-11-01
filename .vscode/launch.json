@@ -4,9 +4,9 @@
     {
       "type": "lldb",
       "request": "launch",
-      "name": "Debug Ploy",
-      "program": "${workspaceFolder}/builddir/ploy",
-      "args": [],
+      "name": "Debug Ploy Demo",
+      "program": "${workspaceFolder}/build/ploy",
+      "args": ["-f", "${workspaceFolder}/example/demo.ploy"],
       "cwd": "${workspaceFolder}"
     }
   ]

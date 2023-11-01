@@ -1,0 +1,29 @@
+#!/usr/bin/env ploy
+
+(print "Hello, world!")
+
+(define demo-basics (lambda()
+  (print "Demo: Basics")
+
+  # Define a variable
+  (define audience "world")
+
+  # Define a lambda expression
+  (define greet (lambda (message)
+    (print "Hello, " message "!")
+  ))
+
+  # Evaluate a lambda expression
+  (greet audience)
+))
+
+(define demo-control-flow (lambda()
+  (print "Demo: Control Flow")
+))
+
+#
+# Execution
+#
+
+(demo-basics)
+(demo-control-flow)

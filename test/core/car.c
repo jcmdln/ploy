@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include <ploy/core.h>
+#include <ploy.h>
 
 int
 main(void)
@@ -16,7 +16,8 @@ main(void)
 
 	Object *car = Car(Cons(Number(42), Cons(String("wew"), Nil)));
 	assert(car != NULL);
-	assert(car->type == I64);
+	assert(car->type == NUMBER);
+	assert(car->number == 42);
 
 	return EXIT_SUCCESS;
 }

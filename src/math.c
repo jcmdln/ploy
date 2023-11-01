@@ -1,7 +1,6 @@
 #include <gc/gc.h>
 
-#include <ploy/core.h>
-#include <ploy/math.h>
+#include <ploy.h>
 
 //
 // Arithmetic
@@ -17,9 +16,9 @@ Add(Object *object)
 	while (object->type == LIST) {
 		Object *car = Car(object);
 		if (car->type == NIL) break;
-		if (car->type != I64) return Error("Add: car not of I64");
+		if (car->type != NUMBER) return Error("Add: car not of NUMBER");
 
-		int64_t c = car->i64;
+		int64_t c = car->number;
 		if ((c > 0 && result > (INT64_MAX - c)) || (c < 0 && result < (INT64_MIN - c)))
 			return Error("Add: overflow");
 
@@ -36,15 +35,15 @@ Subtract(Object *object)
 	if (!object) return Error("Subtract: object is NULL");
 	if (object->type != LIST) return Error("Subtract: object not of LIST");
 
-	int64_t result = Car(object)->i64;
+	int64_t result = Car(object)->number;
 	object = Cdr(object);
 
 	while (object->type == LIST) {
 		Object *car = Car(object);
 		if (car->type == NIL) break;
-		if (car->type != I64) return Error("Subtract: car not of I64");
+		if (car->type != NUMBER) return Error("Subtract: car not of NUMBER");
 
-		int64_t c = car->i64;
+		int64_t c = car->number;
 		if ((c > 0 && result < (INT64_MIN + c)) || (c < 0 && result > (INT64_MAX + c)))
 			return Error("Subtract: overflow");
 
@@ -63,14 +62,14 @@ Multiply(Object *object)
 
 	Object *car = Car(object);
 	if (!car) return Error("Multiply: car is NULL");
-	if (car->type != I64) return Error("Multiply: car not of I64");
+	if (car->type != NUMBER) return Error("Multiply: car not of NUMBER");
 
-	int64_t result = car->i64;
+	int64_t result = car->number;
 	object = Cdr(object);
 	while (object->type == LIST) {
 		car = Car(object);
 		if (car->type == NIL) break;
-		result *= car->i64;
+		result *= car->number;
 		object = Cdr(object);
 	}
 
@@ -85,14 +84,14 @@ Divide(Object *object)
 
 	Object *car = Car(object);
 	if (!car) return Error("Divide: car is NULL");
-	if (car->type != I64) return Error("Divide: car not of I64");
+	if (car->type != NUMBER) return Error("Divide: car not of NUMBER");
 
-	int64_t result = car->i64;
+	int64_t result = car->number;
 	object = Cdr(object);
 	while (object->type == LIST) {
 		car = Car(object);
 		if (car->type == NIL) break;
-		result /= car->i64;
+		result /= car->number;
 		object = Cdr(object);
 	}
 

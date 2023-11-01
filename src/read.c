@@ -4,19 +4,20 @@
 
 #include <gc/gc.h>
 
-#include <ploy/core.h>
+#include <ploy.h>
 
-static char TOKENS[11] = " \n\r\t\v;()\"\0";
+static char TOKENS[11] = " \n\r\t\v#;()\"\0";
 
-Object *read_delimiters(char *input, char begin, char end);
-Object *read_form(size_t *index, char **input);
-Object *read_list(size_t *index, char **input);
-Object *read_number(size_t *index, char **input);
-Object *read_string(size_t *index, char **input);
-Object *read_symbol(size_t *index, char **input);
+Object *read_delimiters(char const *input, char begin, char end);
+Object *read_form(size_t *index, char const **input);
+Object *read_list(size_t *index, char const **input);
+Object *read_number(size_t *index, char const **input);
+Object *read_string(size_t *index, char const **input);
+Object *read_symbol(size_t *index, char const **input);
 
+// TODO(jcmdln): non-recursive `Read`
 Object *
-reader(char *input)
+Read(char const *input)
 {
 	if (!input) return Error("reader: input is NULL");
 
@@ -31,11 +32,11 @@ reader(char *input)
 }
 
 Object *
-read_delimiters(char *input, char begin, char end)
+read_delimiters(char const *input, char begin, char end)
 {
 	if (!input) return Error("read_delimiters: input is NULL");
 
-	char *cursor = input;
+	char const *cursor = input;
 	int64_t balanced = 0;
 
 	while (*cursor) {
@@ -53,74 +54,37 @@ read_delimiters(char *input, char begin, char end)
 }
 
 Object *
-read_form(size_t *index, char **input)
+read_form(size_t *index, char const **input)
 {
 	if (!index) return Error("read_form: Index is NULL");
 	if (!input) return Error("read_form: input is NULL");
 
-	char *cursor = *input;
+	char const *cursor = *input;
 	size_t length = *index;
 	Object *objects = Nil;
 
 	while (*cursor) {
 		Object *object = Nil;
 
-		switch (*cursor) {
+		switch (*cursor) { // clang-format off
 		// Whitespace
-		case ' ':
-		case '\n':
-		case '\r':
-		case '\t':
-		case '\v':
-			++cursor;
-			++length;
-			continue;
-
+		case ' ': case '\n': case '\r': case '\t': case '\v': ++cursor; ++length; continue;
 		// Comment
-		case ';':
-		case '#':
-			while (*cursor && *++cursor != '\n')
-				++length;
-			continue;
-
+		case ';': case '#': while (*cursor && *++cursor != '\n') ++length; continue;
 		// List
-		case ')':
-			object = Nil;
-			break;
-		case '(':
-			object = read_list(&length, &cursor);
-			break;
-
+		case ')': object = Nil; break;
+		case '(': object = read_list(&length, &cursor); break;
 		// Number
-		case '-':
-		case '+':
-			if (isdigit(cursor[1]))
-				object = read_number(&length, &cursor);
-			else
-				object = read_symbol(&length, &cursor);
-			break;
-		case '0':
-		case '1':
-		case '2':
-		case '3':
-		case '4':
-		case '5':
-		case '6':
-		case '7':
-		case '8':
-		case '9':
-			object = read_number(&length, &cursor);
-			break;
-
+		case '-': case '+': object = (isdigit(cursor[1])) ?
+			read_number(&length, &cursor) : read_symbol(&length, &cursor); break;
+		case '0': case '1': case '2': case '3': case '4':
+		case '5': case '6': case '7': case '8': case '9':
+			object = read_number(&length, &cursor); break;
 		// String
-		case '\"':
-			object = read_string(&length, &cursor);
-			break;
-
+		case '\"': object = read_string(&length, &cursor); break;
 		// Symbol
-		default:
-			object = read_symbol(&length, &cursor);
-		}
+		default: object = read_symbol(&length, &cursor);
+		} // clang-format on
 
 		if (!object) return Error("read_form: object is NULL");
 		if (object->type == ERROR) return object;
@@ -135,12 +99,12 @@ read_form(size_t *index, char **input)
 }
 
 Object *
-read_list(size_t *index, char **input)
+read_list(size_t *index, char const **input)
 {
 	if (!index) return Error("read_list: Index is NULL");
 	if (!input) return Error("read_list: input is NULL");
 
-	char *cursor = *input;
+	char const *cursor = *input;
 	size_t length = 0;
 
 	if (*cursor != '(') return Error("read_list: missing open parenthesis `(`");
@@ -155,12 +119,12 @@ read_list(size_t *index, char **input)
 }
 
 Object *
-read_number(size_t *index, char **input)
+read_number(size_t *index, char const **input)
 {
 	if (!index) return Error("read_number: Index is NULL");
 	if (!input) return Error("read_number: input is NULL");
 
-	char *cursor = *input;
+	char const *cursor = *input;
 	size_t length = 0;
 
 	if (*cursor == '+' || *cursor == '-') {
@@ -173,7 +137,7 @@ read_number(size_t *index, char **input)
 		++length;
 	}
 
-	char *number = GC_MALLOC(length + 1);
+	char *const number = GC_MALLOC(length + 1);
 	memcpy(number, *input, length);
 	number[length] = '\0';
 
@@ -186,12 +150,12 @@ read_number(size_t *index, char **input)
 }
 
 Object *
-read_string(size_t *index, char **input)
+read_string(size_t *index, char const **input)
 {
 	if (!index) return Error("read_string: Index is NULL");
 	if (!input) return Error("read_string: input is NULL");
 
-	char *cursor = *input;
+	char const *cursor = *input;
 	size_t length = 0;
 
 	if (*cursor != '\"') return Error("read_string: Missing open '\"'");
@@ -206,7 +170,7 @@ read_string(size_t *index, char **input)
 	if (*cursor != '\"') return Error("read_string: Missing close '\"'");
 	++cursor;
 
-	char *string = GC_MALLOC(length + 1);
+	char *const string = GC_MALLOC(length + 1);
 	memcpy(string, *input, length);
 	string[length] = '\0';
 
@@ -216,12 +180,12 @@ read_string(size_t *index, char **input)
 }
 
 Object *
-read_symbol(size_t *index, char **input)
+read_symbol(size_t *index, char const **input)
 {
 	if (!index) return Error("read_symbol: Index is NULL");
 	if (!input) return Error("read_symbol: input is NULL");
 
-	char *cursor = *input;
+	char const *cursor = *input;
 	size_t length = 0;
 
 	while (*cursor && !strchr(TOKENS, *cursor)) {
@@ -236,5 +200,10 @@ read_symbol(size_t *index, char **input)
 
 	*input = cursor;
 	*index += length;
-	return Symbol(symbol);
+
+	// TODO(jcmdln): Use 'Define'
+	Object *new = GC_MALLOC(sizeof(*new));
+	new->type = SYMBOL;
+	new->symbol = symbol;
+	return new;
 }

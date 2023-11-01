@@ -17,12 +17,8 @@ Checks: |
   performance-*
   portability-*
   readability-*
-  -bugprone-branch-clone
   -bugprone-easily-swappable-parameters
-  -clang-analyzer-core.uninitialized.NewArraySize
-  -clang-analyzer-security.insecureAPI.decodeValueOfObjCType
-  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling
-  -misc-no-recursion
+  -clang-analyzer-security.insecureAPI
   -readability-braces-around-statements
   -readability-function-cognitive-complexity
   -readability-identifier-length
@@ -30,16 +26,5 @@ Checks: |
   -readability-non-const-parameter
 
 WarningsAsErrors: |
-  -*
-  bugprone-*
-  cert-*-c
-  clang-analyzer-core
-  clang-analyzer-deadcode
-  clang-analyzer-nullability
-  clang-analyzer-security
-  clang-analyzer-unix
-  clang-analyzer-valist
-  misc-*
-  performance-*
-  portability-*
-  readability-*
+  *
+  -misc-no-recursion

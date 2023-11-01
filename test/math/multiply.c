@@ -1,8 +1,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include <ploy/core.h>
-#include <ploy/math.h>
+#include <ploy.h>
 
 int
 main(void)
@@ -15,10 +14,10 @@ main(void)
 	assert(nil != NULL);
 	assert(nil->type == ERROR);
 
-	Object const *multiply = Multiply(Cons(Number(2), Cons(Number(3), Cons(Number(7), Nil))));
+	Object *multiply = Multiply(Cons(Number(2), Cons(Number(3), Cons(Number(7), Nil))));
 	assert(multiply != NULL);
-	assert(multiply->type == I64);
-	assert(multiply->i64 == 42);
+	assert(multiply->type == NUMBER);
+	assert(multiply->number == 42);
 
 	return EXIT_SUCCESS;
 }

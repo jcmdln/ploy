@@ -1,8 +1,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include <ploy/core.h>
-#include <ploy/math.h>
+#include <ploy.h>
 
 int
 main(void)
@@ -25,8 +24,8 @@ main(void)
 
 	Object *subtract = Subtract(Cons(Number(100), Cons(Number(58), Nil)));
 	assert(subtract != NULL);
-	assert(subtract->type == I64);
-	assert(subtract->i64 == 42);
+	assert(subtract->type == NUMBER);
+	assert(subtract->number == 42);
 
 	return EXIT_SUCCESS;
 }

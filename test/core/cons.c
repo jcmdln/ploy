@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include <ploy/core.h>
+#include <ploy.h>
 
 int
 main(void)
@@ -20,7 +20,7 @@ main(void)
 
 	Object *car = Car(cons);
 	assert(car != NULL);
-	assert(car->type == I64);
+	assert(car->type == NUMBER);
 
 	Object *cdr = Cdr(cons);
 	assert(cdr != NULL);

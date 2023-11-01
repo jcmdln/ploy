@@ -3,7 +3,7 @@
 
 #include <gc/gc.h>
 
-#include <ploy/core.h>
+#include <ploy.h>
 
 int
 main(void)
@@ -22,7 +22,7 @@ main(void)
 
 	Object *car = Car(list);
 	assert(car != NULL);
-	assert(car->type == I64);
+	assert(car->type == NUMBER);
 
 	Object *cdr = Cdr(list);
 	assert(cdr != NULL);

@@ -1,7 +1,8 @@
 #include <assert.h>
 #include <stdlib.h>
+#include <string.h>
 
-#include <ploy/core.h>
+#include <ploy.h>
 
 int
 main(void)
@@ -21,6 +22,7 @@ main(void)
 	Object *cadr = Car(cdr);
 	assert(cadr != NULL);
 	assert(cadr->type == STRING);
+	assert(strcmp(cadr->string, "wew") == 0);
 
 	return EXIT_SUCCESS;
 }

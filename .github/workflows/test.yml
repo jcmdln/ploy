@@ -4,52 +4,55 @@ name: Test
 on:
   pull_request:
     paths:
+      - .github/workflows/test.yml
       - .clang-format
       - .clang-tidy
       - .clangd
-      - .github/workflows/test.yml
-      - meson.build
-      - include/**/*.h
-      - src/**/*.c
-      - src/**/meson.build
+      - CMakeLists.txt
+      - include/*.h
+      - src/*.c
+      - test/CMakeLists.txt
+      - test/*/CMakeLists.txt
   push:
     paths:
+      - .github/workflows/test.yml
       - .clang-format
       - .clang-tidy
       - .clangd
-      - .github/workflows/test.yml
-      - meson.build
-      - include/**/*.h
-      - src/**/*.c
-      - src/**/meson.build
+      - CMakeLists.txt
+      - include/*.h
+      - src/*.c
+      - test/CMakeLists.txt
+      - test/*/CMakeLists.txt
   workflow_dispatch:
 
 jobs:
-  linux:
+  test_linux:
     name: linux
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
       - name: Install system dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-{recommends,suggests} \
-            clang{,-{format,tidy}} git lld meson ninja-build \
-            libgc-dev libreadline-dev libasan5 libubsan1
+          sudo apt update && sudo apt install -y --no-install-{recommends,suggests} \
+            clang{,-{format,tidy}} cmake ninja-build libgc-dev libreadline-dev libasan5 libubsan1
 
       - name: Build Ploy
-        env: { CC: clang, CC_LD: lld, NINJA: ninja }
+        env: { CC: clang, CC_LD: lld, CMAKE_GENERATOR: Ninja }
         run: |
-          meson setup builddir -Db_sanitize=address,undefined -Dbuildtype=debugoptimized
-          ninja -C builddir
+          cmake -B build/ \
+            -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"\
+            -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE \
+            -DPLOY_USE_ASAN:BOOL=ON
+          ninja -C build/
 
       - name: Test Ploy
-        run: ninja -C builddir test
+        run: ninja -C build/ test
 
       - name: clang-format
-        run: ninja -C builddir clang-format
+        run: ninja -C build/ clang-format
 
       # TODO(jcmdln): Only in actions, clang-tidy warns about suppressed warnings
       - name: clang-tidy
-        run: ninja -C builddir clang-tidy
+        run: ninja -C build/ clang-tidy

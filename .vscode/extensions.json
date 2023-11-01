@@ -5,7 +5,6 @@
     "llvm-vs-code-extensions.vscode-clangd",
     "redhat.vscode-yaml",
     "vadimcn.vscode-lldb",
-    "ms-vscode.cmake-tools",
-    "mesonbuild.mesonbuild"
+    "ms-vscode.cmake-tools"
   ]
 }
