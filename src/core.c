@@ -29,7 +29,7 @@ Append(Object *target, Object *object)
 
 	if (cdr->type != NIL) return Error("Append: cdr->type not of NIL");
 
-	head->next = Cons(object, Nil);
+	head->list->next = Cons(object, Nil);
 	return target;
 }
 
@@ -39,7 +39,7 @@ Car(Object *object)
 	if (!object) return Error("Car: object is NULL");
 	if (object->type != LIST) return Error("Car: object is not of type LIST");
 
-	return object->element;
+	return object->list->element;
 }
 
 Object *
@@ -48,7 +48,7 @@ Cdr(Object *object)
 	if (!object) return Error("Cdr: object is NULL");
 	if (object->type != LIST) return Error("Cdr: object is not of type LIST");
 
-	return object->next;
+	return object->list->next;
 }
 
 Object *
@@ -59,8 +59,9 @@ Cons(Object *car, Object *cdr)
 
 	Object *new = GC_MALLOC(sizeof(*new));
 	new->type = LIST;
-	new->element = car;
-	new->next = cdr;
+	new->list = GC_MALLOC(sizeof(*(new->list)));
+	new->list->element = car;
+	new->list->next = cdr;
 	return new;
 }
 

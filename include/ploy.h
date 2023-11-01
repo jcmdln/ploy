@@ -5,17 +5,13 @@
 
 typedef struct Object {
 	enum { NIL = 0, BOOLEAN, ERROR, LAMBDA, LIST, NUMBER, STRING, SYMBOL } type;
-	union {
+	union { // clang-format off
 		bool boolean;
 		int64_t number;
 		char const *error, *string, *symbol;
-		struct /* lambda */ {
-			struct Object *args, *body;
-		};
-		struct /* list */ {
-			struct Object *element, *next;
-		};
-	};
+		struct { struct Object *args, *body; } *lambda;
+		struct { struct Object *element, *next; } *list;
+	}; // clang-format on
 } Object;
 
 //
