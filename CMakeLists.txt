@@ -75,7 +75,7 @@ COMMAND clang-tidy -p "${CMAKE_CURRENT_SOURCE_DIR}/build"
 # Tests
 #
 
-if(CMAKE_PROJECT_NAME MATCHES Ploy)
+if(CMAKE_PROJECT_NAME STREQUAL Ploy)
 	include(CTest)
 	add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/test")
 endif()
