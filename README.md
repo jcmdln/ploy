@@ -29,8 +29,8 @@ ninja -C build
 ```sh
 sudo dnf install -y clang-tools-extra libasan libubsan
 cmake -B build \
-  -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"\
-  -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE \
+  -DCMAKE_BUILD_TYPE:STRING="Debug" \
+  -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON \
   -DPLOY_USE_ASAN:BOOL=ON
 ninja -C build
 ```
