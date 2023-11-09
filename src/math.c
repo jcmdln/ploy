@@ -12,15 +12,18 @@ Add(Object *object)
 	if (!object) return Error("Add: object is NULL");
 	if (object->type != LIST) return Error("Add: object not of LIST");
 
-	int64_t result = 0;
+	Object *car = Car(object);
+	if (car->type != NUMBER) return Error("Add: car not of NUMBER");
+	int64_t result = car->number;
+	object = Cdr(object);
+
 	while (object->type == LIST) {
 		Object *car = Car(object);
 		if (car->type == NIL) break;
 		if (car->type != NUMBER) return Error("Add: car not of NUMBER");
 
 		int64_t c = car->number;
-		if ((c > 0 && result > (INT64_MAX - c)) || (c < 0 && result < (INT64_MIN - c)))
-			return Error("Add: overflow");
+		if ((c > 0 && result > (INT64_MAX - c)) || (c < 0 && result < (INT64_MIN - c))) return Error("Add: overflow");
 
 		result += c;
 		object = Cdr(object);
@@ -35,7 +38,9 @@ Subtract(Object *object)
 	if (!object) return Error("Subtract: object is NULL");
 	if (object->type != LIST) return Error("Subtract: object not of LIST");
 
-	int64_t result = Car(object)->number;
+	Object *car = Car(object);
+	if (car->type != NUMBER) return Error("Subtract: car not of NUMBER");
+	int64_t result = car->number;
 	object = Cdr(object);
 
 	while (object->type == LIST) {
@@ -61,11 +66,10 @@ Multiply(Object *object)
 	if (object->type != LIST) return Error("Multiply: object not of LIST");
 
 	Object *car = Car(object);
-	if (!car) return Error("Multiply: car is NULL");
 	if (car->type != NUMBER) return Error("Multiply: car not of NUMBER");
-
 	int64_t result = car->number;
 	object = Cdr(object);
+
 	while (object->type == LIST) {
 		car = Car(object);
 		if (car->type == NIL) break;
@@ -83,11 +87,10 @@ Divide(Object *object)
 	if (object->type != LIST) return Error("Divide: object not of LIST");
 
 	Object *car = Car(object);
-	if (!car) return Error("Divide: car is NULL");
 	if (car->type != NUMBER) return Error("Divide: car not of NUMBER");
-
 	int64_t result = car->number;
 	object = Cdr(object);
+
 	while (object->type == LIST) {
 		car = Car(object);
 		if (car->type == NIL) break;
