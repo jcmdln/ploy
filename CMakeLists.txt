@@ -61,14 +61,14 @@ endif()
 
 add_custom_target(clang-format
 COMMAND clang-format --dry-run --verbose --Werror
-"${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
 )
 
 add_custom_target(clang-tidy
 COMMAND clang-tidy -p "${CMAKE_CURRENT_SOURCE_DIR}/build"
-"${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
 )
 
 #
