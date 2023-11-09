@@ -87,9 +87,8 @@ read_form(size_t *index, char const **input)
 
 		if (!object) return Error("read_form: object is NULL");
 		if (object->type == ERROR) return object;
-
-		objects = Cons(object, objects);
 		if (object->type == NIL) break;
+		objects = Cons(object, objects);
 	}
 
 	*input = cursor;
