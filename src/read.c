@@ -75,10 +75,9 @@ read_form(size_t *index, char const **input)
 		case ')': object = Nil; break;
 		case '(': object = read_list(&length, &cursor); break;
 		// Number
-		case '-': case '+': object = (isdigit(cursor[1])) ?
-			read_number(&length, &cursor) : read_symbol(&length, &cursor); break;
-		case '0': case '1': case '2': case '3': case '4':
-		case '5': case '6': case '7': case '8': case '9':
+		case '-': case '+':
+			object = (isdigit(cursor[1])) ? read_number(&length, &cursor) : read_symbol(&length, &cursor); break;
+		case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
 			object = read_number(&length, &cursor); break;
 		// String
 		case '\"': object = read_string(&length, &cursor); break;
