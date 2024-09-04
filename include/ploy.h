@@ -3,53 +3,65 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-typedef struct Object {
-	enum { NIL = 0, BOOLEAN, ERROR, LAMBDA, LIST, NUMBER, STRING, SYMBOL } type;
+typedef struct Ploy Ploy;
+struct Ploy {
+	enum {
+		PloyNIL = 0,
+		PloyBOOLEAN,
+		PloyERROR,
+		PloyLAMBDA,
+		PloyLIST,
+		PloyNUMBER,
+		PloySTRING,
+		PloySYMBOL
+	} type;
 	union { // clang-format off
 		bool boolean;
+		char const *error;
+		struct { Ploy *args, *body; } *lambda;
+		struct { Ploy *element, *next; } *list;
 		int64_t number;
-		char const *error, *string, *symbol;
-		struct { struct Object *args, *body; } *lambda;
-		struct { struct Object *element, *next; } *list;
+		char const *string;
+		char const *symbol;
 	}; // clang-format on
-} Object;
+};
 
 //
 // Core
 //
 
-static Object *const Nil = &(Object){ .type = NIL };
-static Object *const True = &(Object){ .type = NIL, .boolean = true };
-static Object *const False = &(Object){ .type = NIL, .boolean = false };
+static Ploy *const PloyNil = &(Ploy){ .type = PloyNIL };
+static Ploy *const PloyTrue = &(Ploy){ .type = PloyBOOLEAN, .boolean = true };
+static Ploy *const PloyFalse = &(Ploy){ .type = PloyBOOLEAN, .boolean = false };
 
-Object *Append(Object *target, Object *object);
-Object *Apply(Object *object);
-Object *Car(Object *object);
-Object *Cdr(Object *object);
-Object *Cons(Object *car, Object *cdr);
-Object *Define(Object *env, Object *args, Object *body);
-Object *Error(char const *error);
-Object *Eval(Object *object);
-Object *For(Object *expr, Object *body);
-Object *If(Object *expr, Object *body);
-Object *Lambda(Object *args, Object *body);
-Object *Let(Object *env, Object *args, Object *body);
-Object *Number(int64_t number);
-Object *Print(Object *object);
-Object *Read(char const *input);
-Object *Reverse(Object *object);
-Object *String(char const *string);
+Ploy *PloyAppend(Ploy *target, Ploy *object);
+Ploy *PloyApply(Ploy *object);
+Ploy *PloyCar(Ploy *object);
+Ploy *PloyCdr(Ploy *object);
+Ploy *PloyCons(Ploy *car, Ploy *cdr);
+Ploy *PloyDefine(Ploy *env, Ploy *args, Ploy *body);
+Ploy *PloyError(char const *error);
+Ploy *PloyEval(Ploy *object);
+Ploy *PloyFor(Ploy *expr, Ploy *body);
+Ploy *PloyIf(Ploy *expr, Ploy *body);
+Ploy *PloyLambda(Ploy *args, Ploy *body);
+Ploy *PloyLet(Ploy *env, Ploy *args, Ploy *body);
+Ploy *PloyNumber(int64_t number);
+Ploy *PloyPrint(Ploy *object);
+Ploy *PloyRead(char const *input);
+Ploy *PloyReverse(Ploy *object);
+Ploy *PloyString(char const *string);
 
 //
 // Math
 //
 
-Object *Add(Object *object);
-Object *Subtract(Object *object);
-Object *Multiply(Object *object);
-Object *Divide(Object *object);
+Ploy *PloyAdd(Ploy *object);
+Ploy *PloySubtract(Ploy *object);
+Ploy *PloyMultiply(Ploy *object);
+Ploy *PloyDivide(Ploy *object);
 
-// Object *Exponent(Object *object);
-// Object *Log(Object *object);
-// Object *Modulo(Object *object);
-// Object *NthRoot(Object *object, int64_t nth);
+// Ploy *PloyExponent(Ploy *object);
+// Ploy *PloyLog(Ploy *object);
+// Ploy *PloyModulo(Ploy *object);
+// Ploy *PloyNthRoot(Ploy *object, int64_t nth);

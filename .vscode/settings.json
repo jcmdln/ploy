@@ -1,51 +1,48 @@
 {
-  "clangd.arguments": [
-    // Don't automatically add missing headers
-    "--header-insertion=never"
-  ],
-
-  // Don't immediately pester the user on open of the project
-  "cmake.configureOnOpen": false,
-  // Don't focusing CMake logs on changes
-  "cmake.revealLog": "never",
-  // Don't clutter the statusbar
-  "cmake.useProjectStatusView": true,
-
-  // Make Prettier the default formatter
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.insertSpaces": true,
 
-  // Ensure files have the correct language association
   "files.associations": {
-    ".clang-format": "yaml",
     ".clang-tidy": "yaml",
     ".clangd": "yaml",
     "*.c": "c",
-    "*.h": "c"
+    "*.h": "c",
+    "*.ploy": "clojure"
   },
-
-  // Exclude targets from being watched for changes
   "files.watcherExclude": {
-    "**/builddir/**": true
+    "build/": true
   },
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
 
-  // Associate YAML schemas with targets
+  //
+  // Extensions
+  //
+
+  "clangd.arguments": ["--header-insertion=never"],
+
+  "cmake.configureOnOpen": false,
+  "cmake.revealLog": "never",
+
+  "prettier.useEditorConfig": true,
+
   "yaml.schemas": {
     "https://json.schemastore.org/github-workflow.json": [
       "${workspaceFolder}/.github/workflows/*.yml"
     ]
   },
 
-  // Per-language settings
+  //
+  // Languages
+  //
+
   "[c]": {
     "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
     "editor.insertSpaces": false,
     "editor.tabSize": 4
   },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[yaml]": { "editor.defaultFormatter": "esbenp.prettier-vscode" }
 }

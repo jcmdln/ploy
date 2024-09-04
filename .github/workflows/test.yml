@@ -53,6 +53,6 @@ jobs:
       - name: clang-format
         run: ninja -C build/ clang-format
 
-      # TODO(jcmdln): Only in actions, clang-tidy warns about suppressed warnings
+      # TODO: jcmdln: Only in actions, clang-tidy warns about suppressed warnings
       - name: clang-tidy
         run: ninja -C build/ clang-tidy

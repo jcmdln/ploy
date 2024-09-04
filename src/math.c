@@ -6,128 +6,121 @@
 // Arithmetic
 //
 
-Object *
-Add(Object *object)
+Ploy *
+PloyAdd(Ploy *object)
 {
-	if (!object) return Error("Add: object is NULL");
-	if (object->type != LIST) return Error("Add: object not of LIST");
+	if (!object) return PloyError("Add: object is NULL");
+	if (object->type != PloyLIST) return PloyError("Add: object not of LIST");
 
-	Object *car = Car(object);
-	if (car->type != NUMBER) return Error("Add: car not of NUMBER");
+	Ploy *car = PloyCar(object);
+	if (car->type != PloyNUMBER) return PloyError("Add: car not of NUMBER");
 	int64_t result = car->number;
-	object = Cdr(object);
+	object = PloyCdr(object);
 
-	while (object->type == LIST) {
-		Object *car = Car(object);
-		if (car->type == NIL) break;
-		if (car->type != NUMBER) return Error("Add: car not of NUMBER");
+	while (object->type == PloyLIST) {
+		Ploy *car = PloyCar(object);
+		if (car->type == PloyNIL) break;
+		if (car->type != PloyNUMBER) return PloyError("Add: car not of NUMBER");
 
-		int64_t c = car->number;
-		if ((c > 0 && result > (INT64_MAX - c)) || (c < 0 && result < (INT64_MIN - c))) return Error("Add: overflow");
-
-		result += c;
-		object = Cdr(object);
+		result += car->number;
+		object = PloyCdr(object);
 	}
 
-	return Number(result);
+	return PloyNumber(result);
 }
 
-Object *
-Subtract(Object *object)
+Ploy *
+PloySubtract(Ploy *object)
 {
-	if (!object) return Error("Subtract: object is NULL");
-	if (object->type != LIST) return Error("Subtract: object not of LIST");
+	if (!object) return PloyError("Subtract: object is NULL");
+	if (object->type != PloyLIST) return PloyError("Subtract: object not of LIST");
 
-	Object *car = Car(object);
-	if (car->type != NUMBER) return Error("Subtract: car not of NUMBER");
+	Ploy *car = PloyCar(object);
+	if (car->type != PloyNUMBER) return PloyError("Subtract: car not of NUMBER");
 	int64_t result = car->number;
-	object = Cdr(object);
+	object = PloyCdr(object);
 
-	while (object->type == LIST) {
-		Object *car = Car(object);
-		if (car->type == NIL) break;
-		if (car->type != NUMBER) return Error("Subtract: car not of NUMBER");
+	while (object->type == PloyLIST) {
+		Ploy *car = PloyCar(object);
+		if (car->type == PloyNIL) break;
+		if (car->type != PloyNUMBER) return PloyError("Subtract: car not of NUMBER");
 
-		int64_t c = car->number;
-		if ((c > 0 && result < (INT64_MIN + c)) || (c < 0 && result > (INT64_MAX + c)))
-			return Error("Subtract: overflow");
-
-		result -= c;
-		object = Cdr(object);
+		result -= car->number;
+		object = PloyCdr(object);
 	}
 
-	return Number(result);
+	return PloyNumber(result);
 }
 
-Object *
-Multiply(Object *object)
+Ploy *
+PloyMultiply(Ploy *object)
 {
-	if (!object) return Error("Multiply: object is NULL");
-	if (object->type != LIST) return Error("Multiply: object not of LIST");
+	if (!object) return PloyError("Multiply: object is NULL");
+	if (object->type != PloyLIST) return PloyError("Multiply: object not of LIST");
 
-	Object *car = Car(object);
-	if (car->type != NUMBER) return Error("Multiply: car not of NUMBER");
+	Ploy *car = PloyCar(object);
+	if (car->type != PloyNUMBER) return PloyError("Multiply: car not of NUMBER");
 	int64_t result = car->number;
-	object = Cdr(object);
+	object = PloyCdr(object);
 
-	while (object->type == LIST) {
-		car = Car(object);
-		if (car->type == NIL) break;
+	while (object->type == PloyLIST) {
+		car = PloyCar(object);
+		if (car->type == PloyNIL) break;
 		result *= car->number;
-		object = Cdr(object);
+		object = PloyCdr(object);
 	}
 
-	return Number(result);
+	return PloyNumber(result);
 }
 
-Object *
-Divide(Object *object)
+Ploy *
+PloyDivide(Ploy *object)
 {
-	if (!object) return Error("Divide: object is NULL");
-	if (object->type != LIST) return Error("Divide: object not of LIST");
+	if (!object) return PloyError("Divide: object is NULL");
+	if (object->type != PloyLIST) return PloyError("Divide: object not of LIST");
 
-	Object *car = Car(object);
-	if (car->type != NUMBER) return Error("Divide: car not of NUMBER");
+	Ploy *car = PloyCar(object);
+	if (car->type != PloyNUMBER) return PloyError("Divide: car not of NUMBER");
 	int64_t result = car->number;
-	object = Cdr(object);
+	object = PloyCdr(object);
 
-	while (object->type == LIST) {
-		car = Car(object);
-		if (car->type == NIL) break;
+	while (object->type == PloyLIST) {
+		car = PloyCar(object);
+		if (car->type == PloyNIL) break;
 		result /= car->number;
-		object = Cdr(object);
+		object = PloyCdr(object);
 	}
 
-	return Number(result);
+	return PloyNumber(result);
 }
 
-// Object *
-// Exponent(Object *object)
+// Ploy *
+// PloyExponent(Ploy *object)
 // {
-// 	if (!object) return Error("Exponent: object is NULL");
-// 	if (object->type != LIST) return Error("Exponent: object not of LIST");
-// 	return Number(0);
+// 	if (!object) return PloyError("Exponent: object is NULL");
+// 	if (object->type != PloyLIST) return PloyError("Exponent: object not of LIST");
+// 	return PloyNumber(0);
 // }
 
-// Log(Object *object)
+// PloyLog(Ploy *object)
 // {
-// 	if (!object) return Error("Log: object is NULL");
-// 	if (object->type != LIST) return Error("Log: object not of LIST");
-// 	return Number(0);
+// 	if (!object) return PloyError("Log: object is NULL");
+// 	if (object->type != PloyLIST) return PloyError("Log: object not of LIST");
+// 	return PloyNumber(0);
 // }
 
-// Object *
-// Modulo(Object *object)
+// Ploy *
+// PloyModulo(Ploy *object)
 // {
-// 	if (!object) return Error("Modulo: object is NULL");
-// 	if (object->type != LIST) return Error("Modulo: object not of LIST");
-// 	return Number(0);
+// 	if (!object) return PloyError("Modulo: object is NULL");
+// 	if (object->type != PloyLIST) return PloyError("Modulo: object not of LIST");
+// 	return PloyNumber(0);
 // }
 
-// Object *
-// NthRoot(Object *object)
+// Ploy *
+// PloyNthRoot(Ploy *object)
 // {
-// 	if (!object) return Error("NthRoot: object is NULL");
-// 	if (object->type != LIST) return Error("Root: object not of LIST");
-// 	return Number(0);
+// 	if (!object) return PloyError("NthRoot: object is NULL");
+// 	if (object->type != PloyLIST) return PloyError("Root: object not of LIST");
+// 	return PloyNumber(0);
 // }

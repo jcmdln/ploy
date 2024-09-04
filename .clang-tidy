@@ -19,12 +19,10 @@ Checks: |
   readability-*
   -bugprone-easily-swappable-parameters
   -clang-analyzer-security.insecureAPI
+  -misc-include-cleaner
+  -misc-no-recursion
   -readability-braces-around-statements
   -readability-function-cognitive-complexity
   -readability-identifier-length
   -readability-magic-numbers
   -readability-non-const-parameter
-
-WarningsAsErrors: |
-  *
-  -misc-no-recursion

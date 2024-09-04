@@ -7,35 +7,39 @@
 int
 main(void)
 {
-	Object *null = Read(NULL);
+	Ploy *null = PloyRead(NULL);
 	assert(null != NULL);
-	assert(null->type == ERROR);
+	assert(null->type == PloyERROR);
 
-	Object *nil = Read("");
+	Ploy *nil = PloyRead("");
 	assert(nil != NULL);
-	assert(nil->type == NIL);
+	assert(nil->type == PloyNIL);
 
-	Object *list = Car(Read("(42 \"wew\")"));
+	Ploy *list = PloyCar(PloyRead("(42 \"wew\")"));
 	assert(list != NULL);
-	assert(list->type == LIST);
+	assert(list->type == PloyLIST);
 
-	Object *car = Car(list);
+	Ploy *car = PloyCar(list);
 	assert(car != NULL);
-	assert(car->type == NUMBER);
+	assert(car->type == PloyNUMBER);
 	assert(car->number == 42);
 
-	Object *cdr = Cdr(list);
+	Ploy *cdr = PloyCdr(list);
 	assert(cdr != NULL);
-	assert(cdr->type == LIST);
+	assert(cdr->type == PloyLIST);
 
-	Object *cadr = Car(cdr);
+	Ploy *cadr = PloyCar(cdr);
 	assert(cadr != NULL);
-	assert(cadr->type == STRING);
+	assert(cadr->type == PloySTRING);
 	assert(strcmp(cadr->string, "wew") == 0);
 
-	Object *cddr = Cdr(cdr);
+	Ploy *cddr = PloyCdr(cdr);
 	assert(cddr != NULL);
-	assert(cddr->type == NIL);
+	assert(cddr->type == PloyLIST);
+
+	Ploy *caddr = PloyCar(cddr);
+	assert(caddr != NULL);
+	assert(caddr->type == PloyNIL);
 
 	return EXIT_SUCCESS;
 }

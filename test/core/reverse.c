@@ -6,33 +6,33 @@
 int
 main(void)
 {
-	Object *null = Reverse(NULL);
+	Ploy *null = PloyReverse(NULL);
 	assert(null != NULL);
-	assert(null->type == ERROR);
+	assert(null->type == PloyERROR);
 
-	Object *nil = Reverse(Nil);
+	Ploy *nil = PloyReverse(PloyNil);
 	assert(nil != NULL);
-	assert(nil->type == NIL);
+	assert(nil->type == PloyNIL);
 
-	Object *list = Reverse(Cons(Number(42), Cons(String("wew"), Nil)));
+	Ploy *list = PloyReverse(PloyCons(PloyNumber(42), PloyCons(PloyString("wew"), PloyNil)));
 	assert(list != NULL);
-	assert(list->type == LIST);
+	assert(list->type == PloyLIST);
 
-	Object *car = Car(list);
+	Ploy *car = PloyCar(list);
 	assert(car != NULL);
-	assert(car->type == STRING);
+	assert(car->type == PloySTRING);
 
-	Object *cdr = Cdr(list);
+	Ploy *cdr = PloyCdr(list);
 	assert(cdr != NULL);
-	assert(cdr->type == LIST);
+	assert(cdr->type == PloyLIST);
 
-	Object *cadr = Car(cdr);
+	Ploy *cadr = PloyCar(cdr);
 	assert(cadr != NULL);
-	assert(cadr->type == NUMBER);
+	assert(cadr->type == PloyNUMBER);
 
-	Object *cddr = Cdr(cdr);
+	Ploy *cddr = PloyCdr(cdr);
 	assert(cddr != NULL);
-	assert(cddr->type == NIL);
+	assert(cddr->type == PloyNIL);
 
 	return EXIT_SUCCESS;
 }

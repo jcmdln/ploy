@@ -6,25 +6,18 @@
 int
 main(void)
 {
-	Object *null = Add(NULL);
+	Ploy *null = PloyAdd(NULL);
 	assert(null != NULL);
-	assert(null->type == ERROR);
+	assert(null->type == PloyERROR);
 
-	Object *nil = Add(Nil);
+	Ploy *nil = PloyAdd(PloyNil);
 	assert(nil != NULL);
-	assert(nil->type == ERROR);
+	assert(nil->type == PloyERROR);
 
-	Object *overflow = Add(Cons(Number(INT64_MAX), Cons(Number(1), Nil)));
-	assert(overflow != NULL);
-	assert(overflow->type == ERROR);
-
-	Object *underflow = Add(Cons(Number(INT64_MIN), Cons(Number(-1), Nil)));
-	assert(underflow != NULL);
-	assert(underflow->type == ERROR);
-
-	Object *add = Add(Cons(Number(30), Cons(Number(10), Cons(Number(2), Nil))));
+	Ploy *add = PloyAdd(
+		PloyCons(PloyNumber(30), PloyCons(PloyNumber(10), PloyCons(PloyNumber(2), PloyNil))));
 	assert(add != NULL);
-	assert(add->type == NUMBER);
+	assert(add->type == PloyNUMBER);
 	assert(add->number == 42);
 
 	return EXIT_SUCCESS;

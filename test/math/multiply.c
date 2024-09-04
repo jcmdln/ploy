@@ -6,17 +6,18 @@
 int
 main(void)
 {
-	Object *null = Multiply(NULL);
+	Ploy *null = PloyMultiply(NULL);
 	assert(null != NULL);
-	assert(null->type == ERROR);
+	assert(null->type == PloyERROR);
 
-	Object *nil = Multiply(Nil);
+	Ploy *nil = PloyMultiply(PloyNil);
 	assert(nil != NULL);
-	assert(nil->type == ERROR);
+	assert(nil->type == PloyERROR);
 
-	Object *multiply = Multiply(Cons(Number(2), Cons(Number(3), Cons(Number(7), Nil))));
+	Ploy *multiply = PloyMultiply(
+		PloyCons(PloyNumber(2), PloyCons(PloyNumber(3), PloyCons(PloyNumber(7), PloyNil))));
 	assert(multiply != NULL);
-	assert(multiply->type == NUMBER);
+	assert(multiply->type == PloyNUMBER);
 	assert(multiply->number == 42);
 
 	return EXIT_SUCCESS;

@@ -7,21 +7,21 @@
 int
 main(void)
 {
-	Object *null = Cdr(NULL);
+	Ploy *null = PloyCdr(NULL);
 	assert(null != NULL);
-	assert(null->type == ERROR);
+	assert(null->type == PloyERROR);
 
-	Object *nil = Cdr(Nil);
+	Ploy *nil = PloyCdr(PloyNil);
 	assert(nil != NULL);
-	assert(nil->type == ERROR);
+	assert(nil->type == PloyERROR);
 
-	Object *cdr = Cdr(Cons(Number(42), Cons(String("wew"), Nil)));
+	Ploy *cdr = PloyCdr(PloyCons(PloyNumber(42), PloyCons(PloyString("wew"), PloyNil)));
 	assert(cdr != NULL);
-	assert(cdr->type == LIST);
+	assert(cdr->type == PloyLIST);
 
-	Object *cadr = Car(cdr);
+	Ploy *cadr = PloyCar(cdr);
 	assert(cadr != NULL);
-	assert(cadr->type == STRING);
+	assert(cadr->type == PloySTRING);
 	assert(strcmp(cadr->string, "wew") == 0);
 
 	return EXIT_SUCCESS;

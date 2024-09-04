@@ -6,25 +6,25 @@
 int
 main(void)
 {
-	Object *null = Cons(NULL, NULL);
+	Ploy *null = PloyCons(NULL, NULL);
 	assert(null != NULL);
-	assert(null->type == ERROR);
+	assert(null->type == PloyERROR);
 
-	Object *nil = Cons(Nil, Nil);
+	Ploy *nil = PloyCons(PloyNil, PloyNil);
 	assert(nil != NULL);
-	assert(nil->type == LIST);
+	assert(nil->type == PloyLIST);
 
-	Object *cons = Cons(Number(42), Nil);
+	Ploy *cons = PloyCons(PloyNumber(42), PloyNil);
 	assert(cons != NULL);
-	assert(cons->type == LIST);
+	assert(cons->type == PloyLIST);
 
-	Object *car = Car(cons);
+	Ploy *car = PloyCar(cons);
 	assert(car != NULL);
-	assert(car->type == NUMBER);
+	assert(car->type == PloyNUMBER);
 
-	Object *cdr = Cdr(cons);
+	Ploy *cdr = PloyCdr(cons);
 	assert(cdr != NULL);
-	assert(cdr->type == NIL);
+	assert(cdr->type == PloyNIL);
 
 	return EXIT_SUCCESS;
 }

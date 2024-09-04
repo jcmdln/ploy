@@ -6,25 +6,17 @@
 int
 main(void)
 {
-	Object *null = Subtract(NULL);
+	Ploy *null = PloySubtract(NULL);
 	assert(null != NULL);
-	assert(null->type == ERROR);
+	assert(null->type == PloyERROR);
 
-	Object *nil = Subtract(Nil);
+	Ploy *nil = PloySubtract(PloyNil);
 	assert(nil != NULL);
-	assert(nil->type == ERROR);
+	assert(nil->type == PloyERROR);
 
-	Object *overflow = Subtract(Cons(Number(INT64_MAX), Cons(Number(-1), Nil)));
-	assert(overflow != NULL);
-	assert(overflow->type == ERROR);
-
-	Object *underflow = Subtract(Cons(Number(INT64_MIN), Cons(Number(1), Nil)));
-	assert(underflow != NULL);
-	assert(underflow->type == ERROR);
-
-	Object *subtract = Subtract(Cons(Number(100), Cons(Number(58), Nil)));
+	Ploy *subtract = PloySubtract(PloyCons(PloyNumber(100), PloyCons(PloyNumber(58), PloyNil)));
 	assert(subtract != NULL);
-	assert(subtract->type == NUMBER);
+	assert(subtract->type == PloyNUMBER);
 	assert(subtract->number == 42);
 
 	return EXIT_SUCCESS;

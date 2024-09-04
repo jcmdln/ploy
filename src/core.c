@@ -4,167 +4,168 @@
 
 #include <ploy.h>
 
-Object *
-Apply(Object *object)
+Ploy *
+PloyApply(Ploy *object)
 {
-	if (!object) return Error("Apply: object is NULL");
+	if (!object) return PloyError("Apply: object is NULL");
 
-	return Error("Apply: Not implemented");
+	return PloyError("Apply: Not implemented");
 }
 
-Object *
-Append(Object *target, Object *object)
+Ploy *
+PloyAppend(Ploy *target, Ploy *object)
 {
-	if (!object) return Error("Append: object is NULL");
-	if (!target || target->type == NIL) return Cons(object, Nil);
+	if (!object) return PloyError("Append: object is NULL");
+	if (!target || target->type == PloyNIL) return PloyCons(object, PloyNil);
 
-	if (target->type != LIST) target = Cons(target, Nil);
+	if (target->type != PloyLIST) target = PloyCons(target, PloyNil);
 
-	Object *head = target;
-	Object *cdr = Cdr(head);
-	while (cdr->type == LIST) {
+	Ploy *head = target;
+	Ploy *cdr = PloyCdr(head);
+	while (cdr->type == PloyLIST) {
 		head = cdr;
-		cdr = Cdr(head);
+		cdr = PloyCdr(head);
 	}
 
-	if (cdr->type != NIL) return Error("Append: cdr->type not of NIL");
+	if (cdr->type != PloyNIL) return PloyError("Append: cdr->type not of NIL");
 
-	head->list->next = Cons(object, Nil);
+	head->list->next = PloyCons(object, PloyNil);
 	return target;
 }
 
-Object *
-Car(Object *object)
+Ploy *
+PloyCar(Ploy *object)
 {
-	if (!object) return Error("Car: object is NULL");
-	if (object->type != LIST) return Error("Car: object is not of type LIST");
+	if (!object) return PloyError("Car: object is NULL");
+	if (object->type != PloyLIST) return PloyError("Car: object is not of type LIST");
 
 	return object->list->element;
 }
 
-Object *
-Cdr(Object *object)
+Ploy *
+PloyCdr(Ploy *object)
 {
-	if (!object) return Error("Cdr: object is NULL");
-	if (object->type != LIST) return Error("Cdr: object is not of type LIST");
+	if (!object) return PloyError("Cdr: object is NULL");
+	if (object->type != PloyLIST) return PloyError("Cdr: object is not of type LIST");
 
 	return object->list->next;
 }
 
-Object *
-Cons(Object *car, Object *cdr)
+Ploy *
+PloyCons(Ploy *car, Ploy *cdr)
 {
-	if (!car) return Error("Cons: car is NULL");
-	if (!cdr) return Error("Cons: cdr is NULL");
+	if (!car) return PloyError("Cons: car is NULL");
+	if (!cdr) return PloyError("Cons: cdr is NULL");
 
-	Object *new = GC_MALLOC(sizeof(*new));
-	new->type = LIST;
+	Ploy *new = GC_MALLOC(sizeof(*new));
+	new->type = PloyLIST;
 	new->list = GC_MALLOC(sizeof(*(new->list)));
 	new->list->element = car;
 	new->list->next = cdr;
 	return new;
 }
 
-Object *
-Define(Object *env, Object *args, Object *body)
+Ploy *
+PloyDefine(Ploy *env, Ploy *args, Ploy *body)
 {
-	if (!env) return Error("Define: env is NULL");
-	if (!args) return Error("Define: args is NULL");
-	if (!body) return Error("Define: body is NULL");
+	if (!env) return PloyError("Define: env is NULL");
+	if (!args) return PloyError("Define: args is NULL");
+	if (!body) return PloyError("Define: body is NULL");
 
-	return Error("Define: Not implemented");
+	return PloyError("Define: Not implemented");
 }
 
-Object *
-Error(char const *error)
+Ploy *
+PloyError(char const *error)
 {
 	if (!error) error = "Error: str is NULL";
 
-	Object *new = GC_MALLOC(sizeof(*new));
-	new->type = ERROR;
+	Ploy *new = GC_MALLOC(sizeof(*new));
+	new->type = PloyERROR;
 	new->error = error;
 	return new;
 }
 
-Object *
-Number(int64_t number)
+Ploy *
+PloyNumber(int64_t number)
 {
-	if (number < INT64_MIN) return Error("Number: i64 < INT64_MIN");
-	if (number > INT64_MAX) return Error("Number: i64 > INT64_MAX");
+	if (number < INT64_MIN) return PloyError("Number: i64 < INT64_MIN");
+	if (number > INT64_MAX) return PloyError("Number: i64 > INT64_MAX");
 
-	Object *new = GC_MALLOC(sizeof(*new));
-	new->type = NUMBER;
+	Ploy *new = GC_MALLOC(sizeof(*new));
+	new->type = PloyNUMBER;
 	new->number = number;
 	return new;
 }
 
-Object *
-Print(Object *object)
+Ploy *
+PloyPrint(Ploy *object)
 {
-	if (!object) return Error("Print: object is NULL");
+	if (!object) return PloyError("Print: object is NULL");
 
-	Object *head = object;
-	Object *queue = Nil;
+	Ploy *head = object;
+	Ploy *queue = PloyNil;
 
 	do {
 		while (object) {
 			switch (object->type) { // clang-format off
-			case NIL:     printf("nil"); break;
-			case BOOLEAN: printf(object->boolean ? "true" : "false"); break;
-			case ERROR:   printf("error: %s\n", object->error); break;
-			case LAMBDA:  printf("lambda"); break;
-			case NUMBER:  printf("%ld", object->number); break;
-			case STRING:  printf("\"%s\"", object->string); break;
-			case SYMBOL:  printf("%s", object->symbol); break;
-			case LIST: {
-				Object *tail = Cdr(object);
-				if (tail->type == LIST) queue = Cons(tail, queue);
-				object = Car(object);
-				if (object->type == NIL) { putchar(')'); break; }
-				if (object->type == LIST) putchar('(');
+			case PloyNIL:     printf("nil"); break;
+			case PloyBOOLEAN: printf(object->boolean ? "true" : "false"); break;
+			case PloyERROR:   printf("error: %s\n", object->error); break;
+			case PloyLAMBDA:  printf("lambda"); break;
+			case PloyNUMBER:  printf("%ld", object->number); break;
+			case PloySTRING:  printf("\"%s\"", object->string); break;
+			case PloySYMBOL:  printf("%s", object->symbol); break;
+			case PloyLIST: {
+				Ploy *tail = PloyCdr(object);
+				if (tail->type == PloyLIST) queue = PloyCons(tail, queue);
+				object = PloyCar(object);
+				if (object->type == PloyNIL) { putchar(')'); break; }
+				if (object->type == PloyLIST) putchar('(');
 				continue;
 			}
-			default: return Error("Print: unknown object->type");
+			default: return PloyError("Print: unknown object->type");
 			} // clang-format on
 			break;
 		}
 
-		if (object->type == ERROR) return object;
-		if (queue->type == NIL) break;
-		object = Car(queue);
-		queue = Cdr(queue);
+		if (object->type == PloyERROR) return object;
+		if (queue->type == PloyNIL) break;
+		object = PloyCar(queue);
+		queue = PloyCdr(queue);
 
-		// TODO(jcmdln): Audit when spaces are inserted
-		if (object->type != NIL && Cdr(object)->type != NIL) putchar(' ');
-		if (Car(object)->type != NIL && Cdr(object)->type == NIL) putchar(' ');
+		// TODO: jcmdln: Audit when spaces are inserted
+		if (object->type != PloyNIL && PloyCdr(object)->type != PloyNIL) putchar(' ');
+		if (PloyCar(object)->type != PloyNIL && PloyCdr(object)->type == PloyNIL) putchar(' ');
 	} while (queue);
 
 	return head;
 }
 
-// TODO(jcmdln): non-recursive `Reverse`
-Object *
-Reverse(Object *object)
+// TODO: jcmdln: non-recursive `Reverse`
+Ploy *
+PloyReverse(Ploy *object)
 {
-	if (!object) return Error("Reverse: object is NULL");
-	if (object->type != LIST) return object;
+	if (!object) return PloyError("Reverse: object is NULL");
+	if (object->type != PloyLIST) return object;
 
-	Object *reversed = Nil;
-	while (object->type == LIST) {
-		Object *car = Car(object);
-		reversed = (car->type == LIST) ? Cons(Reverse(car), reversed) : Cons(car, reversed);
-		object = Cdr(object);
+	Ploy *reversed = PloyNil;
+	while (object->type == PloyLIST) {
+		Ploy *car = PloyCar(object);
+		reversed = (car->type == PloyLIST) ? PloyCons(PloyReverse(car), reversed) :
+		                                     PloyCons(car, reversed);
+		object = PloyCdr(object);
 	}
 	return reversed;
 }
 
-Object *
-String(char const *string)
+Ploy *
+PloyString(char const *string)
 {
-	if (!string) return Error("String: string is null");
+	if (!string) return PloyError("String: string is null");
 
-	Object *new = GC_MALLOC(sizeof(*new));
-	new->type = STRING;
+	Ploy *new = GC_MALLOC(sizeof(*new));
+	new->type = PloySTRING;
 	new->string = string;
 	return new;
 }

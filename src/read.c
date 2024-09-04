@@ -8,33 +8,33 @@
 
 static char TOKENS[11] = " \n\r\t\v#;()\"\0";
 
-Object *read_delimiters(char const *input, char begin, char end);
-Object *read_form(size_t *index, char const **input);
-Object *read_list(size_t *index, char const **input);
-Object *read_number(size_t *index, char const **input);
-Object *read_string(size_t *index, char const **input);
-Object *read_symbol(size_t *index, char const **input);
+Ploy *read_delimiters(char const *input, char begin, char end);
+Ploy *read_form(size_t *index, char const **input);
+Ploy *read_list(size_t *index, char const **input);
+Ploy *read_number(size_t *index, char const **input);
+Ploy *read_string(size_t *index, char const **input);
+Ploy *read_symbol(size_t *index, char const **input);
 
-// TODO(jcmdln): non-recursive `Read`
-Object *
-Read(char const *input)
+// TODO: jcmdln: non-recursive `Read`
+Ploy *
+PloyRead(char const *input)
 {
-	if (!input) return Error("reader: input is NULL");
+	if (!input) return PloyError("Read: input is NULL");
 
-	Object *delims = read_delimiters(input, '(', ')');
-	if (delims->type != NIL) return delims;
+	Ploy *delims = read_delimiters(input, '(', ')');
+	if (delims->type != PloyNIL) return delims;
 
 	size_t index = 0;
-	Object *forms = read_form(&index, &input);
-	if (forms->type == ERROR) return forms;
+	Ploy *forms = read_form(&index, &input);
+	if (forms->type == PloyERROR) return forms;
 
-	return Reverse(forms);
+	return PloyReverse(forms);
 }
 
-Object *
-read_delimiters(char const *input, char begin, char end)
+Ploy *
+read_delimiters(char const *const input, char begin, char end)
 {
-	if (!input) return Error("read_delimiters: input is NULL");
+	if (!input) return PloyError("read_delimiters: input is NULL");
 
 	char const *cursor = input;
 	int64_t balanced = 0;
@@ -47,37 +47,44 @@ read_delimiters(char const *input, char begin, char end)
 		++cursor;
 	}
 
-	if (balanced < 0) return Error("read_delimiters: missing begin");
-	if (balanced > 0) return Error("read_delimiters: missing end");
+	if (balanced < 0) return PloyError("read_delimiters: missing begin");
+	if (balanced > 0) return PloyError("read_delimiters: missing end");
 
-	return Nil;
+	return PloyNil;
 }
 
-Object *
-read_form(size_t *index, char const **input)
+Ploy *
+read_form(size_t *index, char const **const input)
 {
-	if (!index) return Error("read_form: Index is NULL");
-	if (!input) return Error("read_form: input is NULL");
+	if (!index) return PloyError("read_form: index is NULL");
+	if (!input) return PloyError("read_form: input is NULL");
 
 	char const *cursor = *input;
 	size_t length = *index;
-	Object *objects = Nil;
+	Ploy *objects = PloyNil;
 
 	while (*cursor) {
-		Object *object = Nil;
+		Ploy *object = PloyNil;
 
 		switch (*cursor) { // clang-format off
 		// Whitespace
-		case ' ': case '\n': case '\r': case '\t': case '\v': ++cursor; ++length; continue;
+		case ' ': case '\n': case '\r': case '\t': case '\v':
+			++cursor; ++length; continue;
 		// Comment
-		case ';': case '#': while (*cursor && *++cursor != '\n') ++length; continue;
+		case ';': case '#':
+			while (*cursor && *++cursor != '\n') { ++length; } continue;
 		// List
-		case ')': object = Nil; break;
+		case ')': object = PloyNil; break;
 		case '(': object = read_list(&length, &cursor); break;
 		// Number
 		case '-': case '+':
-			object = (isdigit(cursor[1])) ? read_number(&length, &cursor) : read_symbol(&length, &cursor); break;
-		case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+			if (isdigit(cursor[1]))
+				object = read_number(&length, &cursor);
+			else
+				object = read_symbol(&length, &cursor);
+			break;
+		case '0': case '1': case '2': case '3': case '4':
+		case '5': case '6': case '7': case '8': case '9':
 			object = read_number(&length, &cursor); break;
 		// String
 		case '\"': object = read_string(&length, &cursor); break;
@@ -85,10 +92,10 @@ read_form(size_t *index, char const **input)
 		default: object = read_symbol(&length, &cursor);
 		} // clang-format on
 
-		if (!object) return Error("read_form: object is NULL");
-		if (object->type == ERROR) return object;
-		if (object->type == NIL) break;
-		objects = Cons(object, objects);
+		if (!object) return PloyError("read_form: object is NULL");
+		if (object->type == PloyERROR) return object;
+		objects = PloyCons(object, objects);
+		if (object->type == PloyNIL) break;
 	}
 
 	*input = cursor;
@@ -96,31 +103,31 @@ read_form(size_t *index, char const **input)
 	return objects;
 }
 
-Object *
-read_list(size_t *index, char const **input)
+Ploy *
+read_list(size_t *index, char const **const input)
 {
-	if (!index) return Error("read_list: Index is NULL");
-	if (!input) return Error("read_list: input is NULL");
+	if (!index) return PloyError("read_list: index is NULL");
+	if (!input) return PloyError("read_list: input is NULL");
 
 	char const *cursor = *input;
 	size_t length = 0;
 
-	if (*cursor != '(') return Error("read_list: missing open parenthesis `(`");
+	if (*cursor != '(') return PloyError("read_list: missing open parenthesis `(`");
 	cursor = ++*input;
 	length = *index;
 
-	Object *object = read_form(&length, &cursor);
-	if (*cursor != ')') return Error("read_list: missing close parenthesis `)`");
+	Ploy *object = read_form(&length, &cursor);
+	if (*cursor != ')') return PloyError("read_list: missing close parenthesis `)`");
 	*input = ++cursor;
 
 	return object;
 }
 
-Object *
-read_number(size_t *index, char const **input)
+Ploy *
+read_number(size_t *index, char const **const input)
 {
-	if (!index) return Error("read_number: Index is NULL");
-	if (!input) return Error("read_number: input is NULL");
+	if (!index) return PloyError("read_number: index is NULL");
+	if (!input) return PloyError("read_number: input is NULL");
 
 	char const *cursor = *input;
 	size_t length = 0;
@@ -135,28 +142,28 @@ read_number(size_t *index, char const **input)
 		++length;
 	}
 
-	char *const number = GC_MALLOC(length + 1);
+	char *const number = malloc(length + 1);
 	memcpy(number, *input, length);
 	number[length] = '\0';
 
-	Object *obj = Number(strtoll(number, NULL, 10));
-	GC_FREE(number);
+	Ploy *obj = PloyNumber(strtoll(number, NULL, 10));
+	free(number);
 
 	*input = cursor;
 	*index += length;
 	return obj;
 }
 
-Object *
-read_string(size_t *index, char const **input)
+Ploy *
+read_string(size_t *index, char const **const input)
 {
-	if (!index) return Error("read_string: Index is NULL");
-	if (!input) return Error("read_string: input is NULL");
+	if (!index) return PloyError("read_string: index is NULL");
+	if (!input) return PloyError("read_string: input is NULL");
 
 	char const *cursor = *input;
 	size_t length = 0;
 
-	if (*cursor != '\"') return Error("read_string: Missing open '\"'");
+	if (*cursor != '\"') return PloyError("read_string: Missing open '\"'");
 	cursor = ++*input;
 	*index += 1;
 
@@ -165,7 +172,7 @@ read_string(size_t *index, char const **input)
 		++length;
 	}
 
-	if (*cursor != '\"') return Error("read_string: Missing close '\"'");
+	if (*cursor != '\"') return PloyError("read_string: Missing close '\"'");
 	++cursor;
 
 	char *const string = GC_MALLOC(length + 1);
@@ -174,14 +181,14 @@ read_string(size_t *index, char const **input)
 
 	*input = cursor;
 	*index += ++length;
-	return String(string);
+	return PloyString(string);
 }
 
-Object *
-read_symbol(size_t *index, char const **input)
+Ploy *
+read_symbol(size_t *index, char const **const input)
 {
-	if (!index) return Error("read_symbol: Index is NULL");
-	if (!input) return Error("read_symbol: input is NULL");
+	if (!index) return PloyError("read_symbol: index is NULL");
+	if (!input) return PloyError("read_symbol: input is NULL");
 
 	char const *cursor = *input;
 	size_t length = 0;
@@ -190,7 +197,7 @@ read_symbol(size_t *index, char const **input)
 		++cursor;
 		++length;
 	}
-	if (length == 0) return Error("read_symbol: invalid length 0");
+	if (length == 0) return PloyError("read_symbol: invalid length 0");
 
 	char *symbol = GC_MALLOC(length + 1);
 	memcpy(symbol, *input, length);
@@ -199,9 +206,9 @@ read_symbol(size_t *index, char const **input)
 	*input = cursor;
 	*index += length;
 
-	// TODO(jcmdln): Use 'Define'
-	Object *new = GC_MALLOC(sizeof(*new));
-	new->type = SYMBOL;
+	// TODO: jcmdln: Use 'Define'
+	Ploy *new = GC_MALLOC(sizeof(*new));
+	new->type = PloySYMBOL;
 	new->symbol = symbol;
 	return new;
 }

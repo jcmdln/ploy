@@ -6,17 +6,18 @@
 int
 main(void)
 {
-	Object *null = Divide(NULL);
+	Ploy *null = PloyDivide(NULL);
 	assert(null != NULL);
-	assert(null->type == ERROR);
+	assert(null->type == PloyERROR);
 
-	Object *nil = Divide(Nil);
+	Ploy *nil = PloyDivide(PloyNil);
 	assert(nil != NULL);
-	assert(nil->type == ERROR);
+	assert(nil->type == PloyERROR);
 
-	Object *divide = Divide(Cons(Number(42), Cons(Number(7), Cons(Number(3), Nil))));
+	Ploy *divide = PloyDivide(
+		PloyCons(PloyNumber(42), PloyCons(PloyNumber(7), PloyCons(PloyNumber(3), PloyNil))));
 	assert(divide != NULL);
-	assert(divide->type == NUMBER);
+	assert(divide->type == PloyNUMBER);
 	assert(divide->number == 2);
 
 	return EXIT_SUCCESS;

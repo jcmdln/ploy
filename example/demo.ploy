@@ -21,9 +21,14 @@
   (print "Demo: Control Flow")
 ))
 
+(define demo-math (lambda()
+  (print "Demo: Math")
+))
+
 #
 # Execution
 #
 
 (demo-basics)
 (demo-control-flow)
+(demo-math)

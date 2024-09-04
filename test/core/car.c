@@ -6,17 +6,17 @@
 int
 main(void)
 {
-	Object *null = Car(NULL);
+	Ploy *null = PloyCar(NULL);
 	assert(null != NULL);
-	assert(null->type == ERROR);
+	assert(null->type == PloyERROR);
 
-	Object *nil = Car(Nil);
+	Ploy *nil = PloyCar(PloyNil);
 	assert(nil != NULL);
-	assert(nil->type == ERROR);
+	assert(nil->type == PloyERROR);
 
-	Object *car = Car(Cons(Number(42), Cons(String("wew"), Nil)));
+	Ploy *car = PloyCar(PloyCons(PloyNumber(42), PloyCons(PloyString("wew"), PloyNil)));
 	assert(car != NULL);
-	assert(car->type == NUMBER);
+	assert(car->type == PloyNUMBER);
 	assert(car->number == 42);
 
 	return EXIT_SUCCESS;
